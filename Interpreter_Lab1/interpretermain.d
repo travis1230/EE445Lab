@@ -1,0 +1,12 @@
+.\interpretermain.o: InterpreterMain.c
+.\interpretermain.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\interpretermain.o: PLL.h
+.\interpretermain.o: UART.h
+.\interpretermain.o: OS.h
+.\interpretermain.o: ../inc/tm4c123gh6pm.h
+.\interpretermain.o: PLL.h
+.\interpretermain.o: SysTickInts.h
+.\interpretermain.o: ST7735TestResources.h
+.\interpretermain.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\interpretermain.o: PLL.h
+.\interpretermain.o: ST7735.h
