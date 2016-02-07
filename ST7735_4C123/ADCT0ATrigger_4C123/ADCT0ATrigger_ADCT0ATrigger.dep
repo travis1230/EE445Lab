@@ -1,0 +1,13 @@
+Dependencies for Project 'ADCT0ATrigger', Target 'ADCT0ATrigger': (DO NOT MODIFY !)
+F (.\startup.s)(0x53E64E88)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary--list .\startup.lst --xref -o .\startup.o --depend .\startup.d)
+F (.\ADCT0ATrigger.c)(0x53E64E12)(-c --cpu Cortex-M4 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.. -I..\..\.. --C99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\adct0atrigger.o --omf_browse .\adct0atrigger.crf --depend .\adct0atrigger.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x4EB18954)
+I (..\inc/tm4c123gh6pm.h)(0x53E64D0A)
+F (.\ADCTestmain.c)(0x53E64E12)(-c --cpu Cortex-M4 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.. -I..\..\.. --C99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\adctestmain.o --omf_browse .\adctestmain.crf --depend .\adctestmain.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x4EB18954)
+I (..\inc/tm4c123gh6pm.h)(0x53E64D0A)
+I (ADCT0ATrigger.h)(0x53840896)
+I (PLL.h)(0x5230C2B2)
+F (.\PLL.c)(0x5378BC88)(-c --cpu Cortex-M4 -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.. -I..\..\.. --C99-I C:\Keil\ARM\RV31\INC-I C:\Keil\ARM\CMSIS\Include-I C:\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\pll.o --omf_browse .\pll.crf --depend .\pll.d)
+I (C:\Keil\ARM\ARMCC\include\stdint.h)(0x4EB18954)
+I (PLL.h)(0x5230C2B2)

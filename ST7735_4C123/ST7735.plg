@@ -1,0 +1,18 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+F:\Documents\2014Fall\445L_Embedded_Systems\ST7735_4C123\ST7735.uvproj
+Project File Date:  05/27/2014
+
+<h2>Output:</h2>
+Rebuild target 'ST7735'
+assembling startup.s...
+compiling PLL.c...
+PLL.c(26): error:  #5: cannot open source input file "inc/tm4c123gh6pm.h": No such file or directory
+compiling ST7735.c...
+ST7735.c(56): error:  #5: cannot open source input file "inc/tm4c123gh6pm.h": No such file or directory
+compiling ST7735TestMain.c...
+ST7735TestMain.c(38): error:  #5: cannot open source input file "inc/tm4c123gh6pm.h": No such file or directory
+Target not created
