@@ -46,3 +46,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.Yuwei
+*.bak
+*.uvopt
+*.uvproj
+*.bak
+Interpreter_Lab1/UARTInts.build_log.htm
+Interpreter_Lab1/Interpreter_uvopt.bak
