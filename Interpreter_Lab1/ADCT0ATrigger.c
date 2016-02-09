@@ -264,7 +264,7 @@ void ADC0Seq3_Handler(void){
 }
 
 void ADC_Open(uint32_t channelNum) {
-	uint32_t period = 1;
+	uint32_t period = 100;
 	ADC0_InitTimer0ATriggerSeq3((uint8_t)channelNum, period);
 }
 

@@ -31,6 +31,7 @@
 #include "UART.h"
 #include "OS.h"
 #include "ST7735TestResources.h"
+#include "ADCT0ATrigger.h"
 
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
@@ -71,7 +72,13 @@ int interpreter(void){
 				break;
 			case(2):
 				UART_NewLine();
-				UART_OutString("Feature not available!");
+				for(int i = 0; i < 1000; i++) {
+					sprintf(string, "%u ", ADC_In());
+					UART_OutString(string);
+					if(i % 10 == 9) {
+						UART_NewLine();
+					}
+				}
 				break;
 			case(3):
 				full_test();
@@ -85,7 +92,8 @@ int main(void){
 	PLL_Init(Bus80MHz);         // bus clock at 80 MHz
   Output_Init();  // initializes LCD
   UART_Init();    // initialize UART
-	OS_AddPeriodicThread(dummy, 80000, 3);
+	OS_AddPeriodicThread(dummy, 10000, 3);
+	ADC_Open(0);
   interpreter();
 	while (1) {
 	}

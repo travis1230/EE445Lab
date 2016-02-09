@@ -416,11 +416,6 @@
               <FilePath>.\PLL.c</FilePath>
             </File>
             <File>
-              <FileName>UARTIntsTestMain.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\UARTIntsTestMain.c</FilePath>
-            </File>
-            <File>
               <FileName>UART.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\UART.c</FilePath>
@@ -444,6 +439,11 @@
               <FileName>ST7735TestResources.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\ST7735TestResources.h</FilePath>
+            </File>
+            <File>
+              <FileName>InterpreterMain.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\InterpreterMain.c</FilePath>
             </File>
           </Files>
         </Group>
