@@ -1610,3 +1610,60 @@ void Output_On(void){ // Turns on the display
 void Output_Color(uint32_t newColor){ // Set color of future output
   ST7735_SetTextColor(newColor);
 }
+
+//1: Design an extended version of the device driver for the LCD so that there are two logically separate displays, one
+//display using the top half and one display for the bottom half. There should be at least 4 lines per display. The new
+//command will have a prototype of something like
+//void ST7735_Message (int device, int line, char *string, long value);
+//where device specifies top or bottom, line specifies the line number (0 to 3), string is a pointer null
+//terminated ASCII string, and value is a number to display. You may add other functions as you wish. In this lab,
+//you may assume all public functions are called from the interpreter running as the main program; hence they need
+//not handle pre-emption and reentrancy. However, in the next lab you will add semaphores so your LCD driver can be
+//used by separate threads in a multi-thread environment. In labs 2 and beyond there will be multiple independent main
+//programs, each performing output to its own LCD. For the preparation, add prototypes for your public functions to
+//the ST7735.h header file. All your public functions must begin with an ST7735_. Your implementations will be
+//written and debugged in the file ST7735.c as part of the procedure.
+
+void ST7735_Message (int device, int line, char *string) {
+	//128 x 160 chars are 5x8
+	int my_y = ((device - 1) * 8) + (line - 1); // 8 lines per a half(device), -1 for index offset
+	ST7735_DrawString(0, my_y, string, ST7735_WHITE);
+}
+
+// Draw a Number on the screen second part of the ST7735_Message function
+//
+//
+//
+//
+//
+
+void ST7735_DisplayNum (int device, int line, long value) {
+	//128 x 160 chars are 5x8
+	int my_y = ((device - 1) * 8) + (line - 1);
+	
+	//Find number of digits in value
+	int digits = 0;
+	long temp_val = value;
+	while(temp_val) {
+		temp_val = temp_val / 10;
+		digits++;
+	}
+	
+	//Create and populate my_string with individual digits as characters
+	char my_string[digits + 1];
+	my_string[digits] = 0;
+	int last_element = digits - 1;
+	int multiplier;
+	
+	while(digits) {
+		digits--;
+		multiplier = 1;
+		for(int i = 0; i < digits; i++) {
+			multiplier *= 10;
+		}
+		my_string[last_element - digits] = (char)('0' + (value / multiplier));
+		value = value % multiplier;
+	}
+	
+	ST7735_DrawString(0, my_y, my_string, ST7735_WHITE);
+}

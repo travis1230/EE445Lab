@@ -258,9 +258,23 @@ void ADC0_InitTimer0ATriggerSeq3PD3(uint32_t period){
 
 
 volatile uint32_t ADCvalue;
+unsigned short* my_buffer;
+int buffer_flag = 0;
+int count = 0;
+int stop_count;
+
 void ADC0Seq3_Handler(void){
   ADC0_ISC_R = 0x08;          // acknowledge ADC sequence 3 completion
   ADCvalue = ADC0_SSFIFO3_R;  // 12-bit result
+	if(buffer_flag == 1) {
+		if(count < stop_count) {
+			my_buffer[count] = ADCvalue;
+			count++;
+		} else {
+			buffer_flag = 0;
+			count = 0;
+		}
+	}
 }
 
 void ADC_Open(uint32_t channelNum) {
@@ -273,8 +287,16 @@ uint16_t ADC_In(void) {
 	return (uint16_t)ADCvalue;
 }
 
-//int ADC_Collect(unsigned int channelNum, unsigned int fs,
-// unsigned short buffer[], unsigned int numberOfSamples) {
-//	 
-//}
+int ADC_Collect(unsigned int channelNum, uint32_t period,
+ unsigned short buffer[], unsigned int numberOfSamples) {
+	 ADC0_InitTimer0ATriggerSeq3((uint8_t)channelNum, period);
+	 my_buffer = &buffer[0];
+	 count = 0;
+	 stop_count = numberOfSamples;
+	 buffer_flag = 1;
+	 return 1;
+}
  
+int ADC_Stop(void) {
+	return buffer_flag;
+}

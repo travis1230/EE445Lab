@@ -457,4 +457,14 @@ void Output_Color(uint32_t newColor);
 
 void Delay1ms(uint32_t n);
 
+void ST7735_Message (int device, int line, char *string);
+
+// Draw a Number on the screen second part of the ST7735_Message function
+//
+//
+//
+//
+//
+void ST7735_DisplayNum (int device, int line, long value);
+
 #endif

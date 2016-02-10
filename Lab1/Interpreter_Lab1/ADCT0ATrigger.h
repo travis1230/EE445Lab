@@ -45,3 +45,8 @@ void ADC0_InitTimer0ATriggerSeq3(uint8_t channelNum, uint32_t period);
 void ADC_Open(uint32_t channelNum);
 
 uint16_t ADC_In(void);
+
+int ADC_Stop(void);
+
+int ADC_Collect(unsigned int channelNum, uint32_t period,
+ unsigned short buffer[], unsigned int numberOfSamples);
