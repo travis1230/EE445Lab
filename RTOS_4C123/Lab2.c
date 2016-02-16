@@ -370,8 +370,8 @@ int main(void){  // Testmain1
   NumCreated += OS_AddThread(&Thread1, 1); 
   NumCreated += OS_AddThread(&Thread2, 2); 
   NumCreated += OS_AddThread(&Thread3, 3); 
-  // Count1 Count2 Count3 should be equal or off by one at all times
-  OS_Launch(TIME_2MS); // doesn't return, interrupts enabled in here
+  // Count1 Count2 Count3 should be equal or off by one at all times  
+	OS_Launch(100000/*TIME_2MS*/); // doesn't return, interrupts enabled in here
   return 0;            // this never executes
 }
 
@@ -718,7 +718,7 @@ int Testmain6(void){      // Testmain6  Lab 3
   return 0;             // this never executes
 }
 
-
+*/
 //******************* Lab 3 Measurement of context switch time**********
 // Run this to measure the time it takes to perform a task switch
 // UART0 not needed 
@@ -733,7 +733,7 @@ void Thread8(void){       // only thread running
   while(1){
     PE0 ^= 0x01;      // debugging profile  
   }
-}
+}/*
 int Testmain7(void){       // Testmain7
   PortE_Init();
   OS_Init();           // initialize, disable interrupts
@@ -742,5 +742,4 @@ int Testmain7(void){       // Testmain7
   OS_Launch(TIME_1MS/10); // 100us, doesn't return, interrupts enabled in here
   return 0;             // this never executes
 }
-
 */

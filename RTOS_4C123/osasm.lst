@@ -51,8 +51,8 @@ ARM Macro Assembler    Page 1
    32 00000000                 EXPORT           OS_DisableInterrupts
    33 00000000                 EXPORT           OS_EnableInterrupts
    34 00000000                 EXPORT           StartOS
-   35 00000000                 EXPORT           ContextSwitch
-   36 00000000                 EXPORT           SysTick_Handler
+   35 00000000                 EXPORT           OS_ISR
+   36 00000000         
    37 00000000         
    38 00000000         
    39 00000000         OS_DisableInterrupts
@@ -71,13 +71,13 @@ ARM Macro Assembler    Page 2
 
    47 00000008         
    48 00000008         
-   49 00000008         SysTick_Handler                      ; 1) Saves R0-R3,R1
+   49 00000008         OS_ISR                               ; 1) Saves R0-R3,R1
                                                             2,LR,PC,PSR
    50 00000008 B672            CPSID            I           ; 2) Prevent interr
                                                             upt during switch
    51 0000000A E92D 0FF0       PUSH             {R4-R11}    ; 3) Save remaining
                                                              regs r4-11
-   52 0000000E 4812            LDR              R0, =RunPt  ; 4) R0=pointer to 
+   52 0000000E 480E            LDR              R0, =RunPt  ; 4) R0=pointer to 
                                                             RunPt, old thread
    53 00000010 6801            LDR              R1, [R0]    ;    R1 = RunPt
    54 00000012 F8C1 D000       STR              SP, [R1]    ; 5) Save SP into T
@@ -96,7 +96,7 @@ ARM Macro Assembler    Page 2
                                                             ,R12,LR,PC,PSR
    61 00000026         
    62 00000026         StartOS
-   63 00000026 480C            LDR              R0, =RunPt  ; currently running
+   63 00000026 4808            LDR              R0, =RunPt  ; currently running
                                                              thread
    64 00000028 6802            LDR              R2, [R0]    ; R2 = value of Run
                                                             Pt
@@ -118,32 +118,12 @@ ARM Macro Assembler    Page 2
    73 00000044 4770            BX               LR          ; start first threa
                                                             d
    74 00000046         
-   75 00000046         ContextSwitch
-   76 00000046 E92D 0FF0       PUSH             {R4-R11}    ; save old thread's
-                                                             state
-   77 0000004A 4803            LDR              R0, =RunPt  ; get new run point
-                                                            er
-   78 0000004C 6802            LDR              R2, [R0]    ; get new thread
-   79 0000004E F8D2 D000       LDR              SP, [R2]    ; set new stack poi
-                                                            nter
-   80 00000052 E8BD 0FF0       POP              {R4-R11}    ; restore new threa
-                                                            d's state
-
-
-
-ARM Macro Assembler    Page 3 
-
-
-   81 00000056 4770            BX               LR          ; return from inter
-                                                            rupt
-   82 00000058         
-   83 00000058                 ALIGN
-   84 00000058                 END
+   75 00000046 00 00           ALIGN
+   76 00000048                 END
               00000000 
 Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\osasm.
-d -o.\osasm.o -IF:\Applications\Keil\ARM\RV31\INC -IF:\Applications\Keil\ARM\CM
-SIS\Include -IF:\Applications\Keil\ARM\Inc\Luminary --predefine="__EVAL SETA 1"
- --list=.\osasm.lst osasm.s
+d -o.\osasm.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\ARM\
+Inc\Luminary --predefine="__EVAL SETA 1" --list=.\osasm.lst osasm.s
 
 
 
@@ -158,14 +138,6 @@ Symbol: .text
    Uses
       None
 Comment: .text unused
-ContextSwitch 00000046
-
-Symbol: ContextSwitch
-   Definitions
-      At line 75 in file osasm.s
-   Uses
-      At line 35 in file osasm.s
-Comment: ContextSwitch used once
 OS_DisableInterrupts 00000000
 
 Symbol: OS_DisableInterrupts
@@ -182,6 +154,14 @@ Symbol: OS_EnableInterrupts
    Uses
       At line 33 in file osasm.s
 Comment: OS_EnableInterrupts used once
+OS_ISR 00000008
+
+Symbol: OS_ISR
+   Definitions
+      At line 49 in file osasm.s
+   Uses
+      At line 35 in file osasm.s
+Comment: OS_ISR used once
 StartOS 00000026
 
 Symbol: StartOS
@@ -190,15 +170,7 @@ Symbol: StartOS
    Uses
       At line 34 in file osasm.s
 Comment: StartOS used once
-SysTick_Handler 00000008
-
-Symbol: SysTick_Handler
-   Definitions
-      At line 49 in file osasm.s
-   Uses
-      At line 36 in file osasm.s
-Comment: SysTick_Handler used once
-6 symbols
+5 symbols
 
 
 
@@ -213,7 +185,6 @@ Symbol: RunPt
    Uses
       At line 52 in file osasm.s
       At line 63 in file osasm.s
-      At line 77 in file osasm.s
 
 1 symbol
-340 symbols in table
+339 symbols in table

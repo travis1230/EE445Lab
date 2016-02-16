@@ -59,6 +59,9 @@ void EndCritical(int32_t primask);
 void StartOS(void);
 void ContextSwitch(void);
 
+bool timer_occupied[4] = {false};
+int (*timer_init_fns[4]) (void(*task)(void), unsigned long period);
+
 struct tcb{
   int32_t *sp;       // pointer to stack (valid for threads not running
   struct tcb *next;  // linked-list pointer
@@ -105,8 +108,8 @@ int32_t Stacks[NUMTHREADS][STACKSIZE];
 void SetInitialStack(int i){
   tcbs[i].sp = &Stacks[i][STACKSIZE-16]; // thread stack pointer
   Stacks[i][STACKSIZE-1] = 0x01000000;   // thumb bit
-  Stacks[i][STACKSIZE-3] = 0x14141414;   // R14
-  Stacks[i][STACKSIZE-4] = 0x12121212;   // R12
+  Stacks[i][STACKSIZE-3] = 0x14141414;   // R14  
+  Stacks[i][STACKSIZE-4] = 0x12121212;   // R12	 
   Stacks[i][STACKSIZE-5] = 0x03030303;   // R3
   Stacks[i][STACKSIZE-6] = 0x02020202;   // R2
   Stacks[i][STACKSIZE-7] = 0x01010101;   // R1
@@ -128,26 +131,29 @@ uint64_t OS_ISR_Count = 0;
 Stop execution of currently active
 foreground thread. Move on to next.
 ************************************/
-void OS_Suspend(){
-	int32_t status;
-  status = StartCritical();
-	RunPt = RunPt->next;
-	int16_t loop_count;
-	while(RunPt->sleep_alarm > OS_ISR_Count){
-		RunPt = RunPt->next;
-		assert(loop_count++ < NUMTHREADS);  // just to be safe, in case all threads asleep, maybe need better fix later... null thread?
-	}
-	ContextSwitch();
-	EndCritical(status);
+void OS_Suspend(void){  // TODO: Deal with sleep
+	NVIC_ST_CURRENT_R = 0;  // clear counter
+	NVIC_INT_CTRL_R = 0x04000000;  // trigger systick
 }
+/********** OS_Wait ************
+*******************************/
+void OS_Wait(int32_t *s){
+	DisableInterrupts();
+	while(*s <= 0){
+		EnableInterrupts();
+		OS_Suspend();
+		DisableInterrupts();
+	}
+	*s = *s - 1;
+	EnableInterrupts();
+}
+
 
 /********** OS_ISR *************
 what to run on systick interrupt
 ********************************/
-void OS_ISR(void){
-	OS_ISR_Count++;
-	OS_Suspend();
-}
+void OS_ISR(void);
+
 bool preemptive_mode;  // need to remember mode
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
@@ -162,13 +168,15 @@ void OS_Init(bool preemptive){
   NVIC_ST_CURRENT_R = 0;      // any write to current clears it
   NVIC_SYS_PRI3_R =(NVIC_SYS_PRI3_R&0x00FFFFFF)|0xE0000000; // priority 7
 	for (uint16_t i = 0; i < NUMTHREADS; i++){
-		tcbs[i].priority = -1;;
+		tcbs[i].priority = -1;
 	}
-	if (preemptive){
-		OS_ISR_Count = 0;
-		SysTick_Init(OS_ISR_period, 
+	OS_ISR_Count = 0;
+	SysTick_Init(OS_ISR_period, 
 								 OS_ISR_priority);	
-	}
+	timer_init_fns[0] = Timer0A_Init;
+	timer_init_fns[1] = Timer1A_Init;
+	timer_init_fns[2] = Timer2A_Init;
+	timer_init_fns[3] = Timer3A_Init;
 }
 
 //******** OS_AddThread ***************
@@ -210,9 +218,11 @@ bool OS_AddThread(void(*task)(void), uint16_t priority){
 //         (maximum of 24 bits)
 // Outputs: none (does not return)
 void OS_Launch(uint32_t theTimeSlice){
-  NVIC_ST_RELOAD_R = theTimeSlice - 1; // reload value
-  NVIC_ST_CTRL_R = 0x00000007; // enable, core clock and interrupt arm
-  StartOS();                   // start on the first task
+	if (preemptive_mode){
+		NVIC_ST_RELOAD_R = theTimeSlice - 1; // reload value
+		NVIC_ST_CTRL_R = 0x00000007; // enable, core clock and interrupt arm
+  }
+	StartOS();                   // start on the first task
 }
 								 
 /********* OS_Sleep ****************
@@ -245,21 +255,20 @@ void OS_Kill(){
 	EndCritical(status);
 }
 
-/*bool OS_AddPeriodicThread(void(*task) (void),
+bool OS_AddPeriodicThread(void(*task) (void),
 													uint64_t period,
 												  uint16_t priority){
   int16_t timer_to_use = -1;
-	for (int16_t i = 0; i < NUMTIMERS; i++){
+	for (int16_t i = 0; i < sizeof(timer_occupied); i++){
 		if(!timer_occupied[i]){
 			timer_to_use = i;
 			break;
 		}
-		if (timer_to_use == -1){ return false; }  // no free timers
-		timer_occupied[timer_to_use] = true;
-		Timer_AddInterrupt(timer_to_use, task, period, priority);
-		return true;
 	}
-													
-}*/
+	if (timer_to_use == -1){ return false; }  // no free timers
+	timer_occupied[timer_to_use] = true;
+	timer_init_fns[timer_to_use](task, period);  // TODO: set priority too
+	return true;						
+}
 
 #endif
