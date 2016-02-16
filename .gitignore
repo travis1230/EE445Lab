@@ -61,3 +61,9 @@ RTOS_4C123/RTOS.uvgui.Mike
 =======
 RTOS_4C123/RTOS.build_log.htm
 >>>>>>> origin/Lab1
+*.htm
+*.o
+RTOS_4C123/pll.crf
+*.o
+RTOS_4C123/pll.o
+*.o
