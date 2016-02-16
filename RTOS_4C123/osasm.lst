@@ -118,8 +118,32 @@ ARM Macro Assembler    Page 2
    73 00000044 4770            BX               LR          ; start first threa
                                                             d
    74 00000046         
+<<<<<<< HEAD
    75 00000046 00 00           ALIGN
    76 00000048                 END
+=======
+   75 00000046         ContextSwitch
+   76 00000046 E92D 0FF0       PUSH             {R4-R11}    ; save old thread's
+                                                             state
+   77 0000004A 4803            LDR              R0, =RunPt  ; get new run point
+                                                            er
+   78 0000004C 6802            LDR              R2, [R0]    ; get new thread
+   79 0000004E F8D0 D000       LDR              SP, [R0]    ; set new stack poi
+                                                            nter
+   80 00000052 E8BD 0FF0       POP              {R4-R11}    ; restore new threa
+                                                            d's state
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   81 00000056 4770            BX               LR          ; return from inter
+                                                            rupt
+   82 00000058         
+   83 00000058                 ALIGN
+   84 00000058                 END
+>>>>>>> origin/Lab1
               00000000 
 Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\osasm.
 d -o.\osasm.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\ARM\

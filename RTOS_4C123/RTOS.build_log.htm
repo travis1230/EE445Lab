@@ -8,6 +8,7 @@ Project File Date:  02/16/2016
 
 <h2>Output:</h2>
 Build target 'RTOS'
+<<<<<<< HEAD
 compiling Lab2.c...
 os.h(141): warning:  #223-D: function "DisableInterrupts" declared implicitly
         DisableInterrupts();
@@ -30,6 +31,22 @@ os.h(192): warning:  #177-D: variable "new_next" was declared but never referenc
 os.h(190): warning:  #177-D: variable "new_next" was declared but never referenced
         tcbType new_next;
 os.h(246): warning:  #550-D: variable "prev" was set but never used
+=======
+assembling osasm.s...
+linking...
+Program Size: Code=3056 RO-data=32 RW-data=76 ZI-data=3164  
+".\RTOS.axf" - 0 Error(s), 0 Warning(s).
+</pre>
+</body>
+</html>
+nit" declared implicitly
+                SysTick_Init(OS_ISR_period, 
+os.h(184): warning:  #177-D: variable "new_next" was declared but never referenced
+                tcbType new_next = *(RunPt->next);  // this could be problematic
+os.h(182): warning:  #177-D: variable "new_next" was declared but never referenced
+        tcbType new_next;
+os.h(236): warning:  #550-D: variable "prev" was set but never used
+>>>>>>> origin/Lab1
         tcbType prev;  // search for what points to me
 Lab2.c(87): warning:  #9-D: nested comment is not allowed
   //******** DAS *************** 
@@ -63,6 +80,7 @@ Lab2.c(568): warning:  #9-D: nested comment is not allowed
   //*******PseudoWork*************
 Lab2.c(622): warning:  #9-D: nested comment is not allowed
   //******************* Lab 3 Preparation 4**********
+<<<<<<< HEAD
 Lab2.c: 27 warnings, 0 errors
 linking...
 Program Size: Code=3152 RO-data=32 RW-data=100 ZI-data=3180  
@@ -86,3 +104,18 @@ Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
+=======
+Lab2.c(722): warning:  #9-D: nested comment is not allowed
+  //******************* Lab 3 Measurement of context switch time**********
+Lab2.c: 22 warnings, 0 errors
+linking...
+Program Size: Code=3056 RO-data=32 RW-data=76 ZI-data=3164  
+".\RTOS.axf" - 0 Error(s), 22 Warning(s).
+ Size: Code=2640 RO-data=32 RW-data=76 ZI-data=3164  
+".\RTOS.axf" - 0 Error(s), 22 Warning(s).
+ror: L6218E: Undefined symbol Start_OS (referred from lab2.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 1 error messages.
+".\RTOS.axf" - 1 Error(s), 23 Warning(s).
+Target not created
+>>>>>>> origin/Lab1
