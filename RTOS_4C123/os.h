@@ -70,8 +70,8 @@ tcbType tcbs[NUMTHREADS];
 tcbType *RunPt;
 
 
-void tcb_set_empty(tcbType tcbobj){
-	tcbobj.priority = -1;
+void tcb_set_empty(tcbType *tcbobj){
+	tcbobj->priority = -1;
 }
 
 bool tcb_is_empty(tcbType tcbobj){
@@ -145,7 +145,7 @@ void OS_Suspend(){
 what to run on systick interrupt
 ********************************/
 void OS_ISR(void){
-	OS_ISR_Count ++;
+	OS_ISR_Count++;
 	OS_Suspend();
 }
 bool preemptive_mode;  // need to remember mode
@@ -162,7 +162,7 @@ void OS_Init(bool preemptive){
   NVIC_ST_CURRENT_R = 0;      // any write to current clears it
   NVIC_SYS_PRI3_R =(NVIC_SYS_PRI3_R&0x00FFFFFF)|0xE0000000; // priority 7
 	for (uint16_t i = 0; i < NUMTHREADS; i++){
-		tcb_set_empty(tcbs[i]);
+		tcbs[i].priority = -1;;
 	}
 	if (preemptive){
 		OS_ISR_Count = 0;
@@ -181,25 +181,25 @@ bool OS_AddThread(void(*task)(void), uint16_t priority){
 	if (tcbs_all_full()){ return false; } // no room
 	tcbType new_next;
 	if (!tcbs_all_empty()){ // new thread skips to front of line
-		tcbType new_next = *RunPt->next;  // this could be problematic
+		tcbType new_next = *(RunPt->next);  // this could be problematic
 	}  // if a thread keeps adding itself, worry about that later
-	int16_t new_tcb_idx = -1;
+	int16_t new_tcb_index = -1;
 	bool found_free = false;
-	while(!found_free){
-		found_free = tcb_is_empty(tcbs[++new_tcb_idx]);
-		assert(new_tcb_idx < NUMTHREADS);  // prevent infinite while from bug
+	while(!found_free && new_tcb_index < 3){
+		new_tcb_index++;
+		found_free = tcb_is_empty(tcbs[new_tcb_index]);
 	}
-	SetInitialStack(new_tcb_idx);
-	tcbs[new_tcb_idx].sleep_alarm = 0;
-	tcbs[new_tcb_idx].priority = priority;
-	Stacks[new_tcb_idx][STACKSIZE-2] = (int32_t)(task);
+	SetInitialStack(new_tcb_index);
+	tcbs[new_tcb_index].sleep_alarm = 0;
+	Stacks[new_tcb_index][STACKSIZE-2] = (int32_t)(task);
 	if (tcbs_all_empty()){ // no threads added yet
-		RunPt = &tcbs[new_tcb_idx]; // this thread runs first
-		tcbs[new_tcb_idx].next = &tcbs[new_tcb_idx];  // points to self
+		RunPt = &tcbs[new_tcb_index]; // this thread runs first
+		tcbs[new_tcb_index].next = &tcbs[new_tcb_index];  // points to self
 	} else { // insert after current running thread
-		tcbs[new_tcb_idx].next = RunPt->next;  // new thread points to next
-		RunPt->next = &tcbs[new_tcb_idx];  // current thread points to new
+		tcbs[new_tcb_index].next = RunPt->next;  // new thread points to next
+		RunPt->next = &tcbs[new_tcb_index];  // current thread points to new
 	}
+	tcbs[new_tcb_index].priority = priority;
   EndCritical(status);
   return true;               // successful
 }
@@ -241,7 +241,7 @@ void OS_Kill(){
 		}
 	}
 	prev.next = RunPt->next;
-	tcb_set_empty(*RunPt);
+	tcb_set_empty(RunPt);
 	EndCritical(status);
 }
 

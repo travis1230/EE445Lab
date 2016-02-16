@@ -141,8 +141,9 @@ ARM Macro Assembler    Page 3
    84 00000058                 END
               00000000 
 Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\osasm.
-d -o.\osasm.o -IC:\Keil\ARM\RV31\INC -IC:\Keil\ARM\CMSIS\Include -IC:\Keil\ARM\
-Inc\Luminary --predefine="__EVAL SETA 1" --list=.\osasm.lst osasm.s
+d -o.\osasm.o -IF:\Applications\Keil\ARM\RV31\INC -IF:\Applications\Keil\ARM\CM
+SIS\Include -IF:\Applications\Keil\ARM\Inc\Luminary --predefine="__EVAL SETA 1"
+ --list=.\osasm.lst osasm.s
 
 
 

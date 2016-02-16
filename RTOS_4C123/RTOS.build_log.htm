@@ -3,8 +3,8 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-C:\Users\Liz\Desktop\EE445Lab\RTOS_4C123\RTOS.uvproj
-Project File Date:  02/13/2016
+F:\Documents\Github\EE445Lab\RTOS_4C123\RTOS.uvproj
+Project File Date:  02/15/2016
 
 <h2>Output:</h2>
 Rebuild target 'RTOS'
@@ -14,12 +14,10 @@ compiling PLL.c...
 compiling Lab2.c...
 Timers.h(114): warning:  #1-D: last line of file ends without a newline
   void Init_Timers(*/
-os.h(73): warning:  #550-D: parameter "tcbobj" was set but never used
-  void tcb_set_empty(tcbType tcbobj){
 os.h(169): warning:  #223-D: function "SysTick_Init" declared implicitly
                 SysTick_Init(OS_ISR_period, 
 os.h(184): warning:  #177-D: variable "new_next" was declared but never referenced
-                tcbType new_next = *RunPt->next;  // this could be problematic
+                tcbType new_next = *(RunPt->next);  // this could be problematic
 os.h(182): warning:  #177-D: variable "new_next" was declared but never referenced
         tcbType new_next;
 os.h(236): warning:  #550-D: variable "prev" was set but never used
@@ -58,144 +56,16 @@ Lab2.c(622): warning:  #9-D: nested comment is not allowed
   //******************* Lab 3 Preparation 4**********
 Lab2.c(722): warning:  #9-D: nested comment is not allowed
   //******************* Lab 3 Measurement of context switch time**********
-Lab2.c: 23 warnings, 0 errors
+Lab2.c: 22 warnings, 0 errors
 compiling SysTickInts.c...
 linking...
-Program Size: Code=3132 RO-data=32 RW-data=76 ZI-data=3164  
-".\RTOS.axf" - 0 Error(s), 23 Warning(s).
-</pre>
-</body>
-</html>
-arget not created
-2): warning:  #9-D: nested comment is not allowed
-  //******************* Lab 3 Measurement of context switch time**********
-Lab2.c: 23 warnings, 3 errors
-".\RTOS.axf" - 3 Error(s), 23 Warning(s).
+Program Size: Code=3056 RO-data=32 RW-data=76 ZI-data=3164  
+".\RTOS.axf" - 0 Error(s), 22 Warning(s).
+TickInts.c...
+".\RTOS.axf" - 2 Error(s), 21 Warning(s).
 Target not created
- communication channels
-Lab2.c(308): warning:  #9-D: nested comment is not allowed
-  //*******attach background tasks***********
-Lab2.c(378): warning:  #9-D: nested comment is not allowed
-  //*******************Second *****
-Lab2.c(421): warning:  #9-D: nested comment is not allowed
-  //*******************Third TEST**********
-Lab2.c(485): warning:  #9-D: nested comment is not allowed
-  //*******************Third TEST**********
-Lab2.c(493): warning:  #9-D: nested comment is not allowed
-  //*******************Fourth TEST**********
-Lab2.c(554): warning:  #9-D: nested comment is not allowed
-  //******************* Lab 3 Preparation 2**********
-Lab2.c(568): warning:  #9-D: nested comment is not allowed
-  //*******PseudoWork*************
-Lab2.c(622): warning:  #9-D: nested comment is not allowed
-  //******************* Lab 3 Preparation 4**********
-Lab2.c(722): warning:  #9-D: nested comment is not allowed
-  //******************* Lab 3 Measurement of context switch time**********
-Lab2.c: 29 warnings, 5 errors
-".\RTOS.axf" - 5 Error(s), 29 Warning(s).
-Target not created
-ation 4**********
-Lab2.c(722): warning:  #9-D: nested comment is not allowed
-  //******************* Lab 3 Measurement of context switch time**********
-Lab2.c: 30 warnings, 6 errors
-".\RTOS.axf" - 6 Error(s), 30 Warning(s).
-Target not created
-_empty multiply defined (by lab2.o and os.o).
-.\RTOS.axf: Error: L6200E: Symbol tcbs_all_empty multiply defined (by lab2.o and os.o).
-.\RTOS.axf: Error: L6200E: Symbol tcbs_all_full multiply defined (by lab2.o and os.o).
-Not enough information to list image symbols.
-Not enough information to list the image map.
-Finished: 2 information, 0 warning and 14 error messages.
-".\RTOS.axf" - 14 Error(s), 30 Warning(s).
-Target not created
-icitly
-      OS_Wait(&Readyc);
-Lab2.c(442): warning:  #223-D: function "OS_InitSemaphore" declared implicitly
-    OS_InitSemaphore(&Readyc,0);
-Lab2.c(446): warning:  #223-D: function "OS_AddThread" declared implicitly
-    NumCreated += OS_AddThread(&Thread5c,128,3); 
-Lab2.c(447): warning:  #223-D: function "OS_AddPeriodicThread" declared implicitly
-    OS_AddPeriodicThread(&BackgroundThread1c,TIME_1MS,0); 
-Lab2.c(449): warning:  #223-D: function "OS_Wait" declared implicitly
-      OS_Wait(&Readyc);
-Lab2.c(463): warning:  #223-D: function "OS_Sleep" declared implicitly
-      OS_Sleep(10);
-Lab2.c(465): warning:  #223-D: function "OS_Kill" declared implicitly
-    OS_Kill();
-Lab2.c(469): warning:  #223-D: function "OS_AddThread" declared implicitly
-    NumCreated += OS_AddThread(&Thread4c,128,3); 
-Lab2.c(477): warning:  #223-D: function "OS_AddSW1Task" declared implicitly
-    OS_AddSW1Task(&BackgroundThread5c,2);
-Lab2.c(478): warning:  #223-D: function "OS_AddThread" declared implicitly
-    NumCreated += OS_AddThread(&Thread2c,128,2); 
-Lab2.c(505): error:  #20: identifier "Sema4Type" is undefined
-  Sema4Type Readyd;        // set in background
-Lab2.c(512): warning:  #223-D: function "OS_bSignal" declared implicitly
-      OS_bSignal(&Readyd);
-Lab2.c(516): warning:  #223-D: function "OS_InitSemaphore" declared implicitly
-    OS_InitSemaphore(&Readyd,0);
-Lab2.c(520): warning:  #223-D: function "OS_bWait" declared implicitly
-      OS_bWait(&Readyd);
-Lab2.c(533): warning:  #223-D: function "OS_Sleep" declared implicitly
-      OS_Sleep(1);
-Lab2.c(535): warning:  #223-D: function "OS_Kill" declared implicitly
-    OS_Kill();
-Lab2.c(538): warning:  #223-D: function "OS_AddThread" declared implicitly
-    NumCreated += OS_AddThread(&Thread4d,128,3); 
-Lab2.c(544): warning:  #223-D: function "OS_AddPeriodicThread" declared implicitly
-    OS_AddPeriodicThread(&BackgroundThread1d,PERIOD,0); 
-Lab2.c(544): error:  #20: identifier "TIME_500US" is undefined
-    OS_AddPeriodicThread(&BackgroundThread1d,PERIOD,0); 
-Lab2.c(545): warning:  #223-D: function "OS_AddSW1Task" declared implicitly
-    OS_AddSW1Task(&BackgroundThread5d,2);
-Lab2.c(546): warning:  #223-D: function "OS_AddThread" declared implicitly
-    NumCreated += OS_AddThread(&Thread2d,128,2); 
-Lab2.c(573): warning:  #223-D: function "OS_Time" declared implicitly
-    startTime = OS_Time();    // time in 100ns units
-Lab2.c(574): warning:  #223-D: function "OS_TimeDifference" declared implicitly
-    while(OS_TimeDifference(startTime,OS_Time()) <= work){} 
-Lab2.c(585): warning:  #223-D: function "UART_OutString" declared implicitly
-    UART_OutString("\n\rEE345M/EE380L, Lab 3 Preparation 2\n\r");
-Lab2.c(586): warning:  #223-D: function "OS_Sleep" declared implicitly
-    OS_Sleep(5000);   // 10 seconds        
-Lab2.c(589): warning:  #223-D: function "OS_Kill" declared implicitly
-    OS_Kill();
-Lab2.c(611): warning:  #223-D: function "OS_AddThread" declared implicitly
-    NumCreated += OS_AddThread(&Thread6,128,2); 
-Lab2.c(613): warning:  #223-D: function "OS_AddPeriodicThread" declared implicitly
-    OS_AddPeriodicThread(&TaskA,TIME_1MS,0);           // 1 ms, higher priority
-Lab2.c(630): error:  #20: identifier "Sema4Type" is undefined
-  Sema4Type s;            // test of this counting semaphore
-Lab2.c(639): warning:  #223-D: function "UART_OutString" declared implicitly
-    UART_OutString("\n\rEE345M/EE380L, Lab 3 Preparation 4\n\r");
-Lab2.c(641): warning:  #223-D: function "OS_Sleep" declared implicitly
-      OS_Sleep(1000);   // 1 second
-Lab2.c(645): warning:  #223-D: function "UART_OutUDec" declared implicitly
-    UART_OutString("Signalled="); UART_OutUDec(SignalCount1+SignalCount2+SignalCount3);
-Lab2.c(648): warning:  #223-D: function "OS_Kill" declared implicitly
-    OS_Kill();
-Lab2.c(652): warning:  #223-D: function "OS_Wait" declared implicitly
-      OS_Wait(&s);    // three threads waiting
-Lab2.c(658): warning:  #223-D: function "OS_Wait" declared implicitly
-      OS_Wait(&s);    // three threads waiting
-Lab2.c(664): warning:  #223-D: function "OS_Wait" declared implicitly
-      OS_Wait(&s);    // three threads waiting
-Lab2.c(670): warning:  #223-D: function "OS_Signal" declared implicitly
-      OS_Signal(&s);
-Lab2.c(677): warning:  #223-D: function "OS_Signal" declared implicitly
-      OS_Signal(&s);
-Lab2.c(683): warning:  #223-D: function "OS_Signal" declared implicitly
-      OS_Signal(&s);
-Lab2.c(686): warning:  #223-D: function "OS_Kill" declared implicitly
-    OS_Kill();
-Lab2.c(705): warning:  #223-D: function "OS_InitSemaphore" declared implicitly
-    OS_InitSemaphore(&s,0);      // this is the test semaphore
-Lab2.c(706): warning:  #223-D: function "OS_AddPeriodicThread" declared implicitly
-    OS_AddPeriodicThread(&Signal1,(799*TIME_1MS)/1000,0);   // 0.799 ms, higher priority
-Lab2.c(709): warning:  #223-D: function "OS_AddThread" declared implicitly
-    NumCreated += OS_AddThread(&Thread6,128,6);         // idle thread to keep from crashing
-Lab2.c(740): warning:  #223-D: function "OS_AddThread" declared implicitly
-    NumCreated += OS_AddThread(&Thread8,128,2); 
-Lab2.c: 75 warnings, 7 errors
-".\RTOS.axf" - 7 Error(s), 75 Warning(s).
+- 0 Error(s), 23 Warning(s).
+ list image symbols.
+Finished: 1 information, 0 warning and 1 error messages.
+".\RTOS.axf" - 1 Error(s), 23 Warning(s).
 Target not created
