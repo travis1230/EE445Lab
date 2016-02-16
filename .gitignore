@@ -52,3 +52,6 @@ Temporary Items
 Interpreter_Lab1/UARTInts.build_log.htm
 Interpreter_Lab1/Interpreter_uvopt.bak
 Lab1/Interpreter_Lab1/UARTInts.build_log.htm
+*.yc100
+RTOS_4C123/RTOS.build_log.htm
+*.htm
