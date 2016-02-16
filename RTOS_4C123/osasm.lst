@@ -124,7 +124,7 @@ ARM Macro Assembler    Page 2
    77 0000004A 4803            LDR              R0, =RunPt  ; get new run point
                                                             er
    78 0000004C 6802            LDR              R2, [R0]    ; get new thread
-   79 0000004E F8D2 D000       LDR              SP, [R2]    ; set new stack poi
+   79 0000004E F8D0 D000       LDR              SP, [R0]    ; set new stack poi
                                                             nter
    80 00000052 E8BD 0FF0       POP              {R4-R11}    ; restore new threa
                                                             d's state
