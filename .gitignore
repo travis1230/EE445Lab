@@ -67,3 +67,8 @@ RTOS_4C123/pll.crf
 *.o
 RTOS_4C123/pll.o
 *.o
+*.o
+RTOS_4C123/RTOS.uvgui.Mike
+*.dep
+RTOS_4C123/RTOS.map
+*.htm
