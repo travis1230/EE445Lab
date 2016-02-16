@@ -1,0 +1,121 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Liz\Desktop\EE445Lab\RTOS_4C123\RTOS.uvproj
+Project File Date:  02/16/2016
+
+<h2>Output:</h2>
+Build target 'RTOS'
+<<<<<<< HEAD
+compiling Lab2.c...
+os.h(141): warning:  #223-D: function "DisableInterrupts" declared implicitly
+        DisableInterrupts();
+os.h(143): warning:  #223-D: function "EnableInterrupts" declared implicitly
+                EnableInterrupts();
+os.h(148): warning:  #223-D: function "EnableInterrupts" declared implicitly
+        EnableInterrupts();
+os.h(174): warning:  #223-D: function "SysTick_Init" declared implicitly
+        SysTick_Init(OS_ISR_period, 
+os.h(176): warning:  #513-D: a value of type "void (*)(void (*)(void), uint32_t)" cannot be assigned to an entity of type "int (*)(void (*)(void), unsigned long)"
+        timer_init_fns[0] = Timer0A_Init;
+os.h(177): warning:  #513-D: a value of type "void (*)(void (*)(void), uint32_t)" cannot be assigned to an entity of type "int (*)(void (*)(void), unsigned long)"
+        timer_init_fns[1] = Timer1A_Init;
+os.h(178): warning:  #513-D: a value of type "void (*)(void (*)(void), unsigned long)" cannot be assigned to an entity of type "int (*)(void (*)(void), unsigned long)"
+        timer_init_fns[2] = Timer2A_Init;
+os.h(179): warning:  #513-D: a value of type "void (*)(void (*)(void), unsigned long)" cannot be assigned to an entity of type "int (*)(void (*)(void), unsigned long)"
+        timer_init_fns[3] = Timer3A_Init;
+os.h(192): warning:  #177-D: variable "new_next" was declared but never referenced
+                tcbType new_next = *(RunPt->next);  // this could be problematic
+os.h(190): warning:  #177-D: variable "new_next" was declared but never referenced
+        tcbType new_next;
+os.h(246): warning:  #550-D: variable "prev" was set but never used
+=======
+assembling osasm.s...
+linking...
+Program Size: Code=3056 RO-data=32 RW-data=76 ZI-data=3164  
+".\RTOS.axf" - 0 Error(s), 0 Warning(s).
+</pre>
+</body>
+</html>
+nit" declared implicitly
+                SysTick_Init(OS_ISR_period, 
+os.h(184): warning:  #177-D: variable "new_next" was declared but never referenced
+                tcbType new_next = *(RunPt->next);  // this could be problematic
+os.h(182): warning:  #177-D: variable "new_next" was declared but never referenced
+        tcbType new_next;
+os.h(236): warning:  #550-D: variable "prev" was set but never used
+>>>>>>> origin/Lab1
+        tcbType prev;  // search for what points to me
+Lab2.c(87): warning:  #9-D: nested comment is not allowed
+  //******** DAS *************** 
+Lab2.c(145): warning:  #9-D: nested comment is not allowed
+  //************SW1Push*************
+Lab2.c(157): warning:  #9-D: nested comment is not allowed
+  //************SW2Push*************
+Lab2.c(179): warning:  #9-D: nested comment is not allowed
+  //******** Producer *************** 
+Lab2.c(198): warning:  #9-D: nested comment is not allowed
+  //******** Consumer *************** 
+Lab2.c(222): warning:  #9-D: nested comment is not allowed
+  //******** Display *************** 
+Lab2.c(245): warning:  #9-D: nested comment is not allowed
+  //******** PID *************** 
+Lab2.c(296): warning:  #9-D: nested comment is not allowed
+  //*******************final user main DEMONTRATE THIS TO TA**********
+Lab2.c(304): warning:  #9-D: nested comment is not allowed
+  //********initialize communication channels
+Lab2.c(308): warning:  #9-D: nested comment is not allowed
+  //*******attach background tasks***********
+Lab2.c(421): warning:  #9-D: nested comment is not allowed
+  //*******************Third TEST**********
+Lab2.c(485): warning:  #9-D: nested comment is not allowed
+  //*******************Third TEST**********
+Lab2.c(493): warning:  #9-D: nested comment is not allowed
+  //*******************Fourth TEST**********
+Lab2.c(554): warning:  #9-D: nested comment is not allowed
+  //******************* Lab 3 Preparation 2**********
+Lab2.c(568): warning:  #9-D: nested comment is not allowed
+  //*******PseudoWork*************
+Lab2.c(622): warning:  #9-D: nested comment is not allowed
+  //******************* Lab 3 Preparation 4**********
+<<<<<<< HEAD
+Lab2.c: 27 warnings, 0 errors
+linking...
+Program Size: Code=3152 RO-data=32 RW-data=100 ZI-data=3180  
+".\RTOS.axf" - 0 Error(s), 27 Warning(s).
+Load "C:\\Users\\Liz\\Desktop\\EE445Lab\\RTOS_4C123\\RTOS.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
+</pre>
+</body>
+</html>
+ZI-data=3180  
+".\RTOS.axf" - 0 Error(s), 28 Warning(s).
+Load "C:\\Users\\Liz\\Desktop\\EE445Lab\\RTOS_4C123\\RTOS.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Connection failed!, error code=&d
+Error: Flash Download failed  -  Target DLL has been cancelled
+Load "C:\\Users\\Liz\\Desktop\\EE445Lab\\RTOS_4C123\\RTOS.axf" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
+=======
+Lab2.c(722): warning:  #9-D: nested comment is not allowed
+  //******************* Lab 3 Measurement of context switch time**********
+Lab2.c: 22 warnings, 0 errors
+linking...
+Program Size: Code=3056 RO-data=32 RW-data=76 ZI-data=3164  
+".\RTOS.axf" - 0 Error(s), 22 Warning(s).
+ Size: Code=2640 RO-data=32 RW-data=76 ZI-data=3164  
+".\RTOS.axf" - 0 Error(s), 22 Warning(s).
+ror: L6218E: Undefined symbol Start_OS (referred from lab2.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 1 error messages.
+".\RTOS.axf" - 1 Error(s), 23 Warning(s).
+Target not created
+>>>>>>> origin/Lab1
