@@ -7,4 +7,11 @@
 .\lab2.o: C:\Keil\ARM\ARMCC\bin\..\include\assert.h
 .\lab2.o: Timers.h
 .\lab2.o: ST7735.h
+.\lab2.o: Interpreter.h
+.\lab2.o: PLL.h
+.\lab2.o: UART.h
+.\lab2.o: ST7735TestResources.h
+.\lab2.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\lab2.o: PLL.h
+.\lab2.o: ADCT0ATrigger.h
 .\lab2.o: C:\Keil\ARM\ARMCC\bin\..\include\string.h

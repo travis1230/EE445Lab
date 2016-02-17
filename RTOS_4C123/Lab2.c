@@ -28,6 +28,7 @@
 #include "ST7735.h"
 //#include "ADC.h"
 //#include "UART2.h"
+#include "Interpreter.h"
 #include <string.h> 
 //*********Prototype for FFT in cr4_fft_64_stm32.s, STMicroelectronics
 void cr4_fft_64_stm32(void *pssOUT, void *pssIN, unsigned short Nbin);
@@ -280,7 +281,7 @@ unsigned long myId = OS_Id();
 // Interpreter is a foreground thread, accepts input from serial port, outputs to serial port
 // inputs:  none
 // outputs: none
-int Interpreter(void);    // just a prototype, link to your interpreter
+void Interpreter(void);    // just a prototype, link to your interpreter
 // add the following commands, leave other commands, if they make sense
 // 1) print performance measures 
 //    time-jitter, number of data points lost, number of calculations performed

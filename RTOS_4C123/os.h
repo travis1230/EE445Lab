@@ -65,7 +65,6 @@ int (*timer_init_fns[4]) (void(*task)(void), unsigned long period, uint16_t prio
 
 struct  Sema4{
   long Value;   // >0 means free, otherwise means busy        
-// add other components here, if necessary to implement blocking
 };
 typedef struct Sema4 Sema4Type;
 
@@ -152,24 +151,36 @@ void OS_InitSemaphore(Sema4Type *semaPt, long value){
 }
 
 /********** OS_Wait ************
-Should never be called with interrupts
-disabled!
 *******************************/
 void OS_Wait(Sema4Type *s){
 	OS_DisableInterrupts();
 	while(s->Value <= 0){
 		OS_EnableInterrupts();
-		OS_Suspend();
+		OS_Suspend();  // other task runs here
 		OS_DisableInterrupts();
 	}
+	// mark resource allocated
+	// should we move this up above while
+	// so that semaphore can go below 0?
+	// in any case, we will need to add record
+	// keeping for semaphore blocks, remember
+	// that spin locks is replaced in lab 3 so
+	// don't work too hard, see lecture 5 for
+	// blocking implementation pseudocode
 	s->Value = s->Value - 1;
 	OS_EnableInterrupts();
 }
-
+/******* OS_Signal***********
+****************************/
 void OS_Signal(Sema4Type *s){
+	// TODO: add record keeping for semaphore
+	// block, note that in lab 3 we implement
+	// blocking semaphores, so don't work
+	// too hard on the spin lock, see lecture 5 for
+	// blocking implementation pseudocode
 	long status;
 	status = StartCritical();
-	s->Value = s->Value + 1;
+	s->Value = s->Value + 1;  // free resource
 	EndCritical(status);
 }
 
@@ -347,14 +358,29 @@ void OS_Fifo_Init(unsigned long size);
 //          false if data not saved, because it was full
 // Since this is called by interrupt handlers 
 //  this function can not disable or enable interrupts
-int OS_Fifo_Put(unsigned long data);  
+int OS_Fifo_Put(unsigned long data){
+// from lecture 5 slides, redo fifo
+//	if get or put called in background	// Wait(&DataRoomLeft)
+	// bWait(&Mutex)
+	// Enter data into FIFO
+	// bSignal(&Mutex)
+	// Signal(&DataAvailable)
+}	
 
 // ******** OS_Fifo_Get ************
 // Remove one data sample from the Fifo
 // Called in foreground, will spin/block if empty
 // Inputs:  none
 // Outputs: data 
-unsigned long OS_Fifo_Get(void);
+unsigned long OS_Fifo_Get(void){
+// from lecture 5 slides, redo fifo
+//	if get or put called in background
+	// Wait(&DataAvailable)
+	// bWait(&Mutex)
+	// Remove data from fifo
+	// bSignal(&Mutex)
+	// Signal(&DataRoomLeft)
+}
 
 // ******** OS_Fifo_Size ************
 // Check the status of the Fifo
@@ -377,7 +403,13 @@ void OS_MailBox_Init(void);
 // Outputs: none
 // This function will be called from a foreground thread
 // It will spin/block if the MailBox contains data not yet received 
-void OS_MailBox_Send(unsigned long data);
+void OS_MailBox_Send(unsigned long data){
+// from lecture 5 slides, redo mailbox if
+// send called in background
+	//bWait(&BoxFree)
+	//Put data into Mailbox
+	//bSignal(&DataValid)
+}
 
 // ******** OS_MailBox_Recv ************
 // remove mail from the MailBox
@@ -385,7 +417,12 @@ void OS_MailBox_Send(unsigned long data);
 // Outputs: data received
 // This function will be called from a foreground thread
 // It will spin/block if the MailBox is empty 
-unsigned long OS_MailBox_Recv(void);
+unsigned long OS_MailBox_Recv(void){
+// from lecture 5 slides
+	// bWait(&DataValid)
+	// Retrieve data from Mailbox
+	// bSignal(&BoxFree)
+}
 
 // ******** OS_Time ************
 // return the system time 
