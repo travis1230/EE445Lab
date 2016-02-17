@@ -72,3 +72,7 @@ RTOS_4C123/RTOS.uvgui.Mike
 *.dep
 RTOS_4C123/RTOS.map
 *.htm
+RTOS_4C123/RTOS.uvgui.Mike
+*.map
+RTOS_4C123/RTOS.htm
+*.htm

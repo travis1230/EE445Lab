@@ -29,6 +29,7 @@
 // fill these depending on your clock
 #define TIME_1MS  50000
 #define TIME_2MS  2*TIME_1MS
+#define TIME_500US TIME_1MS / 1000
 
 #define NUMTHREADS  3        // maximum number of threads
 #define STACKSIZE   100      // number of 32-bit words in stack

@@ -72,7 +72,6 @@ void PortE_Init(void){ unsigned long volatile delay;
 // 60-Hz notch high-Q, IIR filter, assuming fs=2000 Hz
 // y(n) = (256x(n) -503x(n-1) + 256x(n-2) + 498y(n-1)-251y(n-2))/256 (2k sampling)
 // y(n) = (256x(n) -476x(n-1) + 256x(n-2) + 471y(n-1)-251y(n-2))/256 (1k sampling)
-/*
 long Filter(long data){
 static long x[6]; // this MACQ needs twice
 static long y[6];
@@ -83,7 +82,7 @@ static unsigned long n=3;   // 3, 4, or 5
   y[n] = (256*(x[n]+x[n-2])-503*x[n-1]+498*y[n-1]-251*y[n-2]+128)/256;
   y[n-3] = y[n];         // two copies of filter outputs too
   return y[n];
-} 
+}
 //******** DAS *************** 
 // background thread, calculates 60Hz notch filter
 // runs 2000 times/sec
@@ -148,7 +147,7 @@ unsigned long myId = OS_Id();
 // background threads execute once and return
 void SW1Push(void){
   if(OS_MsTime() > 20){ // debounce
-    if(OS_AddThread(&ButtonWork,100,4)){
+    if(OS_AddThread(&ButtonWork, 4)){
       NumCreated++; 
     }
     OS_ClearMsTime();  // at least 20ms between touches
@@ -160,7 +159,7 @@ void SW1Push(void){
 // background threads execute once and return
 void SW2Push(void){
   if(OS_MsTime() > 20){ // debounce
-    if(OS_AddThread(&ButtonWork,100,4)){
+    if(OS_AddThread(&ButtonWork, 4)){
       NumCreated++; 
     }
     OS_ClearMsTime();  // at least 20ms between touches
@@ -205,7 +204,7 @@ unsigned long data,DCcomponent;   // 12-bit raw ADC sample, 0 to 4095
 unsigned long t;                  // time in 2.5 ms
 unsigned long myId = OS_Id(); 
   ADC_Collect(5, FS, &Producer); // start ADC sampling, channel 5, PD2, 400 Hz
-  NumCreated += OS_AddThread(&Display,128,0); 
+  NumCreated += OS_AddThread(&Display, 0); 
   while(NumSamples < RUNLENGTH) { 
     PE2 = 0x04;
     for(t = 0; t < 64; t++){   // collect 64 ADC samples
@@ -236,7 +235,6 @@ unsigned long data,voltage;
   } 
   OS_Kill();  // done
 } 
-
 //--------------end of Task 3-----------------------------
 
 //------------------Task 4--------------------------------
@@ -295,7 +293,7 @@ int Interpreter(void);    // just a prototype, link to your interpreter
 
 //*******************final user main DEMONTRATE THIS TO TA**********
 int TestMain0(void){ 
-  OS_Init();           // initialize, disable interrupts
+  OS_Init(true);           // initialize, disable interrupts
   PortE_Init();
   DataLost = 0;        // lost data between producer and consumer
   NumSamples = 0;
@@ -313,14 +311,14 @@ int TestMain0(void){
 
   NumCreated = 0 ;
 // create initial foreground threads
-  NumCreated += OS_AddThread(&Interpreter,128,2); 
-  NumCreated += OS_AddThread(&Consumer,128,1); 
-  NumCreated += OS_AddThread(&PID,128,3);  // Lab 3, make this lowest priority
+  NumCreated += OS_AddThread(&Interpreter, 2); 
+  NumCreated += OS_AddThread(&Consumer, 1); 
+  NumCreated += OS_AddThread(&PID, 3);  // Lab 3, make this lowest priority
  
   OS_Launch(TIME_2MS); // doesn't return, interrupts enabled in here
   return 0;            // this never executes
 }
-*/
+
 //+++++++++++++++++++++++++DEBUGGING CODE++++++++++++++++++++++++
 // ONCE YOUR RTOS WORKS YOU CAN COMMENT OUT THE REMAINING CODE
 // 
@@ -363,7 +361,7 @@ void Thread3(void){
   }
 }
 
-int main(void){  // Testmain1
+int Testmain1(void){  // Testmain1
   OS_Init(false);          // initialize, disable interrupts, preemptive=false (cooperative)
   PortE_Init();       // profile user threads
   NumCreated = 0 ;
@@ -481,7 +479,7 @@ int Testmain3(void){   // Testmain3
   NumCreated += OS_AddThread(&Thread4c, 3); 
   OS_Launch(TIME_2MS); // doesn't return, interrupts enabled in here
   return 0;            // this never executes
-}/*
+}
 //*******************Fourth TEST**********
 // Once the second test runs, test this (Lab 1 part 2)
 // no UART1 interrupts
@@ -536,21 +534,21 @@ void Thread4d(void){ int i;
   OS_Kill();
 }
 void BackgroundThread5d(void){   // called when Select button pushed
-  NumCreated += OS_AddThread(&Thread4d,128,3); 
+  NumCreated += OS_AddThread(&Thread4d, 3); 
 }
 int Testmain4(void){   // Testmain4
   Count4 = 0;          
-  OS_Init();           // initialize, disable interrupts
+  OS_Init(true);           // initialize, disable interrupts
   NumCreated = 0 ;
-  OS_AddPeriodicThread(&BackgroundThread1d,PERIOD,0); 
+  OS_AddPeriodicThread(&BackgroundThread1d, PERIOD, 0); 
   OS_AddSW1Task(&BackgroundThread5d,2);
-  NumCreated += OS_AddThread(&Thread2d,128,2); 
-  NumCreated += OS_AddThread(&Thread3d,128,3); 
-  NumCreated += OS_AddThread(&Thread4d,128,3); 
+  NumCreated += OS_AddThread(&Thread2d, 2); 
+  NumCreated += OS_AddThread(&Thread3d, 3); 
+  NumCreated += OS_AddThread(&Thread4d, 3); 
   OS_Launch(TIME_2MS); // doesn't return, interrupts enabled in here
   return 0;            // this never executes
 }
-
+/*
 //******************* Lab 3 Preparation 2**********
 // Modify this so it runs with your RTOS (i.e., fix the time units to match your OS)
 // run this with 
@@ -733,13 +731,13 @@ void Thread8(void){       // only thread running
   while(1){
     PE0 ^= 0x01;      // debugging profile  
   }
-}/*
-int Testmain7(void){       // Testmain7
+}
+int main(void){       // Testmain7
   PortE_Init();
-  OS_Init();           // initialize, disable interrupts
+  OS_Init(true);           // initialize, disable interrupts
   NumCreated = 0 ;
-  NumCreated += OS_AddThread(&Thread8,128,2); 
+  NumCreated += OS_AddThread(&Thread8, 2); 
   OS_Launch(TIME_1MS/10); // 100us, doesn't return, interrupts enabled in here
   return 0;             // this never executes
 }
-*/
+
