@@ -64,7 +64,7 @@ bool timer_occupied[4] = {false};
 int (*timer_init_fns[4]) (void(*task)(void), unsigned long period, uint16_t priority);
 
 struct  Sema4{
-  long Value;   // >0 means free, otherwise means busy        
+  long Value;   // >0 means free, otherwise means busy 
 };
 typedef struct Sema4 Sema4Type;
 
@@ -147,7 +147,8 @@ void OS_Suspend(void){  // TODO: Deal with sleep
 // input:  pointer to a semaphore
 // output: none
 void OS_InitSemaphore(Sema4Type *semaPt, long value){
-	semaPt->Value = value;
+	semaPt->Value = value;  // value = number of threads
+	// that can access resource at one time
 }
 
 /********** OS_Wait ************
@@ -462,12 +463,25 @@ unsigned long OS_MsTime(void);
 // Lab3 block if less than zero
 // input:  pointer to a binary semaphore
 // output: none
-void OS_bWait(Sema4Type *semaPt); 
-
+void OS_bWait(Sema4Type *semaPt){
+	OS_DisableInterrupts();
+	while(!s->Value){
+		OS_EnableInterrupts();
+		OS_Suspend();  // other task runs here
+		OS_DisableInterrupts();
+	}
+	s->Value = 0;
+	OS_EnableInterrupts();	
+}
 // ******** OS_bSignal ************
 // Lab2 spinlock, set to 1
 // Lab3 wakeup blocked thread if appropriate 
 // input:  pointer to a binary semaphore
 // output: none
-void OS_bSignal(Sema4Type *semaPt); 
+void OS_bSignal(Sema4Type *semaPt){
+	long status;
+	status = StartCritical();
+	s->Value = 1;  // free resource
+	EndCritical(status);
+}	
 #endif
