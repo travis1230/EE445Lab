@@ -26,7 +26,8 @@
 #include "os.h"
 #include "inc/tm4c123gh6pm.h"
 #include "ST7735.h"
-//#include "ADC.h"
+#include "ADCT0ATrigger.h"
+#include "Switch.h"
 //#include "UART2.h"
 #include <string.h> 
 //*********Prototype for FFT in cr4_fft_64_stm32.s, STMicroelectronics

@@ -46,7 +46,6 @@
 // debugged or re-programmed.
 #include <stdint.h>
 #include "../inc/tm4c123gh6pm.h"
-#include "SysTick.h"
 
 #define GPIO_LOCK_KEY           0x4C4F434B  // Unlocks the GPIO_CR register
 #define PF0                     (*((volatile uint32_t *)0x40025004))
@@ -62,7 +61,6 @@
 // Input: none
 // Output: none
 void Switch_Init(void){ 
-  SysTick_Init();
   SYSCTL_RCGCGPIO_R |= 0x00000001;     // 1) activate clock for Port A
   while((SYSCTL_PRGPIO_R&0x01) == 0){};// ready?
   GPIO_PORTA_AMSEL_R &= ~0x20;      // 3) disable analog on PA5
@@ -70,7 +68,10 @@ void Switch_Init(void){
   GPIO_PORTA_DIR_R &= ~0x20;        // 5) direction PA5 input
   GPIO_PORTA_AFSEL_R &= ~0x20;      // 6) PA5 regular port function
   GPIO_PORTA_DEN_R |= 0x20;         // 7) enable PA5 digital port
+		
+	GPIO_PORTA_IS_R &= ~0x20; // Disable Interrupt Sense to allow for edge triggering
 }
+/*
 //------------Switch_Input------------
 // Read and return the status of GPIO Port A bit 5 
 // Input: none
@@ -181,4 +182,5 @@ void Switch_WaitForTouch(void){
   while(Switch_Input()==0){};
   SysTick_Wait(800000); // 10ms
 }
-  
+  */
+	

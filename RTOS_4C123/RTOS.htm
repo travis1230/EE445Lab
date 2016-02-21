@@ -3,11 +3,7 @@
 <title>Static Call Graph - [.\RTOS.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\RTOS.axf</H1><HR>
-<<<<<<< HEAD
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Tue Feb 16 15:42:51 2016
-=======
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Tue Feb 16 13:34:21 2016
->>>>>>> origin/Lab1
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Sun Feb 21 10:55:52 2016
 <BR><P>
 <H3>Maximum Stack Usage =         96 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -49,7 +45,7 @@ Function Pointers
  <LI><a href="#[1c]">ADC0Seq0_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[1d]">ADC0Seq1_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[1e]">ADC0Seq2_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
- <LI><a href="#[1f]">ADC0Seq3_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
+ <LI><a href="#[1f]">ADC0Seq3_Handler</a> from adct0atrigger.o(i.ADC0Seq3_Handler) referenced from startup.o(RESET)
  <LI><a href="#[3e]">ADC1Seq0_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[3f]">ADC1Seq1_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
  <LI><a href="#[40]">ADC1Seq2_Handler</a> from startup.o(RESET) referenced from startup.o(RESET)
@@ -253,9 +249,6 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
 <P><STRONG><a name="[1e]"></a>ADC0Seq2_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
-<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
-</UL>
-<P><STRONG><a name="[1f]"></a>ADC0Seq3_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
 <BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
 </UL>
 <P><STRONG><a name="[3e]"></a>ADC1Seq0_Handler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup.o(RESET))
@@ -794,6 +787,9 @@ Global Symbols
 
 <P><STRONG><a name="[da]"></a>__user_perthread_libspace</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
 
+<P><STRONG><a name="[1f]"></a>ADC0Seq3_Handler</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, adct0atrigger.o(i.ADC0Seq3_Handler))
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
 <P><STRONG><a name="[9b]"></a>OS_AddThread</STRONG> (Thumb, 250 bytes, Stack size 48 bytes, lab2.o(i.OS_AddThread))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88 + Unknown Stack Size
 <LI>Call Chain = OS_AddThread &rArr; tcbs_all_full &rArr; tcb_is_empty
