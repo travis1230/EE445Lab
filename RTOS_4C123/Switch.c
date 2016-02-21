@@ -56,11 +56,13 @@
 #define SW2       0x01                      // on the right side of the Launchpad board
 #define SYSCTL_RCGC2_GPIOF      0x00000020  // port F Clock Gating Control
 
+void(*PAI)(void);
+
 //------------Switch_Init------------
 // Initialize GPIO Port A bit 5 for input
 // Input: none
 // Output: none
-void Switch_Init(void){ 
+void Switch_Init(void(*task)(void)){ 
   SYSCTL_RCGCGPIO_R |= 0x00000001;     // 1) activate clock for Port A
   while((SYSCTL_PRGPIO_R&0x01) == 0){};// ready?
   GPIO_PORTA_AMSEL_R &= ~0x20;      // 3) disable analog on PA5
@@ -70,6 +72,19 @@ void Switch_Init(void){
   GPIO_PORTA_DEN_R |= 0x20;         // 7) enable PA5 digital port
 		
 	GPIO_PORTA_IS_R &= ~0x20; // Disable Interrupt Sense to allow for edge triggering
+	GPIO_PORTA_IBE_R &= ~0x20; // Disable Interrupting on both edges
+	GPIO_PORTA_IEV_R &= ~0x20; // Set fro Falling edge trigger
+	GPIO_PORTA_IM_R |= 0x20; // Enable the interrupt Mask for PA5 
+	
+	NVIC_PRI0_R = (NVIC_PRI0_R & 0xFFFFFF0F) + 0x60; // Set priority 3 
+	NVIC_EN0_R |= 0x01; //Enable Port A interrupts 
+	
+	PAI = task;
+	// NOT ENABLING INTERRUPTS HERE
+}
+
+void  GPIOPortA_Handler(void) {
+	PAI();
 }
 /*
 //------------Switch_Input------------
