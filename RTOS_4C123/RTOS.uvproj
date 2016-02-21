@@ -440,6 +440,16 @@
               <FileType>1</FileType>
               <FilePath>.\SysTickInts.c</FilePath>
             </File>
+            <File>
+              <FileName>ADCT0ATrigger.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ADCT0ATrigger.c</FilePath>
+            </File>
+            <File>
+              <FileName>Switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Switch.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

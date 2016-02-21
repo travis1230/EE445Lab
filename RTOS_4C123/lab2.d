@@ -5,6 +5,7 @@
 .\lab2.o: ..\inc/tm4c123gh6pm.h
 .\lab2.o: F:\Applications\Keil\ARM\ARMCC\bin\..\include\stdbool.h
 .\lab2.o: F:\Applications\Keil\ARM\ARMCC\bin\..\include\assert.h
+.\lab2.o: Switch.h
 .\lab2.o: Timers.h
 .\lab2.o: ST7735.h
 .\lab2.o: ADCT0ATrigger.h

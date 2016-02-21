@@ -7,3 +7,81 @@ F:\Documents\Github\EE445Lab\RTOS_4C123\RTOS.uvproj
 Project File Date:  02/21/2016
 
 <h2>Output:</h2>
+Build target 'RTOS'
+compiling Lab2.c...
+os.h(150): warning:  #223-D: function "DisableInterrupts" declared implicitly
+        DisableInterrupts();
+os.h(152): warning:  #223-D: function "EnableInterrupts" declared implicitly
+                EnableInterrupts();
+os.h(157): warning:  #223-D: function "EnableInterrupts" declared implicitly
+        EnableInterrupts();
+os.h(183): warning:  #223-D: function "SysTick_Init" declared implicitly
+        SysTick_Init(OS_ISR_period, 
+os.h(186): warning:  #513-D: a value of type "void (*)(void (*)(void), uint32_t)" cannot be assigned to an entity of type "int (*)(void (*)(void), unsigned long)"
+        timer_init_fns[0] = Timer0A_Init;
+os.h(187): warning:  #513-D: a value of type "void (*)(void (*)(void), uint32_t)" cannot be assigned to an entity of type "int (*)(void (*)(void), unsigned long)"
+        timer_init_fns[1] = Timer1A_Init;
+os.h(188): warning:  #513-D: a value of type "void (*)(void (*)(void), unsigned long)" cannot be assigned to an entity of type "int (*)(void (*)(void), unsigned long)"
+        timer_init_fns[2] = Timer2A_Init;
+os.h(189): warning:  #513-D: a value of type "void (*)(void (*)(void), unsigned long)" cannot be assigned to an entity of type "int (*)(void (*)(void), unsigned long)"
+        timer_init_fns[3] = Timer3A_Init;
+os.h(202): warning:  #177-D: variable "new_next" was declared but never referenced
+                tcbType new_next = *(RunPt->next);  // this could be problematic
+os.h(200): warning:  #177-D: variable "new_next" was declared but never referenced
+        tcbType new_next;
+os.h(256): warning:  #550-D: variable "prev" was set but never used
+        tcbType prev;  // search for what points to me
+Lab2.c(88): warning:  #9-D: nested comment is not allowed
+  //******** DAS *************** 
+Lab2.c(146): warning:  #9-D: nested comment is not allowed
+  //************SW1Push*************
+Lab2.c(158): warning:  #9-D: nested comment is not allowed
+  //************SW2Push*************
+Lab2.c(180): warning:  #9-D: nested comment is not allowed
+  //******** Producer *************** 
+Lab2.c(199): warning:  #9-D: nested comment is not allowed
+  //******** Consumer *************** 
+Lab2.c(223): warning:  #9-D: nested comment is not allowed
+  //******** Display *************** 
+Lab2.c(246): warning:  #9-D: nested comment is not allowed
+  //******** PID *************** 
+Lab2.c(297): warning:  #9-D: nested comment is not allowed
+  //*******************final user main DEMONTRATE THIS TO TA**********
+Lab2.c(305): warning:  #9-D: nested comment is not allowed
+  //********initialize communication channels
+Lab2.c(309): warning:  #9-D: nested comment is not allowed
+  //*******attach background tasks***********
+Lab2.c(422): warning:  #9-D: nested comment is not allowed
+  //*******************Third TEST**********
+Lab2.c(486): warning:  #9-D: nested comment is not allowed
+  //*******************Third TEST**********
+Lab2.c(494): warning:  #9-D: nested comment is not allowed
+  //*******************Fourth TEST**********
+Lab2.c(555): warning:  #9-D: nested comment is not allowed
+  //******************* Lab 3 Preparation 2**********
+Lab2.c(569): warning:  #9-D: nested comment is not allowed
+  //*******PseudoWork*************
+Lab2.c(623): warning:  #9-D: nested comment is not allowed
+  //******************* Lab 3 Preparation 4**********
+Lab2.c: 27 warnings, 0 errors
+linking...
+Program Size: Code=3496 RO-data=32 RW-data=124 ZI-data=3180  
+".\RTOS.axf" - 0 Error(s), 27 Warning(s).
+</pre>
+</body>
+</html>
+9-D: nested comment is not allowed
+  //******************* Lab 3 Preparation 4**********
+Lab2.c: 28 warnings, 1 error
+".\RTOS.axf" - 1 Error(s), 28 Warning(s).
+Target not created
+error
+compiling SysTickInts.c...
+compiling ADCT0ATrigger.c...
+compiling Switch.c...
+".\RTOS.axf" - 1 Error(s), 28 Warning(s).
+Target not created
+rigger.c...
+compiling Switch.c...
+".\RTOS.axf" - 2 Error(s), 28 Warning(s).
+Target not created

@@ -26,7 +26,7 @@
 // bottom of X-ohm potentiometer connected to ground
 // top of X-ohm potentiometer connected to +3.3V through X/10-ohm ohm resistor
 #include <stdint.h>
-#include "inc/tm4c123gh6pm.h"
+#include "../inc/tm4c123gh6pm.h"
 #include "ADCT0ATrigger.h"
 #include "PLL.h"
 

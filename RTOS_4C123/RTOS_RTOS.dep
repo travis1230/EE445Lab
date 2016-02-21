@@ -6,18 +6,18 @@ I (F:\Applications\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (PLL.h)(0x56C9EAA6)
 I (../inc/tm4c123gh6pm.h)(0x56C9EAA7)
 F (.\Lab2.c)(0x56C9EBB0)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\lab2.o --omf_browse .\lab2.crf --depend .\lab2.d)
-I (os.h)(0x56C9EAAA)
+I (os.h)(0x56C9F060)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (PLL.h)(0x56C9EAA6)
 I (..\inc/tm4c123gh6pm.h)(0x56C9EAA7)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdbool.h)(0x51C87C24)
 I (F:\Applications\Keil\ARM\ARMCC\include\assert.h)(0x51C87C24)
+I (Switch.h)(0x56C9EFDE)
 I (Timers.h)(0x56C9EAAA)
 I (ST7735.h)(0x56C9EAA6)
 I (ADCT0ATrigger.h)(0x56C9EAAA)
-I (Switch.h)(0x56B10632)
 I (F:\Applications\Keil\ARM\ARMCC\include\string.h)(0x51C87C24)
-F (.\os.h)(0x56C9EAAA)()
+F (.\os.h)(0x56C9F060)()
 F (.\SysTickInts.h)(0x56C9EAA6)()
 F (.\SysTickInts.c)(0x56C9EAA6)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\systickints.o --omf_browse .\systickints.crf --depend .\systickints.d)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)

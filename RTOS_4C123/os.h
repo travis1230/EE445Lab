@@ -39,6 +39,7 @@
 #include "inc/tm4c123gh6pm.h"
 #include <stdbool.h>
 #include <assert.h>
+#include "Switch.h"
 #include "Timers.h"
 
 #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
@@ -102,6 +103,14 @@ bool tcbs_all_full(){
 	}
 	return true;
 }
+
+
+
+//SWITCH INTERRUPT HANDLER
+void Switch_Int(void) {
+	
+}
+
 
 int32_t Stacks[NUMTHREADS][STACKSIZE];
 
@@ -172,7 +181,8 @@ void OS_Init(bool preemptive){
 	}
 	OS_ISR_Count = 0;
 	SysTick_Init(OS_ISR_period, 
-								 OS_ISR_priority);	
+							 OS_ISR_priority);
+	Switch_Init(&Switch_Int);
 	timer_init_fns[0] = Timer0A_Init;
 	timer_init_fns[1] = Timer1A_Init;
 	timer_init_fns[2] = Timer2A_Init;
