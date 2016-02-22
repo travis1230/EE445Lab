@@ -160,7 +160,7 @@ void Interpreter(void) {
 				break;
 			case(4):
 				Output_Clear();
-				ST7735_Message(1, 1, &input_string[5]);
+				ST7735_Message(1, 1, &input_string[5], 0);
 			case(5):
 				UART_OutString(&input_string[5]);
 				break;

@@ -206,6 +206,8 @@ void Consumer(void){
 unsigned long data,DCcomponent;   // 12-bit raw ADC sample, 0 to 4095
 unsigned long t;                  // time in 2.5 ms
 unsigned long myId = OS_Id(); 
+
+
   ADC_Collect(5, FS, &Producer); // start ADC sampling, channel 5, PD2, 400 Hz
   NumCreated += OS_AddThread(&Display, 0); 
   while(NumSamples < RUNLENGTH) { 
