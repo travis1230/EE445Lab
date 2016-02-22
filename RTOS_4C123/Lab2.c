@@ -26,10 +26,11 @@
 #include "os.h"
 #include "inc/tm4c123gh6pm.h"
 #include "ST7735.h"
-//#include "ADC.h"
+#include "ADCT0ATrigger.h"
 //#include "UART2.h"
 #include "Interpreter.h"
 #include <string.h> 
+#include <assert.h>
 //*********Prototype for FFT in cr4_fft_64_stm32.s, STMicroelectronics
 void cr4_fft_64_stm32(void *pssOUT, void *pssIN, unsigned short Nbin);
 //*********Prototype for PID in PID_stm32.s, STMicroelectronics
@@ -140,6 +141,7 @@ unsigned long myId = OS_Id();
   ST7735_Message(1,3,"Jitter 0.1us=",MaxJitter);
   PE1 ^= 0x02;
   OS_Kill();  // done, OS does not return from a Kill
+  assert(false);
 } 
 
 //************SW1Push*************

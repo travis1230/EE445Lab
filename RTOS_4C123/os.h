@@ -41,6 +41,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include "Timers.h"
+#include "Switch.h"
 
 #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
 #define NVIC_ST_CTRL_CLK_SRC    0x00000004  // Clock Source
@@ -64,7 +65,7 @@ bool timer_occupied[4] = {false};
 int (*timer_init_fns[4]) (void(*task)(void), unsigned long period, uint16_t priority);
 
 struct  Sema4{
-  long Value;   // >0 means free, otherwise means busy 
+  int16_t Value;   // >0 means free, otherwise means busy 
 };
 typedef struct Sema4 Sema4Type;
 
@@ -109,6 +110,11 @@ bool tcbs_all_full(){
 	return true;
 }
 
+//SWITCH INTERRUPT HANDLER
+void Switch_Int(void){
+	
+}
+
 int32_t Stacks[NUMTHREADS][STACKSIZE];
 
 void SetInitialStack(int i){
@@ -146,43 +152,9 @@ void OS_Suspend(void){  // TODO: Deal with sleep
 // initialize semaphore 
 // input:  pointer to a semaphore
 // output: none
-void OS_InitSemaphore(Sema4Type *semaPt, long value){
+void OS_InitSemaphore(Sema4Type *semaPt, uint16_t value){
 	semaPt->Value = value;  // value = number of threads
 	// that can access resource at one time
-}
-
-/********** OS_Wait ************
-*******************************/
-void OS_Wait(Sema4Type *s){
-	OS_DisableInterrupts();
-	while(s->Value <= 0){
-		OS_EnableInterrupts();
-		OS_Suspend();  // other task runs here
-		OS_DisableInterrupts();
-	}
-	// mark resource allocated
-	// should we move this up above while
-	// so that semaphore can go below 0?
-	// in any case, we will need to add record
-	// keeping for semaphore blocks, remember
-	// that spin locks is replaced in lab 3 so
-	// don't work too hard, see lecture 5 for
-	// blocking implementation pseudocode
-	s->Value = s->Value - 1;
-	OS_EnableInterrupts();
-}
-/******* OS_Signal***********
-****************************/
-void OS_Signal(Sema4Type *s){
-	// TODO: add record keeping for semaphore
-	// block, note that in lab 3 we implement
-	// blocking semaphores, so don't work
-	// too hard on the spin lock, see lecture 5 for
-	// blocking implementation pseudocode
-	long status;
-	status = StartCritical();
-	s->Value = s->Value + 1;  // free resource
-	EndCritical(status);
 }
 
 /********** OS_ISR *************
@@ -209,6 +181,7 @@ void OS_Init(bool preemptive){
 	OS_ISR_Count = 0;
 	SysTick_Init(OS_ISR_period, 
 								 OS_ISR_priority);	
+	Switch_Init(&Switch_Int);
 	timer_init_fns[0] = Timer0A_Init;
 	timer_init_fns[1] = Timer1A_Init;
 	timer_init_fns[2] = Timer2A_Init;
@@ -457,20 +430,48 @@ void OS_ClearMsTime(void);
 // You are free to select the time resolution for this function
 // It is ok to make the resolution to match the first call to OS_AddPeriodicThread
 unsigned long OS_MsTime(void);
-
-// ******** OS_bWait ************
-// Lab2 spinlock, set to 0
-// Lab3 block if less than zero
-// input:  pointer to a binary semaphore
-// output: none
-void OS_bWait(Sema4Type *semaPt){
+/********** OS_Wait ************
+WARNING: CANNOT BE CALLED WHEN 
+INTERRUPTS ARE DISABLED!!!
+*******************************/
+void OS_Wait(Sema4Type *s){
 	OS_DisableInterrupts();
-	while(!s->Value){
+	while(s->Value <= 0){
 		OS_EnableInterrupts();
 		OS_Suspend();  // other task runs here
 		OS_DisableInterrupts();
 	}
-	s->Value = 0;
+	// see lecture 5 for
+	// blocking implementation pseudocode
+	s->Value = s->Value - 1;  // mark resource allocated
+	OS_EnableInterrupts();
+}
+/******* OS_Signal***********
+****************************/
+void OS_Signal(Sema4Type *s){
+	// see lecture 5 for
+	// blocking implementation pseudocode
+	long status;
+	status = StartCritical();
+	s->Value = s->Value + 1;  // free resource
+	EndCritical(status);
+}
+/******** OS_bWait ************
+ Lab2 spinlock, set to 0
+ Lab3 block if less than zero
+ input:  pointer to a binary semaphore
+ output: none
+ WARNING: CANNOT BE CALLED WHEN 
+INTERRUPTS ARE DISABLED!!! 
+*******************************/
+void OS_bWait(Sema4Type *semaPt){
+	OS_DisableInterrupts();
+	while(!semaPt->Value){
+		OS_EnableInterrupts();
+		OS_Suspend();  // other task runs here
+		OS_DisableInterrupts();
+	}
+	semaPt->Value = 0;
 	OS_EnableInterrupts();	
 }
 // ******** OS_bSignal ************
@@ -481,7 +482,7 @@ void OS_bWait(Sema4Type *semaPt){
 void OS_bSignal(Sema4Type *semaPt){
 	long status;
 	status = StartCritical();
-	s->Value = 1;  // free resource
+	semaPt->Value = 1;  // free resource
 	EndCritical(status);
 }	
 #endif

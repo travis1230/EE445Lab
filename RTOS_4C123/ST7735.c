@@ -1664,7 +1664,7 @@ void ST7735_Message (int device, int line, char *string, long value) {
 	int i = 0;
 	while(*p) {
 		p++;
-		i++;
+		i++;  // number of chars in string
 	}
 	
 	int j = 0;
@@ -1672,16 +1672,16 @@ void ST7735_Message (int device, int line, char *string, long value) {
 	long temp_val = value;
 	while(temp_val) {
 		temp_val = temp_val / 10;
-		j++;
+		j++;  // number of orders of magnitude (digits) in value
 	}
 	
 	char my_string[i + j];
 	i++;
 	while(i) {
 		i--;
-		my_string[i] = string[i];
+		my_string[i] = string[i];  // put string first, last letter to first
 	}
-	int last_element = j + i;
+	int last_element = j + i;  // used as base for printing value
 	j++;
 	while(j) {
 		j--;
