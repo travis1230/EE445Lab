@@ -737,7 +737,7 @@ void Thread8(void){       // only thread running
     PE0 ^= 0x01;      // debugging profile  
   }
 }
-int main(void){       // Testmain7
+int Testmain7(void){       // Testmain7
   PortE_Init();
   OS_Init(true);           // initialize, disable interrupts
   NumCreated = 0 ;
