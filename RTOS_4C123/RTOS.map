@@ -9,6 +9,8 @@ Section Cross References
     startup.o(RESET) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(RESET) refers to startup.o(STACK) for StackMem
     startup.o(RESET) refers to osasm.o(.text) for OS_ISR
+    startup.o(RESET) refers to switch.o(i.GPIOPortA_Handler) for GPIOPortA_Handler
+    startup.o(RESET) refers to uart.o(i.UART0_Handler) for UART0_Handler
     startup.o(RESET) refers to adct0atrigger.o(i.ADC0Seq3_Handler) for ADC0Seq3_Handler
     startup.o(RESET) refers to lab2.o(i.Timer0A_Handler) for Timer0A_Handler
     startup.o(RESET) refers to lab2.o(i.Timer1A_Handler) for Timer1A_Handler
@@ -21,6 +23,7 @@ Section Cross References
     osasm.o(.text) refers to lab2.o(.data) for RunPt
     lab2.o(i.BackgroundThread1c) refers to lab2.o(i.OS_Signal) for OS_Signal
     lab2.o(i.BackgroundThread1c) refers to lab2.o(.data) for Count1
+    lab2.o(i.BackgroundThread1d) refers to lab2.o(i.OS_bSignal) for OS_bSignal
     lab2.o(i.BackgroundThread1d) refers to lab2.o(.data) for i
     lab2.o(i.BackgroundThread5c) refers to lab2.o(i.OS_AddThread) for OS_AddThread
     lab2.o(i.BackgroundThread5c) refers to lab2.o(i.Thread4c) for Thread4c
@@ -28,10 +31,12 @@ Section Cross References
     lab2.o(i.BackgroundThread5d) refers to lab2.o(i.OS_AddThread) for OS_AddThread
     lab2.o(i.BackgroundThread5d) refers to lab2.o(i.Thread4d) for Thread4d
     lab2.o(i.BackgroundThread5d) refers to lab2.o(.data) for NumCreated
+    lab2.o(i.ButtonWork) refers to st7735.o(i.ST7735_Message) for ST7735_Message
     lab2.o(i.ButtonWork) refers to lab2.o(i.OS_Sleep) for OS_Sleep
     lab2.o(i.ButtonWork) refers to lab2.o(i.OS_Kill) for OS_Kill
+    lab2.o(i.ButtonWork) refers to assert.o(.text) for __aeabi_assert
     lab2.o(i.ButtonWork) refers to lab2.o(.data) for NumCreated
-    lab2.o(i.Consumer) refers to adct0atrigger.o(i.ADC_Collect) for ADC_Collect
+    lab2.o(i.Consumer) refers to adct0atrigger.o(i.ADC_Init) for ADC_Init
     lab2.o(i.Consumer) refers to lab2.o(i.OS_AddThread) for OS_AddThread
     lab2.o(i.Consumer) refers to lab2.o(i.OS_Fifo_Get) for OS_Fifo_Get
     lab2.o(i.Consumer) refers to lab2.o(i.OS_MailBox_Send) for OS_MailBox_Send
@@ -44,11 +49,26 @@ Section Cross References
     lab2.o(i.DAS) refers to lab2.o(i.Filter) for Filter
     lab2.o(i.DAS) refers to lab2.o(.data) for NumSamples
     lab2.o(i.DAS) refers to lab2.o(.bss) for JitterHistogram
+    lab2.o(i.Display) refers to st7735.o(i.ST7735_Message) for ST7735_Message
     lab2.o(i.Display) refers to lab2.o(i.OS_MailBox_Recv) for OS_MailBox_Recv
     lab2.o(i.Display) refers to lab2.o(i.OS_Kill) for OS_Kill
     lab2.o(i.Display) refers to lab2.o(.data) for NumSamples
     lab2.o(i.Filter) refers to lab2.o(.data) for n
     lab2.o(i.Filter) refers to lab2.o(.bss) for x
+    lab2.o(i.Interpreter) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    lab2.o(i.Interpreter) refers to _printf_u.o(.ARM.Collect$$_printf_percent$$0000000A) for _printf_u
+    lab2.o(i.Interpreter) refers to _printf_dec.o(.text) for _printf_int_dec
+    lab2.o(i.Interpreter) refers to lab2.o(i.print_prompt) for print_prompt
+    lab2.o(i.Interpreter) refers to uart.o(i.UART_InString) for UART_InString
+    lab2.o(i.Interpreter) refers to lab2.o(i.check_string) for check_string
+    lab2.o(i.Interpreter) refers to lab2.o(i.UART_NewLine) for UART_NewLine
+    lab2.o(i.Interpreter) refers to uart.o(i.UART_OutString) for UART_OutString
+    lab2.o(i.Interpreter) refers to noretval__2sprintf.o(.text) for __2sprintf
+    lab2.o(i.Interpreter) refers to lab2.o(i.print_adc) for print_adc
+    lab2.o(i.Interpreter) refers to lab2.o(i.full_test) for full_test
+    lab2.o(i.Interpreter) refers to st7735.o(i.Output_Clear) for Output_Clear
+    lab2.o(i.Interpreter) refers to st7735.o(i.ST7735_Message) for ST7735_Message
+    lab2.o(i.Interpreter) refers to lab2.o(i.print_help) for print_help
     lab2.o(i.OS_AddPeriodicThread) refers to lab2.o(.data) for timer_occupied
     lab2.o(i.OS_AddPeriodicThread) refers to lab2.o(.bss) for timer_init_fns
     lab2.o(i.OS_AddThread) refers to startup.o(.text) for StartCritical
@@ -62,8 +82,10 @@ Section Cross References
     lab2.o(i.OS_Init) refers to osasm.o(.text) for OS_DisableInterrupts
     lab2.o(i.OS_Init) refers to pll.o(i.PLL_Init) for PLL_Init
     lab2.o(i.OS_Init) refers to systickints.o(i.SysTick_Init) for SysTick_Init
+    lab2.o(i.OS_Init) refers to switch.o(i.Switch_Init) for Switch_Init
     lab2.o(i.OS_Init) refers to lab2.o(.data) for preemptive_mode
     lab2.o(i.OS_Init) refers to lab2.o(.bss) for tcbs
+    lab2.o(i.OS_Init) refers to lab2.o(i.Switch_Int) for Switch_Int
     lab2.o(i.OS_Init) refers to lab2.o(i.Timer0A_Init) for Timer0A_Init
     lab2.o(i.OS_Init) refers to lab2.o(i.Timer1A_Init) for Timer1A_Init
     lab2.o(i.OS_Init) refers to lab2.o(i.Timer2A_Init) for Timer2A_Init
@@ -83,6 +105,9 @@ Section Cross References
     lab2.o(i.OS_Sleep) refers to lab2.o(.data) for preemptive_mode
     lab2.o(i.OS_Wait) refers to osasm.o(.text) for OS_DisableInterrupts
     lab2.o(i.OS_Wait) refers to lab2.o(i.OS_Suspend) for OS_Suspend
+    lab2.o(i.OS_bSignal) refers to startup.o(.text) for StartCritical
+    lab2.o(i.OS_bWait) refers to osasm.o(.text) for OS_DisableInterrupts
+    lab2.o(i.OS_bWait) refers to lab2.o(i.OS_Suspend) for OS_Suspend
     lab2.o(i.PID) refers to lab2.o(.data) for PIDWork
     lab2.o(i.Producer) refers to lab2.o(i.OS_Fifo_Put) for OS_Fifo_Put
     lab2.o(i.Producer) refers to lab2.o(.data) for NumSamples
@@ -96,12 +121,15 @@ Section Cross References
     lab2.o(i.TestMain0) refers to lab2.o(i.OS_Init) for OS_Init
     lab2.o(i.TestMain0) refers to lab2.o(i.PortE_Init) for PortE_Init
     lab2.o(i.TestMain0) refers to lab2.o(i.OS_AddSW1Task) for OS_AddSW1Task
+    lab2.o(i.TestMain0) refers to adct0atrigger.o(i.ADC_Init) for ADC_Init
     lab2.o(i.TestMain0) refers to lab2.o(i.OS_AddPeriodicThread) for OS_AddPeriodicThread
     lab2.o(i.TestMain0) refers to lab2.o(i.OS_AddThread) for OS_AddThread
     lab2.o(i.TestMain0) refers to lab2.o(i.OS_Launch) for OS_Launch
     lab2.o(i.TestMain0) refers to lab2.o(.data) for DataLost
     lab2.o(i.TestMain0) refers to lab2.o(i.SW1Push) for SW1Push
+    lab2.o(i.TestMain0) refers to lab2.o(i.Producer) for Producer
     lab2.o(i.TestMain0) refers to lab2.o(i.DAS) for DAS
+    lab2.o(i.TestMain0) refers to lab2.o(i.Interpreter) for Interpreter
     lab2.o(i.TestMain0) refers to lab2.o(i.Consumer) for Consumer
     lab2.o(i.TestMain0) refers to lab2.o(i.PID) for PID
     lab2.o(i.Testmain1) refers to lab2.o(i.OS_Init) for OS_Init
@@ -154,6 +182,7 @@ Section Cross References
     lab2.o(i.Thread2c) refers to lab2.o(i.Thread5c) for Thread5c
     lab2.o(i.Thread2c) refers to lab2.o(i.BackgroundThread1c) for BackgroundThread1c
     lab2.o(i.Thread2d) refers to lab2.o(i.OS_InitSemaphore) for OS_InitSemaphore
+    lab2.o(i.Thread2d) refers to lab2.o(i.OS_bWait) for OS_bWait
     lab2.o(i.Thread2d) refers to lab2.o(.data) for Readyd
     lab2.o(i.Thread3) refers to lab2.o(i.OS_Suspend) for OS_Suspend
     lab2.o(i.Thread3) refers to lab2.o(.data) for Count3
@@ -177,25 +206,274 @@ Section Cross References
     lab2.o(i.Timer2A_Init) refers to lab2.o(.data) for PeriodicTask2A
     lab2.o(i.Timer3A_Handler) refers to lab2.o(.data) for PeriodicTask3A
     lab2.o(i.Timer3A_Init) refers to lab2.o(.data) for PeriodicTask3A
+    lab2.o(i.UART_NewLine) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    lab2.o(i.full_test) refers to st7735.o(i.Output_Clear) for Output_Clear
+    lab2.o(i.full_test) refers to st7735.o(i.ST7735_Color565) for ST7735_Color565
+    lab2.o(i.full_test) refers to st7735.o(i.ST7735_DrawCharS) for ST7735_DrawCharS
+    lab2.o(i.full_test) refers to st7735.o(i.ST7735_DrawChar) for ST7735_DrawChar
+    lab2.o(i.full_test) refers to lab2.o(i.DelayWait10ms) for DelayWait10ms
+    lab2.o(i.full_test) refers to st7735.o(i.ST7735_FillScreen) for ST7735_FillScreen
+    lab2.o(i.full_test) refers to st7735.o(i.ST7735_DrawBitmap) for ST7735_DrawBitmap
+    lab2.o(i.full_test) refers to lab2.o(.constdata) for Test2
+    lab2.o(i.graphics_test) refers to st7735.o(i.Output_Clear) for Output_Clear
+    lab2.o(i.graphics_test) refers to st7735.o(i.ST7735_OutString) for ST7735_OutString
+    lab2.o(i.graphics_test) refers to st7735.o(i.ST7735_PlotClear) for ST7735_PlotClear
+    lab2.o(i.graphics_test) refers to st7735.o(i.ST7735_PlotPoints) for ST7735_PlotPoints
+    lab2.o(i.graphics_test) refers to st7735.o(i.ST7735_PlotNext) for ST7735_PlotNext
+    lab2.o(i.graphics_test) refers to lab2.o(i.DelayWait10ms) for DelayWait10ms
+    lab2.o(i.hello_world_test) refers to noretval__2printf.o(.text) for __2printf
     lab2.o(i.main) refers to lab2.o(i.PortE_Init) for PortE_Init
     lab2.o(i.main) refers to lab2.o(i.OS_Init) for OS_Init
     lab2.o(i.main) refers to lab2.o(i.OS_AddThread) for OS_AddThread
     lab2.o(i.main) refers to lab2.o(i.OS_Launch) for OS_Launch
     lab2.o(i.main) refers to lab2.o(.data) for NumCreated
     lab2.o(i.main) refers to lab2.o(i.Thread8) for Thread8
+    lab2.o(i.print_help) refers to lab2.o(i.UART_NewLine) for UART_NewLine
+    lab2.o(i.print_help) refers to uart.o(i.UART_OutString) for UART_OutString
+    lab2.o(i.print_help) refers to lab2.o(.constdata) for .constdata
+    lab2.o(i.print_prompt) refers to lab2.o(i.UART_NewLine) for UART_NewLine
+    lab2.o(i.print_prompt) refers to uart.o(i.UART_OutString) for UART_OutString
+    lab2.o(i.rectangle_test) refers to st7735.o(i.Output_Clear) for Output_Clear
+    lab2.o(i.rectangle_test) refers to st7735.o(i.ST7735_FillRect) for ST7735_FillRect
     lab2.o(i.tcbs_all_empty) refers to lab2.o(i.tcb_is_empty) for tcb_is_empty
     lab2.o(i.tcbs_all_empty) refers to lab2.o(.bss) for tcbs
     lab2.o(i.tcbs_all_full) refers to lab2.o(i.tcb_is_empty) for tcb_is_empty
     lab2.o(i.tcbs_all_full) refers to lab2.o(.bss) for tcbs
     systickints.o(i.SysTick_Init) refers to startup.o(.text) for StartCritical
-    adct0atrigger.o(i.ADC0Seq3_Handler) refers to adct0atrigger.o(.data) for ADCvalue
+    adct0atrigger.o(i.ADC0Seq3_Handler) refers to adct0atrigger.o(.data) for ADC_ISR
     adct0atrigger.o(i.ADC0_InitTimer0ATriggerSeq3) refers to startup.o(.text) for DisableInterrupts
     adct0atrigger.o(i.ADC0_InitTimer0ATriggerSeq3PD3) refers to startup.o(.text) for EnableInterrupts
-    adct0atrigger.o(i.ADC_Collect) refers to adct0atrigger.o(i.ADC0_InitTimer0ATriggerSeq3) for ADC0_InitTimer0ATriggerSeq3
-    adct0atrigger.o(i.ADC_Collect) refers to adct0atrigger.o(.data) for my_buffer
     adct0atrigger.o(i.ADC_In) refers to adct0atrigger.o(.data) for ADCvalue
+    adct0atrigger.o(i.ADC_Init) refers to adct0atrigger.o(i.ADC0_InitTimer0ATriggerSeq3) for ADC0_InitTimer0ATriggerSeq3
+    adct0atrigger.o(i.ADC_Init) refers to adct0atrigger.o(.data) for ADC_ISR
     adct0atrigger.o(i.ADC_Open) refers to adct0atrigger.o(i.ADC0_InitTimer0ATriggerSeq3) for ADC0_InitTimer0ATriggerSeq3
-    adct0atrigger.o(i.ADC_Stop) refers to adct0atrigger.o(.data) for buffer_flag
+    switch.o(i.GPIOPortA_Handler) refers to switch.o(.data) for PAI
+    switch.o(i.Switch_Init) refers to switch.o(.data) for PAI
+    st7735.o(i.Output_Clear) refers to st7735.o(i.ST7735_FillScreen) for ST7735_FillScreen
+    st7735.o(i.Output_Color) refers to st7735.o(i.ST7735_SetTextColor) for ST7735_SetTextColor
+    st7735.o(i.Output_Init) refers to st7735.o(i.ST7735_InitR) for ST7735_InitR
+    st7735.o(i.Output_Init) refers to st7735.o(i.ST7735_FillScreen) for ST7735_FillScreen
+    st7735.o(i.Output_Off) refers to st7735.o(i.Output_Clear) for Output_Clear
+    st7735.o(i.Output_On) refers to st7735.o(i.Output_Init) for Output_Init
+    st7735.o(i.ST7735_DrawBitmap) refers to st7735.o(i.setAddrWindow) for setAddrWindow
+    st7735.o(i.ST7735_DrawBitmap) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.ST7735_DrawBitmap) refers to st7735.o(.data) for _width
+    st7735.o(i.ST7735_DrawChar) refers to st7735.o(i.setAddrWindow) for setAddrWindow
+    st7735.o(i.ST7735_DrawChar) refers to st7735.o(i.pushColor) for pushColor
+    st7735.o(i.ST7735_DrawChar) refers to st7735.o(.data) for _width
+    st7735.o(i.ST7735_DrawChar) refers to st7735.o(.constdata) for Font
+    st7735.o(i.ST7735_DrawCharS) refers to st7735.o(i.ST7735_DrawPixel) for ST7735_DrawPixel
+    st7735.o(i.ST7735_DrawCharS) refers to st7735.o(i.ST7735_FillRect) for ST7735_FillRect
+    st7735.o(i.ST7735_DrawCharS) refers to st7735.o(.data) for _width
+    st7735.o(i.ST7735_DrawCharS) refers to st7735.o(.constdata) for Font
+    st7735.o(i.ST7735_DrawFastHLine) refers to st7735.o(i.setAddrWindow) for setAddrWindow
+    st7735.o(i.ST7735_DrawFastHLine) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.ST7735_DrawFastHLine) refers to st7735.o(.data) for _width
+    st7735.o(i.ST7735_DrawFastVLine) refers to st7735.o(i.setAddrWindow) for setAddrWindow
+    st7735.o(i.ST7735_DrawFastVLine) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.ST7735_DrawFastVLine) refers to st7735.o(.data) for _width
+    st7735.o(i.ST7735_DrawPixel) refers to st7735.o(i.setAddrWindow) for setAddrWindow
+    st7735.o(i.ST7735_DrawPixel) refers to st7735.o(i.pushColor) for pushColor
+    st7735.o(i.ST7735_DrawPixel) refers to st7735.o(.data) for _width
+    st7735.o(i.ST7735_DrawString) refers to st7735.o(i.ST7735_DrawCharS) for ST7735_DrawCharS
+    st7735.o(i.ST7735_FillRect) refers to st7735.o(i.setAddrWindow) for setAddrWindow
+    st7735.o(i.ST7735_FillRect) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.ST7735_FillRect) refers to st7735.o(.data) for _width
+    st7735.o(i.ST7735_FillScreen) refers to st7735.o(i.ST7735_FillRect) for ST7735_FillRect
+    st7735.o(i.ST7735_FillScreen) refers to st7735.o(.data) for _height
+    st7735.o(i.ST7735_InitB) refers to st7735.o(i.commonInit) for commonInit
+    st7735.o(i.ST7735_InitB) refers to st7735.o(i.ST7735_SetCursor) for ST7735_SetCursor
+    st7735.o(i.ST7735_InitB) refers to st7735.o(i.ST7735_FillScreen) for ST7735_FillScreen
+    st7735.o(i.ST7735_InitB) refers to st7735.o(.constdata) for Bcmd
+    st7735.o(i.ST7735_InitB) refers to st7735.o(.data) for StTextColor
+    st7735.o(i.ST7735_InitR) refers to st7735.o(i.commonInit) for commonInit
+    st7735.o(i.ST7735_InitR) refers to st7735.o(i.commandList) for commandList
+    st7735.o(i.ST7735_InitR) refers to st7735.o(i.writecommand) for writecommand
+    st7735.o(i.ST7735_InitR) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.ST7735_InitR) refers to st7735.o(i.ST7735_SetCursor) for ST7735_SetCursor
+    st7735.o(i.ST7735_InitR) refers to st7735.o(i.ST7735_FillScreen) for ST7735_FillScreen
+    st7735.o(i.ST7735_InitR) refers to st7735.o(.constdata) for Rcmd1
+    st7735.o(i.ST7735_InitR) refers to st7735.o(.data) for ColStart
+    st7735.o(i.ST7735_InvertDisplay) refers to st7735.o(i.writecommand) for writecommand
+    st7735.o(i.ST7735_Line) refers to st7735.o(i.ST7735_DrawFastVLine) for ST7735_DrawFastVLine
+    st7735.o(i.ST7735_Line) refers to st7735.o(i.ST7735_DrawFastHLine) for ST7735_DrawFastHLine
+    st7735.o(i.ST7735_Message) refers to h1_alloc.o(.text) for malloc
+    st7735.o(i.ST7735_Message) refers to st7735.o(i.ST7735_DrawString) for ST7735_DrawString
+    st7735.o(i.ST7735_Message) refers to h1_free.o(.text) for free
+    st7735.o(i.ST7735_OutChar) refers to st7735.o(i.ST7735_DrawString) for ST7735_DrawString
+    st7735.o(i.ST7735_OutChar) refers to st7735.o(i.ST7735_DrawCharS) for ST7735_DrawCharS
+    st7735.o(i.ST7735_OutChar) refers to st7735.o(.data) for StY
+    st7735.o(i.ST7735_OutString) refers to st7735.o(i.ST7735_OutChar) for ST7735_OutChar
+    st7735.o(i.ST7735_OutUDec) refers to st7735.o(i.fillmessage) for fillmessage
+    st7735.o(i.ST7735_OutUDec) refers to st7735.o(i.ST7735_DrawString) for ST7735_DrawString
+    st7735.o(i.ST7735_OutUDec) refers to st7735.o(i.ST7735_DrawCharS) for ST7735_DrawCharS
+    st7735.o(i.ST7735_OutUDec) refers to st7735.o(.data) for Messageindex
+    st7735.o(i.ST7735_OutUDec) refers to st7735.o(.bss) for Message
+    st7735.o(i.ST7735_PlotBar) refers to st7735.o(i.ST7735_DrawFastVLine) for ST7735_DrawFastVLine
+    st7735.o(i.ST7735_PlotBar) refers to st7735.o(.data) for Ymin
+    st7735.o(i.ST7735_PlotClear) refers to st7735.o(i.ST7735_Color565) for ST7735_Color565
+    st7735.o(i.ST7735_PlotClear) refers to st7735.o(i.ST7735_FillRect) for ST7735_FillRect
+    st7735.o(i.ST7735_PlotClear) refers to st7735.o(.data) for Ymax
+    st7735.o(i.ST7735_PlotLine) refers to st7735.o(i.ST7735_DrawPixel) for ST7735_DrawPixel
+    st7735.o(i.ST7735_PlotLine) refers to st7735.o(.data) for Ymin
+    st7735.o(i.ST7735_PlotNext) refers to st7735.o(.data) for X
+    st7735.o(i.ST7735_PlotNextErase) refers to st7735.o(i.ST7735_Color565) for ST7735_Color565
+    st7735.o(i.ST7735_PlotNextErase) refers to st7735.o(i.ST7735_DrawFastVLine) for ST7735_DrawFastVLine
+    st7735.o(i.ST7735_PlotNextErase) refers to st7735.o(.data) for X
+    st7735.o(i.ST7735_PlotPoint) refers to st7735.o(i.ST7735_DrawPixel) for ST7735_DrawPixel
+    st7735.o(i.ST7735_PlotPoint) refers to st7735.o(.data) for Ymin
+    st7735.o(i.ST7735_PlotPoints) refers to st7735.o(i.ST7735_DrawPixel) for ST7735_DrawPixel
+    st7735.o(i.ST7735_PlotPoints) refers to st7735.o(.data) for Ymin
+    st7735.o(i.ST7735_PlotdBfs) refers to st7735.o(i.ST7735_DrawFastVLine) for ST7735_DrawFastVLine
+    st7735.o(i.ST7735_PlotdBfs) refers to st7735.o(.constdata) for dBfs
+    st7735.o(i.ST7735_PlotdBfs) refers to st7735.o(.data) for X
+    st7735.o(i.ST7735_SetCursor) refers to st7735.o(.data) for StX
+    st7735.o(i.ST7735_SetRotation) refers to st7735.o(i.writecommand) for writecommand
+    st7735.o(i.ST7735_SetRotation) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.ST7735_SetRotation) refers to st7735.o(.data) for Rotation
+    st7735.o(i.ST7735_SetTextColor) refers to st7735.o(.data) for StTextColor
+    st7735.o(i.commandList) refers to st7735.o(i.writecommand) for writecommand
+    st7735.o(i.commandList) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.commandList) refers to st7735.o(i.Delay1ms) for Delay1ms
+    st7735.o(i.commonInit) refers to st7735.o(i.Delay1ms) for Delay1ms
+    st7735.o(i.commonInit) refers to st7735.o(i.commandList) for commandList
+    st7735.o(i.commonInit) refers to st7735.o(.data) for RowStart
+    st7735.o(i.fillmessage) refers to st7735.o(.bss) for Message
+    st7735.o(i.fillmessage) refers to st7735.o(.data) for Messageindex
+    st7735.o(i.fputc) refers to st7735.o(i.ST7735_OutChar) for ST7735_OutChar
+    st7735.o(i.pushColor) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.setAddrWindow) refers to st7735.o(i.writecommand) for writecommand
+    st7735.o(i.setAddrWindow) refers to st7735.o(i.writedata) for writedata
+    st7735.o(i.setAddrWindow) refers to st7735.o(.data) for ColStart
+    uart.o(i.RxFifo_Get) refers to uart.o(.data) for RxPutI
+    uart.o(i.RxFifo_Get) refers to uart.o(.bss) for RxFifo
+    uart.o(i.RxFifo_Init) refers to startup.o(.text) for StartCritical
+    uart.o(i.RxFifo_Init) refers to uart.o(.data) for RxGetI
+    uart.o(i.RxFifo_Put) refers to uart.o(.data) for RxPutI
+    uart.o(i.RxFifo_Put) refers to uart.o(.bss) for RxFifo
+    uart.o(i.RxFifo_Size) refers to uart.o(.data) for RxPutI
+    uart.o(i.TxFifo_Get) refers to uart.o(.data) for TxPutI
+    uart.o(i.TxFifo_Get) refers to uart.o(.bss) for TxFifo
+    uart.o(i.TxFifo_Init) refers to startup.o(.text) for StartCritical
+    uart.o(i.TxFifo_Init) refers to uart.o(.data) for TxGetI
+    uart.o(i.TxFifo_Put) refers to uart.o(.data) for TxPutI
+    uart.o(i.TxFifo_Put) refers to uart.o(.bss) for TxFifo
+    uart.o(i.TxFifo_Size) refers to uart.o(.data) for TxPutI
+    uart.o(i.UART0_Handler) refers to uart.o(i.copySoftwareToHardware) for copySoftwareToHardware
+    uart.o(i.UART0_Handler) refers to uart.o(i.TxFifo_Size) for TxFifo_Size
+    uart.o(i.UART0_Handler) refers to uart.o(i.copyHardwareToSoftware) for copyHardwareToSoftware
+    uart.o(i.UART_InChar) refers to uart.o(i.RxFifo_Get) for RxFifo_Get
+    uart.o(i.UART_InString) refers to uart.o(i.UART_InChar) for UART_InChar
+    uart.o(i.UART_InString) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_InUDec) refers to uart.o(i.UART_InChar) for UART_InChar
+    uart.o(i.UART_InUDec) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_InUHex) refers to uart.o(i.UART_InChar) for UART_InChar
+    uart.o(i.UART_InUHex) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_Init) refers to uart.o(i.RxFifo_Init) for RxFifo_Init
+    uart.o(i.UART_Init) refers to uart.o(i.TxFifo_Init) for TxFifo_Init
+    uart.o(i.UART_Init) refers to startup.o(.text) for EnableInterrupts
+    uart.o(i.UART_OutChar) refers to uart.o(i.TxFifo_Put) for TxFifo_Put
+    uart.o(i.UART_OutChar) refers to uart.o(i.copySoftwareToHardware) for copySoftwareToHardware
+    uart.o(i.UART_OutString) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_OutUDec) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.UART_OutUHex) refers to uart.o(i.UART_OutChar) for UART_OutChar
+    uart.o(i.copyHardwareToSoftware) refers to uart.o(i.RxFifo_Put) for RxFifo_Put
+    uart.o(i.copyHardwareToSoftware) refers to uart.o(i.RxFifo_Size) for RxFifo_Size
+    uart.o(i.copySoftwareToHardware) refers to uart.o(i.TxFifo_Get) for TxFifo_Get
+    uart.o(i.copySoftwareToHardware) refers to uart.o(i.TxFifo_Size) for TxFifo_Size
+    malloc.o(.text) refers (Special) to hguard.o(.text) for __heap$guard
+    malloc.o(.text) refers (Special) to init_alloc.o(.text) for _init_alloc
+    malloc.o(.text) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    malloc.o(.text) refers to heapstubs.o(.text) for __Heap_Alloc
+    free.o(.text) refers (Special) to hguard.o(.text) for __heap$guard
+    free.o(.text) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    free.o(.text) refers to heapstubs.o(.text) for __Heap_Free
+    h1_alloc.o(.text) refers (Special) to h1_init.o(.text) for __Heap_Initialize
+    h1_alloc.o(.text) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    h1_alloc.o(.text) refers to init_alloc.o(.text) for __Heap_Full
+    h1_free.o(.text) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    h1_alloc_mt.o(.text) refers (Special) to h1_init.o(.text) for __Heap_Initialize
+    h1_alloc_mt.o(.text) refers to init_alloc.o(.text) for __Heap_Full
+    h1_alloc_mt.o(.text) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    h1_free_mt.o(.text) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2.o(i._FDIterate) refers to heap2.o(.constdata) for .constdata
+    heap2.o(i.___Heap_ProvideMemory$realtime) refers to fdtree.o(i._FDTree_Delete) for _FDTree_Delete
+    heap2.o(i.___Heap_ProvideMemory$realtime) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2.o(i.___Heap_Stats$realtime) refers to heap2.o(i._Heap2_StatsIterate) for _Heap2_StatsIterate
+    heap2.o(i.___Heap_Valid$realtime) refers to heap2.o(i._FDIterate) for _FDIterate
+    heap2.o(i.___Heap_Valid$realtime) refers to heap2.o(.constdata) for .constdata
+    heap2.o(i._free$realtime) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2.o(i._free$realtime) refers to fdtree.o(i._FDTree_Delete) for _FDTree_Delete
+    heap2.o(i._free$realtime) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2.o(i._malloc$realtime) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2.o(i._malloc$realtime) refers to fdtree.o(i._FDTree_FindFirst) for _FDTree_FindFirst
+    heap2.o(i._malloc$realtime) refers to init_alloc.o(.text) for __Heap_Full
+    heap2.o(i._malloc$realtime) refers to fdtree.o(i._FDTree_RemoveNode) for _FDTree_RemoveNode
+    heap2.o(i._malloc$realtime) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2.o(i._posix_memalign$realtime) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2.o(i._posix_memalign$realtime) refers to fdtree.o(i._FDTree_FindFirst) for _FDTree_FindFirst
+    heap2.o(i._posix_memalign$realtime) refers to init_alloc.o(.text) for __Heap_Full
+    heap2.o(i._posix_memalign$realtime) refers to fdtree.o(i._FDTree_RemoveNode) for _FDTree_RemoveNode
+    heap2.o(i._posix_memalign$realtime) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2.o(i._realloc$realtime) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2.o(i._realloc$realtime) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2.o(i._realloc$realtime) refers to h1_free.o(.text) for free
+    heap2.o(i._realloc$realtime) refers to h1_alloc.o(.text) for malloc
+    heap2.o(i._realloc$realtime) refers to fdtree.o(i._FDTree_Delete) for _FDTree_Delete
+    heap2.o(i._realloc$realtime) refers to rt_memcpy_w.o(.text) for __aeabi_memcpy4
+    heap2mt.o(i._FDIterate) refers to heap2mt.o(.constdata) for .constdata
+    heap2mt.o(i.___Heap_Initialize$realtime$concurrent) refers to mutex_dummy.o(.text) for _mutex_initialize
+    heap2mt.o(i.___Heap_ProvideMemory$realtime$concurrent) refers to fdtree.o(i._FDTree_Delete) for _FDTree_Delete
+    heap2mt.o(i.___Heap_ProvideMemory$realtime$concurrent) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2mt.o(i.___Heap_Stats$realtime$concurrent) refers to heap2mt.o(i._Heap2_StatsIterate) for _Heap2_StatsIterate
+    heap2mt.o(i.___Heap_Valid$realtime$concurrent) refers to heap2mt.o(i._FDIterate) for _FDIterate
+    heap2mt.o(i.___Heap_Valid$realtime$concurrent) refers to heap2mt.o(.constdata) for .constdata
+    heap2mt.o(i._free$realtime$concurrent) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2mt.o(i._free$realtime$concurrent) refers to fdtree.o(i._FDTree_Delete) for _FDTree_Delete
+    heap2mt.o(i._free$realtime$concurrent) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2mt.o(i._malloc$realtime$concurrent) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2mt.o(i._malloc$realtime$concurrent) refers to fdtree.o(i._FDTree_FindFirst) for _FDTree_FindFirst
+    heap2mt.o(i._malloc$realtime$concurrent) refers to init_alloc.o(.text) for __Heap_Full
+    heap2mt.o(i._malloc$realtime$concurrent) refers to fdtree.o(i._FDTree_RemoveNode) for _FDTree_RemoveNode
+    heap2mt.o(i._malloc$realtime$concurrent) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2mt.o(i._posix_memalign$realtime$concurrent) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2mt.o(i._posix_memalign$realtime$concurrent) refers to fdtree.o(i._FDTree_FindFirst) for _FDTree_FindFirst
+    heap2mt.o(i._posix_memalign$realtime$concurrent) refers to init_alloc.o(.text) for __Heap_Full
+    heap2mt.o(i._posix_memalign$realtime$concurrent) refers to fdtree.o(i._FDTree_RemoveNode) for _FDTree_RemoveNode
+    heap2mt.o(i._posix_memalign$realtime$concurrent) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2mt.o(i._realloc$realtime$concurrent) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    heap2mt.o(i._realloc$realtime$concurrent) refers to fdtree.o(i._FDTree_Insert) for _FDTree_Insert
+    heap2mt.o(i._realloc$realtime$concurrent) refers to h1_free.o(.text) for free
+    heap2mt.o(i._realloc$realtime$concurrent) refers to h1_alloc.o(.text) for malloc
+    heap2mt.o(i._realloc$realtime$concurrent) refers to fdtree.o(i._FDTree_Delete) for _FDTree_Delete
+    heap2mt.o(i._realloc$realtime$concurrent) refers to rt_memcpy_w.o(.text) for __aeabi_memcpy4
+    __2printf.o(.text) refers to _printf_char_file.o(.text) for _printf_char_file
+    __2printf.o(.text) refers to stdio_streams.o(.bss) for __stdout
+    __2sprintf.o(.text) refers to _printf_char_common.o(.text) for _printf_char_common
+    __2sprintf.o(.text) refers to _sputc.o(.text) for _sputc
+    noretval__2printf.o(.text) refers to _printf_char_file.o(.text) for _printf_char_file
+    noretval__2printf.o(.text) refers to stdio_streams.o(.bss) for __stdout
+    noretval__2sprintf.o(.text) refers to _printf_char_common.o(.text) for _printf_char_common
+    noretval__2sprintf.o(.text) refers to _sputc.o(.text) for _sputc
+    __printf.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    _printf_dec.o(.text) refers to _printf_intcommon.o(.text) for _printf_int_common
+    __printf_flags.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags.o(.text) refers to __printf_flags.o(.constdata) for .constdata
+    __printf_ss.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_ss.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_ss.o(.text) refers to __printf_flags_ss.o(.constdata) for .constdata
+    __printf_wp.o(.text) refers to __printf_wp.o(i._is_digit) for _is_digit
+    __printf_wp.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_wp.o(.text) refers to __printf_wp.o(i._is_digit) for _is_digit
+    __printf_flags_wp.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_wp.o(.text) refers to __printf_flags_wp.o(.constdata) for .constdata
+    __printf_ss_wp.o(.text) refers to __printf_wp.o(i._is_digit) for _is_digit
+    __printf_ss_wp.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_ss_wp.o(.text) refers to __printf_wp.o(i._is_digit) for _is_digit
+    __printf_flags_ss_wp.o(.text) refers to _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) for _printf_percent
+    __printf_flags_ss_wp.o(.text) refers to __printf_flags_ss_wp.o(.constdata) for .constdata
+    _printf_u.o(.ARM.Collect$$_printf_percent$$0000000A) refers (Weak) to _printf_dec.o(.text) for _printf_int_dec
+    _printf_percent.o(.ARM.Collect$$_printf_percent$$00000000) refers (Special) to _printf_percent_end.o(.ARM.Collect$$_printf_percent$$00000017) for _printf_percent_end
     assert.o(.text) refers to assert_puts.o(.text) for __assert_puts
     assert.o(.text) refers to abort.o(.text) for abort
     __main.o(!!!main) refers to rtentry.o(.ARM.Collect$$rtentry$$00000000) for __rt_entry
@@ -206,14 +484,50 @@ Section Cross References
     rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to rtentry2.o(.ARM.Collect$$rtentry$$00000002) for __rt_entry_presh_1
     rtentry.o(.ARM.Collect$$rtentry$$00000000) refers (Special) to rtentry4.o(.ARM.Collect$$rtentry$$00000004) for __rt_entry_sh
     aeabi_ldiv0_sigfpe.o(.text) refers to rt_div0.o(.text) for __rt_div0
+    rt_heap_descriptor.o(.text) refers to rt_heap_descriptor.o(.bss) for __rt_heap_descriptor_data
+    rt_heap_descriptor_intlibspace.o(.text) refers to libspace.o(.bss) for __libspace_start
+    init_alloc.o(.text) refers (Special) to hguard.o(.text) for __heap$guard
+    init_alloc.o(.text) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000003) for __rt_lib_init_heap_2
+    init_alloc.o(.text) refers (Special) to maybetermalloc1.o(.emb_text) for _maybe_terminate_alloc
+    init_alloc.o(.text) refers to h1_extend.o(.text) for __Heap_ProvideMemory
+    init_alloc.o(.text) refers to defsig_rtmem_outer.o(.text) for __rt_SIGRTMEM
+    init_alloc.o(.text) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    init_alloc.o(.text) refers to h1_init.o(.text) for __Heap_Initialize
+    h1_init_mt.o(.text) refers to mutex_dummy.o(.text) for _mutex_initialize
+    _printf_char_common.o(.text) refers to __printf_ss.o(.text) for __printf
+    _printf_char_file.o(.text) refers to _printf_char_common.o(.text) for _printf_char_common
+    _printf_char_file.o(.text) refers to st7735.o(i.ferror) for ferror
+    _printf_char_file.o(.text) refers to st7735.o(i.fputc) for fputc
+    stdio_streams.o(.bss) refers (Special) to initio.o(.text) for _initio
+    stdio_streams.o(.bss) refers (Special) to initio.o(.text) for _initio
+    stdio_streams.o(.bss) refers (Special) to initio.o(.text) for _initio
+    stdio_streams.o(.data) refers (Special) to initio.o(.text) for _initio
+    stdio_streams.o(.data) refers (Special) to initio.o(.text) for _initio
+    stdio_streams.o(.data) refers (Special) to initio.o(.text) for _initio
     abort.o(.text) refers to defsig_abrt_outer.o(.text) for __rt_SIGABRT
     abort.o(.text) refers (Weak) to libshutdown.o(.ARM.Collect$$libshutdown$$00000000) for __rt_lib_shutdown
     abort.o(.text) refers to sys_exit.o(.text) for _sys_exit
     assert_puts.o(.text) refers to sys_wrch.o(.text) for _ttywrch
+    _get_argv.o(.text) refers (Special) to hrguard.o(.text) for __heap_region$guard
+    _get_argv.o(.text) refers to h1_alloc.o(.text) for malloc
+    _get_argv.o(.text) refers to defsig_rtmem_outer.o(.text) for __rt_SIGRTMEM
+    _get_argv.o(.text) refers to sys_command.o(.text) for _sys_command_string
+    libinit2.o(.ARM.Collect$$libinit$$00000003) refers (Weak) to init_alloc.o(.text) for _init_alloc
+    libinit2.o(.ARM.Collect$$libinit$$0000000E) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
+    libinit2.o(.ARM.Collect$$libinit$$00000010) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
+    libinit2.o(.ARM.Collect$$libinit$$00000012) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
+    libinit2.o(.ARM.Collect$$libinit$$00000014) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
+    libinit2.o(.ARM.Collect$$libinit$$00000016) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
+    libinit2.o(.ARM.Collect$$libinit$$00000022) refers (Weak) to initio.o(.text) for _initio
+    libinit2.o(.ARM.Collect$$libinit$$00000024) refers to argv_veneer.o(.emb_text) for __ARM_argv_veneer
+    libinit2.o(.ARM.Collect$$libinit$$00000025) refers to argv_veneer.o(.emb_text) for __ARM_argv_veneer
     sys_wrch.o(.text) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
     sys_wrch.o(.text) refers (Special) to indicate_semi.o(.text) for __semihosting_library_function
+    sys_command.o(.text) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
+    sys_command.o(.text) refers (Special) to indicate_semi.o(.text) for __semihosting_library_function
     sys_exit.o(.text) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
     sys_exit.o(.text) refers (Special) to indicate_semi.o(.text) for __semihosting_library_function
+    libspace.o(.text) refers to libspace.o(.bss) for __libspace_start
     rtentry2.o(.ARM.Collect$$rtentry$$00000008) refers to boardinit2.o(.text) for _platform_post_stackheap_init
     rtentry2.o(.ARM.Collect$$rtentry$$0000000A) refers to libinit.o(.ARM.Collect$$libinit$$00000000) for __rt_lib_init
     rtentry2.o(.ARM.Collect$$rtentry$$0000000B) refers to boardinit3.o(.text) for _platform_post_lib_init
@@ -227,19 +541,99 @@ Section Cross References
     rtentry4.o(.ARM.Collect$$rtentry$$00000004) refers to sys_stackheap_outer.o(.text) for __user_setup_stackheap
     rtentry4.o(.ARM.exidx) refers to rtentry4.o(.ARM.Collect$$rtentry$$00000004) for .ARM.Collect$$rtentry$$00000004
     rt_div0.o(.text) refers to defsig_fpe_outer.o(.text) for __rt_SIGFPE
+    maybetermalloc2.o(.emb_text) refers (Special) to term_alloc.o(.text) for _terminate_alloc
+    h1_extend.o(.text) refers to h1_free.o(.text) for free
+    h1_extend_mt.o(.text) refers to h1_free_mt.o(.text) for _free_internal
+    initio.o(.text) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000022) for __rt_lib_init_stdio_2
+    initio.o(.text) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$00000002) for __rt_lib_shutdown_stdio_2
+    initio.o(.text) refers to rt_memclr_w.o(.text) for __aeabi_memclr4
+    initio.o(.text) refers to fopen.o(.text) for freopen
+    initio.o(.text) refers to defsig_rtred_outer.o(.text) for __rt_SIGRTRED
+    initio.o(.text) refers to setvbuf.o(.text) for setvbuf
+    initio.o(.text) refers to fclose.o(.text) for _fclose_internal
+    initio.o(.text) refers to h1_free.o(.text) for free
+    initio.o(.text) refers to stdio_streams.o(.bss) for __stdin
+    initio.o(.text) refers to stdio_streams.o(.bss) for __stdout
+    initio.o(.text) refers to stdio_streams.o(.bss) for __stderr
+    initio.o(.text) refers to stdio_streams.o(.data) for __aeabi_stdin
+    initio.o(.text) refers to stdio_streams.o(.data) for __aeabi_stdout
+    initio.o(.text) refers to stdio_streams.o(.data) for __aeabi_stderr
+    initio.o(.text) refers to sys_io.o(.constdata) for __stdin_name
+    initio.o(.text) refers to sys_io.o(.constdata) for __stdout_name
+    initio.o(.text) refers to sys_io.o(.constdata) for __stderr_name
+    initio_locked.o(.text) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000022) for __rt_lib_init_stdio_2
+    initio_locked.o(.text) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$00000002) for __rt_lib_shutdown_stdio_2
+    initio_locked.o(.text) refers to rt_memclr_w.o(.text) for __aeabi_memclr4
+    initio_locked.o(.text) refers to fopen.o(.text) for freopen
+    initio_locked.o(.text) refers to defsig_rtred_outer.o(.text) for __rt_SIGRTRED
+    initio_locked.o(.text) refers to setvbuf.o(.text) for setvbuf
+    initio_locked.o(.text) refers to fclose.o(.text) for _fclose_internal
+    initio_locked.o(.text) refers to h1_free.o(.text) for free
+    initio_locked.o(.text) refers to stdio_streams.o(.bss) for __stdin
+    initio_locked.o(.text) refers to stdio_streams.o(.bss) for __stdout
+    initio_locked.o(.text) refers to stdio_streams.o(.bss) for __stderr
+    initio_locked.o(.text) refers to stdio_streams.o(.data) for __aeabi_stdin
+    initio_locked.o(.text) refers to stdio_streams.o(.data) for __aeabi_stdout
+    initio_locked.o(.text) refers to stdio_streams.o(.data) for __aeabi_stderr
+    initio_locked.o(.text) refers to streamlock.o(.data) for _stream_list_lock
+    initio_locked.o(.text) refers to sys_io.o(.constdata) for __stdin_name
+    initio_locked.o(.text) refers to sys_io.o(.constdata) for __stdout_name
+    initio_locked.o(.text) refers to sys_io.o(.constdata) for __stderr_name
     defsig_abrt_outer.o(.text) refers to defsig_abrt_inner.o(.text) for __rt_SIGABRT_inner
     defsig_abrt_outer.o(.text) refers to defsig_exit.o(.text) for __sig_exit
     defsig_abrt_formal.o(.text) refers to rt_raise.o(.text) for __rt_raise
+    defsig_rtmem_outer.o(.text) refers to defsig_rtmem_inner.o(.text) for __rt_SIGRTMEM_inner
+    defsig_rtmem_outer.o(.text) refers to defsig_exit.o(.text) for __sig_exit
+    defsig_rtmem_formal.o(.text) refers to rt_raise.o(.text) for __rt_raise
+    heapauxa.o(.text) refers to heapauxa.o(.data) for .data
+    argv_veneer.o(.emb_text) refers to no_argv.o(.text) for __ARM_get_argv
+    sys_io.o(.text) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
+    sys_io.o(.text) refers (Special) to indicate_semi.o(.text) for __semihosting_library_function
+    sys_io.o(.text) refers to strlen.o(.text) for strlen
+    sys_io.o(.constdata) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
+    sys_io.o(.constdata) refers (Special) to indicate_semi.o(.text) for __semihosting_library_function
+    sys_io.o(.constdata) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
+    sys_io.o(.constdata) refers (Special) to indicate_semi.o(.text) for __semihosting_library_function
+    sys_io.o(.constdata) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
+    sys_io.o(.constdata) refers (Special) to indicate_semi.o(.text) for __semihosting_library_function
     sys_stackheap_outer.o(.text) refers to libspace.o(.text) for __user_perproc_libspace
     sys_stackheap_outer.o(.text) refers to startup.o(.text) for __user_initial_stackheap
     rt_raise.o(.text) refers to __raise.o(.text) for __raise
     rt_raise.o(.text) refers to sys_exit.o(.text) for _sys_exit
+    term_alloc.o(.text) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$0000000D) for __rt_lib_shutdown_heap_2
+    term_alloc.o(.text) refers to rt_heap_descriptor_intlibspace.o(.text) for __rt_heap_descriptor
+    term_alloc.o(.text) refers to h1_final.o(.text) for __Heap_Finalize
+    streamlock.o(.data) refers (Special) to initio.o(.text) for _initio
+    fopen.o(.text) refers to fclose.o(.text) for _fclose_internal
+    fopen.o(.text) refers to sys_io.o(.text) for _sys_open
+    fopen.o(.text) refers to fseek.o(.text) for _fseek
+    fopen.o(.text) refers to h1_alloc.o(.text) for malloc
+    fopen.o(.text) refers to rt_memclr_w.o(.text) for __aeabi_memclr4
+    fopen.o(.text) refers to stdio_streams.o(.bss) for __stdin
+    fclose.o(.text) refers to stdio.o(.text) for _fflush
+    fclose.o(.text) refers to sys_io.o(.text) for _sys_close
+    fclose.o(.text) refers to h1_free.o(.text) for free
+    fclose.o(.text) refers to rt_memclr_w.o(.text) for __aeabi_memclr4
+    fopen_locked.o(.text) refers to fclose.o(.text) for _fclose_internal
+    fopen_locked.o(.text) refers to sys_io.o(.text) for _sys_open
+    fopen_locked.o(.text) refers to fseek.o(.text) for _fseek
+    fopen_locked.o(.text) refers to h1_alloc.o(.text) for malloc
+    fopen_locked.o(.text) refers to rt_memclr_w.o(.text) for __aeabi_memclr4
+    fopen_locked.o(.text) refers to streamlock.o(.data) for _stream_list_lock
+    fopen_locked.o(.text) refers to stdio_streams.o(.bss) for __stdin
     exit.o(.text) refers to rtexit.o(.ARM.Collect$$rtexit$$00000000) for __rt_exit
     defsig_exit.o(.text) refers to sys_exit.o(.text) for _sys_exit
     defsig_abrt_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
     defsig_fpe_outer.o(.text) refers to defsig_fpe_inner.o(.text) for __rt_SIGFPE_inner
     defsig_fpe_outer.o(.text) refers to defsig_exit.o(.text) for __sig_exit
     defsig_fpe_formal.o(.text) refers to rt_raise.o(.text) for __rt_raise
+    defsig_rtred_outer.o(.text) refers to defsig_rtred_inner.o(.text) for __rt_SIGRTRED_inner
+    defsig_rtred_outer.o(.text) refers to defsig_exit.o(.text) for __sig_exit
+    defsig_rtred_formal.o(.text) refers to rt_raise.o(.text) for __rt_raise
+    defsig_rtmem_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    _get_argv_nomalloc.o(.text) refers (Special) to hrguard.o(.text) for __heap_region$guard
+    _get_argv_nomalloc.o(.text) refers to defsig_rtmem_outer.o(.text) for __rt_SIGRTMEM
+    _get_argv_nomalloc.o(.text) refers to sys_command.o(.text) for _sys_command_string
     libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000002C) for __rt_lib_init_alloca_1
     libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000002A) for __rt_lib_init_argv_1
     libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000019) for __rt_lib_init_atexit_1
@@ -260,7 +654,8 @@ Section Cross References
     libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000001B) for __rt_lib_init_signal_1
     libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$00000023) for __rt_lib_init_stdio_1
     libinit.o(.ARM.Collect$$libinit$$00000000) refers (Special) to libinit2.o(.ARM.Collect$$libinit$$0000000A) for __rt_lib_init_user_alloc_1
-    libspace.o(.text) refers to libspace.o(.bss) for __libspace_start
+    libshutdown2.o(.ARM.Collect$$libshutdown$$00000002) refers (Weak) to initio.o(.text) for _terminateio
+    libshutdown2.o(.ARM.Collect$$libshutdown$$0000000C) refers (Weak) to term_alloc.o(.text) for _terminate_alloc
     rtexit.o(.ARM.Collect$$rtexit$$00000000) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000004) for __rt_exit_exit
     rtexit.o(.ARM.Collect$$rtexit$$00000000) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000003) for __rt_exit_ls
     rtexit.o(.ARM.Collect$$rtexit$$00000000) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000002) for __rt_exit_prels_1
@@ -268,46 +663,37 @@ Section Cross References
     rtexit.o(.ARM.exidx) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000003) for __rt_exit_ls
     rtexit.o(.ARM.exidx) refers (Special) to rtexit2.o(.ARM.Collect$$rtexit$$00000002) for __rt_exit_prels_1
     rtexit.o(.ARM.exidx) refers to rtexit.o(.ARM.Collect$$rtexit$$00000000) for .ARM.Collect$$rtexit$$00000000
+    fseek.o(.text) refers to sys_io.o(.text) for _sys_istty
+    fseek.o(.text) refers to ftell.o(.text) for _ftell_internal
+    fseek.o(.text) refers to stdio.o(.text) for _seterr
+    stdio.o(.text) refers to sys_io.o(.text) for _sys_seek
     __raise.o(.text) refers to defsig.o(CL$$defsig) for __default_signal_handler
     defsig_general.o(.text) refers to sys_wrch.o(.text) for _ttywrch
     defsig_fpe_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
-    libinit2.o(.ARM.Collect$$libinit$$0000000E) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
-    libinit2.o(.ARM.Collect$$libinit$$00000010) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
-    libinit2.o(.ARM.Collect$$libinit$$00000012) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
-    libinit2.o(.ARM.Collect$$libinit$$00000014) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
-    libinit2.o(.ARM.Collect$$libinit$$00000016) refers to libinit2.o(.ARM.Collect$$libinit$$0000000D) for .ARM.Collect$$libinit$$0000000D
-    libinit2.o(.ARM.Collect$$libinit$$00000024) refers to argv_veneer.o(.emb_text) for __ARM_argv_veneer
-    libinit2.o(.ARM.Collect$$libinit$$00000025) refers to argv_veneer.o(.emb_text) for __ARM_argv_veneer
+    defsig_rtred_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
     rtexit2.o(.ARM.Collect$$rtexit$$00000003) refers to libshutdown.o(.ARM.Collect$$libshutdown$$00000000) for __rt_lib_shutdown
     rtexit2.o(.ARM.Collect$$rtexit$$00000004) refers to sys_exit.o(.text) for _sys_exit
     rtexit2.o(.ARM.exidx) refers to rtexit2.o(.ARM.Collect$$rtexit$$00000001) for .ARM.Collect$$rtexit$$00000001
     rtexit2.o(.ARM.exidx) refers to rtexit2.o(.ARM.Collect$$rtexit$$00000003) for .ARM.Collect$$rtexit$$00000003
     rtexit2.o(.ARM.exidx) refers to rtexit2.o(.ARM.Collect$$rtexit$$00000004) for .ARM.Collect$$rtexit$$00000004
+    ftell.o(.text) refers to rt_errno_addr_intlibspace.o(.text) for __aeabi_errno_addr
     defsig.o(CL$$defsig) refers to defsig_abrt_inner.o(.text) for __rt_SIGABRT_inner
     defsig.o(CL$$defsig) refers to defsig_fpe_inner.o(.text) for __rt_SIGFPE_inner
+    defsig.o(CL$$defsig) refers to defsig_rtred_inner.o(.text) for __rt_SIGRTRED_inner
     defsig.o(CL$$defsig) refers to defsig_rtmem_inner.o(.text) for __rt_SIGRTMEM_inner
-    argv_veneer.o(.emb_text) refers to no_argv.o(.text) for __ARM_get_argv
-    defsig_rtred_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
-    defsig_rtmem_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
+    rt_errno_addr.o(.text) refers to rt_errno_addr.o(.bss) for __aeabi_errno_addr_data
+    rt_errno_addr_intlibspace.o(.text) refers to libspace.o(.bss) for __libspace_start
     defsig_stak_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
     defsig_pvfn_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
     defsig_cppl_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
     defsig_segv_inner.o(.text) refers to defsig_general.o(.text) for __default_signal_display
     defsig_other.o(.text) refers to defsig_general.o(.text) for __default_signal_display
-    _get_argv_nomalloc.o(.text) refers (Special) to hrguard.o(.text) for __heap_region$guard
-    _get_argv_nomalloc.o(.text) refers to defsig_rtmem_outer.o(.text) for __rt_SIGRTMEM
-    _get_argv_nomalloc.o(.text) refers to sys_command.o(.text) for _sys_command_string
     libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$00000006) for __rt_lib_shutdown_fp_trap_1
     libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E) for __rt_lib_shutdown_heap_1
     libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$0000000F) for __rt_lib_shutdown_return
     libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$00000009) for __rt_lib_shutdown_signal_1
     libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$00000003) for __rt_lib_shutdown_stdio_1
     libshutdown.o(.ARM.Collect$$libshutdown$$00000000) refers (Special) to libshutdown2.o(.ARM.Collect$$libshutdown$$0000000B) for __rt_lib_shutdown_user_alloc_1
-    sys_command.o(.text) refers (Special) to use_no_semi.o(.text) for __I$use$semihosting
-    sys_command.o(.text) refers (Special) to indicate_semi.o(.text) for __semihosting_library_function
-    defsig_rtmem_outer.o(.text) refers to defsig_rtmem_inner.o(.text) for __rt_SIGRTMEM_inner
-    defsig_rtmem_outer.o(.text) refers to defsig_exit.o(.text) for __sig_exit
-    defsig_rtmem_formal.o(.text) refers to rt_raise.o(.text) for __rt_raise
 
 
 ==============================================================================
@@ -318,29 +704,33 @@ Removing Unused input sections from the image.
     Removing lab2.o(i.BackgroundThread1d), (56 bytes).
     Removing lab2.o(i.BackgroundThread5c), (32 bytes).
     Removing lab2.o(i.BackgroundThread5d), (32 bytes).
-    Removing lab2.o(i.ButtonWork), (200 bytes).
+    Removing lab2.o(i.ButtonWork), (220 bytes).
     Removing lab2.o(i.Consumer), (144 bytes).
     Removing lab2.o(i.DAS), (192 bytes).
+    Removing lab2.o(i.DelayWait10ms), (32 bytes).
     Removing lab2.o(i.Display), (108 bytes).
     Removing lab2.o(i.Filter), (200 bytes).
+    Removing lab2.o(i.Interpreter), (216 bytes).
     Removing lab2.o(i.OS_AddPeriodicThread), (84 bytes).
     Removing lab2.o(i.OS_AddSW1Task), (4 bytes).
     Removing lab2.o(i.OS_AddSW2Task), (4 bytes).
     Removing lab2.o(i.OS_Fifo_Get), (2 bytes).
     Removing lab2.o(i.OS_Fifo_Put), (4 bytes).
-    Removing lab2.o(i.OS_InitSemaphore), (4 bytes).
+    Removing lab2.o(i.OS_InitSemaphore), (6 bytes).
     Removing lab2.o(i.OS_Kill), (136 bytes).
     Removing lab2.o(i.OS_MailBox_Recv), (2 bytes).
     Removing lab2.o(i.OS_MailBox_Send), (2 bytes).
-    Removing lab2.o(i.OS_Signal), (24 bytes).
-    Removing lab2.o(i.OS_Sleep), (108 bytes).
+    Removing lab2.o(i.OS_Signal), (26 bytes).
+    Removing lab2.o(i.OS_Sleep), (104 bytes).
     Removing lab2.o(i.OS_Suspend), (24 bytes).
-    Removing lab2.o(i.OS_Wait), (40 bytes).
+    Removing lab2.o(i.OS_Wait), (44 bytes).
+    Removing lab2.o(i.OS_bSignal), (22 bytes).
+    Removing lab2.o(i.OS_bWait), (38 bytes).
     Removing lab2.o(i.PID), (124 bytes).
     Removing lab2.o(i.Producer), (52 bytes).
     Removing lab2.o(i.SW1Push), (44 bytes).
     Removing lab2.o(i.SW2Push), (44 bytes).
-    Removing lab2.o(i.TestMain0), (176 bytes).
+    Removing lab2.o(i.TestMain0), (184 bytes).
     Removing lab2.o(i.Testmain1), (104 bytes).
     Removing lab2.o(i.Testmain2), (104 bytes).
     Removing lab2.o(i.Testmain3), (120 bytes).
@@ -358,16 +748,86 @@ Removing Unused input sections from the image.
     Removing lab2.o(i.Thread4c), (48 bytes).
     Removing lab2.o(i.Thread4d), (44 bytes).
     Removing lab2.o(i.Thread5c), (60 bytes).
+    Removing lab2.o(i.UART_NewLine), (16 bytes).
+    Removing lab2.o(i.check_string), (152 bytes).
+    Removing lab2.o(i.full_test), (2216 bytes).
+    Removing lab2.o(i.graphics_test), (136 bytes).
+    Removing lab2.o(i.hello_world_test), (44 bytes).
+    Removing lab2.o(i.print_adc), (2 bytes).
+    Removing lab2.o(i.print_help), (184 bytes).
+    Removing lab2.o(i.print_prompt), (24 bytes).
+    Removing lab2.o(i.rectangle_test), (78 bytes).
     Removing lab2.o(i.tcb_set_empty), (8 bytes).
-    Removing lab2.o(.constdata), (4 bytes).
+    Removing lab2.o(.constdata), (12937 bytes).
     Removing adct0atrigger.o(i.ADC0_InitTimer0ATriggerSeq3), (1072 bytes).
     Removing adct0atrigger.o(i.ADC0_InitTimer0ATriggerSeq3PD3), (304 bytes).
-    Removing adct0atrigger.o(i.ADC_Collect), (60 bytes).
     Removing adct0atrigger.o(i.ADC_In), (12 bytes).
+    Removing adct0atrigger.o(i.ADC_Init), (44 bytes).
     Removing adct0atrigger.o(i.ADC_Open), (16 bytes).
-    Removing adct0atrigger.o(i.ADC_Stop), (12 bytes).
+    Removing st7735.o(i.Delay1ms), (32 bytes).
+    Removing st7735.o(i.Output_Clear), (10 bytes).
+    Removing st7735.o(i.Output_Color), (12 bytes).
+    Removing st7735.o(i.Output_Init), (16 bytes).
+    Removing st7735.o(i.Output_Off), (8 bytes).
+    Removing st7735.o(i.Output_On), (8 bytes).
+    Removing st7735.o(i.ST7735_Color565), (24 bytes).
+    Removing st7735.o(i.ST7735_DrawBitmap), (288 bytes).
+    Removing st7735.o(i.ST7735_DrawChar), (268 bytes).
+    Removing st7735.o(i.ST7735_DrawCharS), (244 bytes).
+    Removing st7735.o(i.ST7735_DrawFastHLine), (124 bytes).
+    Removing st7735.o(i.ST7735_DrawFastVLine), (124 bytes).
+    Removing st7735.o(i.ST7735_DrawPixel), (76 bytes).
+    Removing st7735.o(i.ST7735_DrawString), (84 bytes).
+    Removing st7735.o(i.ST7735_FillRect), (172 bytes).
+    Removing st7735.o(i.ST7735_FillScreen), (36 bytes).
+    Removing st7735.o(i.ST7735_InitB), (40 bytes).
+    Removing st7735.o(i.ST7735_InitR), (124 bytes).
+    Removing st7735.o(i.ST7735_InvertDisplay), (22 bytes).
+    Removing st7735.o(i.ST7735_Line), (570 bytes).
+    Removing st7735.o(i.ST7735_Message), (178 bytes).
+    Removing st7735.o(i.ST7735_OutChar), (212 bytes).
+    Removing st7735.o(i.ST7735_OutString), (22 bytes).
+    Removing st7735.o(i.ST7735_OutUDec), (140 bytes).
+    Removing st7735.o(i.ST7735_PlotBar), (88 bytes).
+    Removing st7735.o(i.ST7735_PlotClear), (92 bytes).
+    Removing st7735.o(i.ST7735_PlotLine), (264 bytes).
+    Removing st7735.o(i.ST7735_PlotNext), (32 bytes).
+    Removing st7735.o(i.ST7735_PlotNextErase), (64 bytes).
+    Removing st7735.o(i.ST7735_PlotPoint), (152 bytes).
+    Removing st7735.o(i.ST7735_PlotPoints), (172 bytes).
+    Removing st7735.o(i.ST7735_PlotdBfs), (60 bytes).
+    Removing st7735.o(i.ST7735_SetCursor), (32 bytes).
+    Removing st7735.o(i.ST7735_SetRotation), (212 bytes).
+    Removing st7735.o(i.ST7735_SetTextColor), (12 bytes).
+    Removing st7735.o(i.ST7735_SwapColor), (18 bytes).
+    Removing st7735.o(i.commandList), (86 bytes).
+    Removing st7735.o(i.commonInit), (388 bytes).
+    Removing st7735.o(i.ferror), (8 bytes).
+    Removing st7735.o(i.fgetc), (6 bytes).
+    Removing st7735.o(i.fillmessage), (72 bytes).
+    Removing st7735.o(i.fputc), (16 bytes).
+    Removing st7735.o(i.pushColor), (18 bytes).
+    Removing st7735.o(i.setAddrWindow), (116 bytes).
+    Removing st7735.o(i.writecommand), (48 bytes).
+    Removing st7735.o(i.writedata), (32 bytes).
+    Removing st7735.o(.bss), (12 bytes).
+    Removing st7735.o(.constdata), (2018 bytes).
+    Removing st7735.o(.data), (44 bytes).
+    Removing uart.o(i.RxFifo_Get), (60 bytes).
+    Removing uart.o(i.RxFifo_Init), (36 bytes).
+    Removing uart.o(i.TxFifo_Init), (36 bytes).
+    Removing uart.o(i.TxFifo_Put), (60 bytes).
+    Removing uart.o(i.UART_InChar), (20 bytes).
+    Removing uart.o(i.UART_InString), (70 bytes).
+    Removing uart.o(i.UART_InUDec), (76 bytes).
+    Removing uart.o(i.UART_InUHex), (108 bytes).
+    Removing uart.o(i.UART_Init), (204 bytes).
+    Removing uart.o(i.UART_OutChar), (52 bytes).
+    Removing uart.o(i.UART_OutString), (24 bytes).
+    Removing uart.o(i.UART_OutUDec), (42 bytes).
+    Removing uart.o(i.UART_OutUHex), (52 bytes).
 
-52 unused section(s) (total 4434 bytes) removed from the image.
+126 unused section(s) (total 28267 bytes) removed from the image.
 
 ==============================================================================
 
@@ -375,103 +835,118 @@ Memory Map of the image
 
   Image Entry point : 0x00000000
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000c60, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000e64, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000bc0, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x00000dbc, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x00000000   0x00000284   Code   RO            3  * RESET               startup.o
-    0x00000284   0x00000008   Code   RO          523  * !!!main             c_w.l(__main.o)
-    0x0000028c   0x00000002   Code   RO          581    .ARM.Collect$$libinit$$00000000  c_w.l(libinit.o)
-    0x0000028e   0x00000000   Code   RO          594    .ARM.Collect$$libinit$$00000002  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          597    .ARM.Collect$$libinit$$00000008  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          599    .ARM.Collect$$libinit$$0000000A  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          601    .ARM.Collect$$libinit$$0000000C  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          604    .ARM.Collect$$libinit$$0000000F  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          606    .ARM.Collect$$libinit$$00000011  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          608    .ARM.Collect$$libinit$$00000013  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          610    .ARM.Collect$$libinit$$00000015  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          612    .ARM.Collect$$libinit$$00000017  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          614    .ARM.Collect$$libinit$$00000019  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          616    .ARM.Collect$$libinit$$0000001B  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          618    .ARM.Collect$$libinit$$0000001D  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          620    .ARM.Collect$$libinit$$0000001F  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          622    .ARM.Collect$$libinit$$00000021  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          624    .ARM.Collect$$libinit$$00000023  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          628    .ARM.Collect$$libinit$$0000002A  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          630    .ARM.Collect$$libinit$$0000002C  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          632    .ARM.Collect$$libinit$$0000002E  c_w.l(libinit2.o)
-    0x0000028e   0x00000000   Code   RO          634    .ARM.Collect$$libinit$$00000030  c_w.l(libinit2.o)
-    0x0000028e   0x00000002   Code   RO          635    .ARM.Collect$$libinit$$00000031  c_w.l(libinit2.o)
-    0x00000290   0x00000002   Code   RO          669    .ARM.Collect$$libshutdown$$00000000  c_w.l(libshutdown.o)
-    0x00000292   0x00000000   Code   RO          680    .ARM.Collect$$libshutdown$$00000003  c_w.l(libshutdown2.o)
-    0x00000292   0x00000000   Code   RO          683    .ARM.Collect$$libshutdown$$00000006  c_w.l(libshutdown2.o)
-    0x00000292   0x00000000   Code   RO          686    .ARM.Collect$$libshutdown$$00000009  c_w.l(libshutdown2.o)
-    0x00000292   0x00000000   Code   RO          688    .ARM.Collect$$libshutdown$$0000000B  c_w.l(libshutdown2.o)
-    0x00000292   0x00000000   Code   RO          691    .ARM.Collect$$libshutdown$$0000000E  c_w.l(libshutdown2.o)
-    0x00000292   0x00000002   Code   RO          692    .ARM.Collect$$libshutdown$$0000000F  c_w.l(libshutdown2.o)
-    0x00000294   0x00000000   Code   RO          525    .ARM.Collect$$rtentry$$00000000  c_w.l(rtentry.o)
-    0x00000294   0x00000000   Code   RO          539    .ARM.Collect$$rtentry$$00000002  c_w.l(rtentry2.o)
-    0x00000294   0x00000006   Code   RO          551    .ARM.Collect$$rtentry$$00000004  c_w.l(rtentry4.o)
-    0x0000029a   0x00000000   Code   RO          541    .ARM.Collect$$rtentry$$00000009  c_w.l(rtentry2.o)
-    0x0000029a   0x00000004   Code   RO          542    .ARM.Collect$$rtentry$$0000000A  c_w.l(rtentry2.o)
-    0x0000029e   0x00000000   Code   RO          544    .ARM.Collect$$rtentry$$0000000C  c_w.l(rtentry2.o)
-    0x0000029e   0x00000008   Code   RO          545    .ARM.Collect$$rtentry$$0000000D  c_w.l(rtentry2.o)
-    0x000002a6   0x00000002   Code   RO          585    .ARM.Collect$$rtexit$$00000000  c_w.l(rtexit.o)
-    0x000002a8   0x00000000   Code   RO          637    .ARM.Collect$$rtexit$$00000002  c_w.l(rtexit2.o)
-    0x000002a8   0x00000004   Code   RO          638    .ARM.Collect$$rtexit$$00000003  c_w.l(rtexit2.o)
-    0x000002ac   0x00000006   Code   RO          639    .ARM.Collect$$rtexit$$00000004  c_w.l(rtexit2.o)
+    0x00000284   0x00000008   Code   RO         1146  * !!!main             c_w.l(__main.o)
+    0x0000028c   0x00000002   Code   RO         1351    .ARM.Collect$$libinit$$00000000  c_w.l(libinit.o)
+    0x0000028e   0x00000000   Code   RO         1202    .ARM.Collect$$libinit$$00000002  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1205    .ARM.Collect$$libinit$$00000008  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1207    .ARM.Collect$$libinit$$0000000A  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1209    .ARM.Collect$$libinit$$0000000C  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1212    .ARM.Collect$$libinit$$0000000F  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1214    .ARM.Collect$$libinit$$00000011  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1216    .ARM.Collect$$libinit$$00000013  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1218    .ARM.Collect$$libinit$$00000015  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1220    .ARM.Collect$$libinit$$00000017  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1222    .ARM.Collect$$libinit$$00000019  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1224    .ARM.Collect$$libinit$$0000001B  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1226    .ARM.Collect$$libinit$$0000001D  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1228    .ARM.Collect$$libinit$$0000001F  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1230    .ARM.Collect$$libinit$$00000021  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1232    .ARM.Collect$$libinit$$00000023  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1236    .ARM.Collect$$libinit$$0000002A  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1238    .ARM.Collect$$libinit$$0000002C  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1240    .ARM.Collect$$libinit$$0000002E  c_w.l(libinit2.o)
+    0x0000028e   0x00000000   Code   RO         1242    .ARM.Collect$$libinit$$00000030  c_w.l(libinit2.o)
+    0x0000028e   0x00000002   Code   RO         1243    .ARM.Collect$$libinit$$00000031  c_w.l(libinit2.o)
+    0x00000290   0x00000002   Code   RO         1415    .ARM.Collect$$libshutdown$$00000000  c_w.l(libshutdown.o)
+    0x00000292   0x00000000   Code   RO         1354    .ARM.Collect$$libshutdown$$00000003  c_w.l(libshutdown2.o)
+    0x00000292   0x00000000   Code   RO         1357    .ARM.Collect$$libshutdown$$00000006  c_w.l(libshutdown2.o)
+    0x00000292   0x00000000   Code   RO         1360    .ARM.Collect$$libshutdown$$00000009  c_w.l(libshutdown2.o)
+    0x00000292   0x00000000   Code   RO         1362    .ARM.Collect$$libshutdown$$0000000B  c_w.l(libshutdown2.o)
+    0x00000292   0x00000000   Code   RO         1365    .ARM.Collect$$libshutdown$$0000000E  c_w.l(libshutdown2.o)
+    0x00000292   0x00000002   Code   RO         1366    .ARM.Collect$$libshutdown$$0000000F  c_w.l(libshutdown2.o)
+    0x00000294   0x00000000   Code   RO         1150    .ARM.Collect$$rtentry$$00000000  c_w.l(rtentry.o)
+    0x00000294   0x00000000   Code   RO         1254    .ARM.Collect$$rtentry$$00000002  c_w.l(rtentry2.o)
+    0x00000294   0x00000006   Code   RO         1266    .ARM.Collect$$rtentry$$00000004  c_w.l(rtentry4.o)
+    0x0000029a   0x00000000   Code   RO         1256    .ARM.Collect$$rtentry$$00000009  c_w.l(rtentry2.o)
+    0x0000029a   0x00000004   Code   RO         1257    .ARM.Collect$$rtentry$$0000000A  c_w.l(rtentry2.o)
+    0x0000029e   0x00000000   Code   RO         1259    .ARM.Collect$$rtentry$$0000000C  c_w.l(rtentry2.o)
+    0x0000029e   0x00000008   Code   RO         1260    .ARM.Collect$$rtentry$$0000000D  c_w.l(rtentry2.o)
+    0x000002a6   0x00000002   Code   RO         1367    .ARM.Collect$$rtexit$$00000000  c_w.l(rtexit.o)
+    0x000002a8   0x00000000   Code   RO         1388    .ARM.Collect$$rtexit$$00000002  c_w.l(rtexit2.o)
+    0x000002a8   0x00000004   Code   RO         1389    .ARM.Collect$$rtexit$$00000003  c_w.l(rtexit2.o)
+    0x000002ac   0x00000006   Code   RO         1390    .ARM.Collect$$rtexit$$00000004  c_w.l(rtexit2.o)
     0x000002b2   0x00000002   PAD
     0x000002b4   0x00000030   Code   RO            4    .text               startup.o
     0x000002e4   0x0000004c   Code   RO           12    .text               osasm.o
-    0x00000330   0x00000064   Code   RO          519    .text               c_w.l(rt_memcpy_w.o)
-    0x00000394   0x00000006   Code   RO          521    .text               c_w.l(heapauxi.o)
+    0x00000330   0x00000064   Code   RO         1142    .text               c_w.l(rt_memcpy_w.o)
+    0x00000394   0x00000006   Code   RO         1144    .text               c_w.l(heapauxi.o)
     0x0000039a   0x00000002   PAD
-    0x0000039c   0x0000000c   Code   RO          536    .text               c_w.l(sys_exit.o)
-    0x000003a8   0x00000002   Code   RO          559    .text               c_w.l(use_no_semi.o)
-    0x000003aa   0x00000000   Code   RO          561    .text               c_w.l(indicate_semi.o)
-    0x000003aa   0x0000004a   Code   RO          562    .text               c_w.l(sys_stackheap_outer.o)
-    0x000003f4   0x0000000c   Code   RO          566    .text               c_w.l(exit.o)
-    0x00000400   0x00000008   Code   RO          582    .text               c_w.l(libspace.o)
-    0x00000408   0x00000068   Code   RO          462    i.ADC0Seq3_Handler  adct0atrigger.o
-    0x00000470   0x00000108   Code   RO           49    i.OS_AddThread      lab2.o
-    0x00000578   0x0000009c   Code   RO           52    i.OS_Init           lab2.o
-    0x00000614   0x00000020   Code   RO           55    i.OS_Launch         lab2.o
-    0x00000634   0x0000007c   Code   RO           15    i.PLL_Init          pll.o
-    0x000006b0   0x00000074   Code   RO           63    i.PortE_Init        lab2.o
-    0x00000724   0x00000150   Code   RO           67    i.SetInitialStack   lab2.o
-    0x00000874   0x0000004c   Code   RO          447    i.SysTick_Init      systickints.o
-    0x000008c0   0x00000014   Code   RO           86    i.Thread8           lab2.o
-    0x000008d4   0x00000018   Code   RO           87    i.Timer0A_Handler   lab2.o
-    0x000008ec   0x00000080   Code   RO           88    i.Timer0A_Init      lab2.o
-    0x0000096c   0x00000018   Code   RO           89    i.Timer1A_Handler   lab2.o
-    0x00000984   0x0000006c   Code   RO           90    i.Timer1A_Init      lab2.o
-    0x000009f0   0x00000018   Code   RO           91    i.Timer2A_Handler   lab2.o
-    0x00000a08   0x0000006c   Code   RO           92    i.Timer2A_Init      lab2.o
-    0x00000a74   0x00000018   Code   RO           93    i.Timer3A_Handler   lab2.o
-    0x00000a8c   0x00000068   Code   RO           94    i.Timer3A_Init      lab2.o
-    0x00000af4   0x00000038   Code   RO           95    i.main              lab2.o
-    0x00000b2c   0x00000014   Code   RO           96    i.tcb_is_empty      lab2.o
-    0x00000b40   0x00000040   Code   RO           98    i.tcbs_all_empty    lab2.o
-    0x00000b80   0x00000040   Code   RO           99    i.tcbs_all_full     lab2.o
-    0x00000bc0   0x00000000   Data   RO          693    Region$$Table       anon$$obj.o
+    0x0000039c   0x0000000c   Code   RO         1248    .text               c_w.l(sys_exit.o)
+    0x000003a8   0x00000008   Code   RO         1250    .text               c_w.l(libspace.o)
+    0x000003b0   0x00000002   Code   RO         1304    .text               c_w.l(use_no_semi.o)
+    0x000003b2   0x00000000   Code   RO         1306    .text               c_w.l(indicate_semi.o)
+    0x000003b2   0x0000004a   Code   RO         1307    .text               c_w.l(sys_stackheap_outer.o)
+    0x000003fc   0x0000000c   Code   RO         1324    .text               c_w.l(exit.o)
+    0x00000408   0x00000020   Code   RO          562    i.ADC0Seq3_Handler  adct0atrigger.o
+    0x00000428   0x00000010   Code   RO          607    i.GPIOPortA_Handler  switch.o
+    0x00000438   0x00000108   Code   RO           51    i.OS_AddThread      lab2.o
+    0x00000540   0x000000a8   Code   RO           54    i.OS_Init           lab2.o
+    0x000005e8   0x00000020   Code   RO           57    i.OS_Launch         lab2.o
+    0x00000608   0x0000007c   Code   RO           15    i.PLL_Init          pll.o
+    0x00000684   0x00000074   Code   RO           67    i.PortE_Init        lab2.o
+    0x000006f8   0x0000003c   Code   RO          911    i.RxFifo_Put        uart.o
+    0x00000734   0x00000018   Code   RO          912    i.RxFifo_Size       uart.o
+    0x0000074c   0x00000150   Code   RO           71    i.SetInitialStack   lab2.o
+    0x0000089c   0x000000d0   Code   RO          608    i.Switch_Init       switch.o
+    0x0000096c   0x00000002   Code   RO           72    i.Switch_Int        lab2.o
+    0x0000096e   0x00000002   PAD
+    0x00000970   0x0000004c   Code   RO          547    i.SysTick_Init      systickints.o
+    0x000009bc   0x00000014   Code   RO           91    i.Thread8           lab2.o
+    0x000009d0   0x00000018   Code   RO           92    i.Timer0A_Handler   lab2.o
+    0x000009e8   0x00000080   Code   RO           93    i.Timer0A_Init      lab2.o
+    0x00000a68   0x00000018   Code   RO           94    i.Timer1A_Handler   lab2.o
+    0x00000a80   0x0000006c   Code   RO           95    i.Timer1A_Init      lab2.o
+    0x00000aec   0x00000018   Code   RO           96    i.Timer2A_Handler   lab2.o
+    0x00000b04   0x0000006c   Code   RO           97    i.Timer2A_Init      lab2.o
+    0x00000b70   0x00000018   Code   RO           98    i.Timer3A_Handler   lab2.o
+    0x00000b88   0x00000068   Code   RO           99    i.Timer3A_Init      lab2.o
+    0x00000bf0   0x0000003c   Code   RO          913    i.TxFifo_Get        uart.o
+    0x00000c2c   0x00000018   Code   RO          916    i.TxFifo_Size       uart.o
+    0x00000c44   0x00000058   Code   RO          917    i.UART0_Handler     uart.o
+    0x00000c9c   0x00000028   Code   RO          927    i.copyHardwareToSoftware  uart.o
+    0x00000cc4   0x0000002c   Code   RO          928    i.copySoftwareToHardware  uart.o
+    0x00000cf0   0x00000038   Code   RO          105    i.main              lab2.o
+    0x00000d28   0x00000014   Code   RO          110    i.tcb_is_empty      lab2.o
+    0x00000d3c   0x00000040   Code   RO          112    i.tcbs_all_empty    lab2.o
+    0x00000d7c   0x00000040   Code   RO          113    i.tcbs_all_full     lab2.o
+    0x00000dbc   0x00000000   Data   RO         1416    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Base: 0x20000000, Size: 0x000000a0, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Base: 0x20000000, Size: 0x000000a8, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x0000008c   Data   RW          102    .data               lab2.o
-    0x2000008c   0x00000014   Data   RW          469    .data               adct0atrigger.o
+    0x20000000   0x0000008a   Data   RW          116    .data               lab2.o
+    0x2000008a   0x00000002   PAD
+    0x2000008c   0x00000008   Data   RW          568    .data               adct0atrigger.o
+    0x20000094   0x00000004   Data   RW          609    .data               switch.o
+    0x20000098   0x00000010   Data   RW          930    .data               uart.o
 
 
-    Execution Region ER_ZI (Base: 0x200000a0, Size: 0x00000c98, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Base: 0x200000a8, Size: 0x00000d80, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x200000a0   0x00000838   Zero   RW          100    .bss                lab2.o
-    0x200008d8   0x00000060   Zero   RW          583    .bss                c_w.l(libspace.o)
-    0x20000938   0x00000000   Zero   RW            2    HEAP                startup.o
-    0x20000938   0x00000400   Zero   RW            1    STACK               startup.o
+    0x200000a8   0x00000900   Zero   RW          114    .bss                lab2.o
+    0x200009a8   0x00000020   Zero   RW          929    .bss                uart.o
+    0x200009c8   0x00000060   Zero   RW         1251    .bss                c_w.l(libspace.o)
+    0x20000a28   0x00000000   Zero   RW            2    HEAP                startup.o
+    0x20000a28   0x00000400   Zero   RW            1    STACK               startup.o
 

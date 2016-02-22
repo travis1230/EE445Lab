@@ -280,6 +280,7 @@ bool OS_AddPeriodicThread(void(*task) (void),
 	return true;						
 }
 
+
 //******** OS_AddSW1Task *************** 
 // add a background task to run whenever the SW1 (PF4) button is pushed
 // Inputs: pointer to a void/void background function
@@ -446,8 +447,8 @@ void OS_Wait(Sema4Type *s){
 	s->Value = s->Value - 1;  // mark resource allocated
 	OS_EnableInterrupts();
 }
-/******* OS_Signal***********
-****************************/
+//******* OS_Signal***********
+//****************************
 void OS_Signal(Sema4Type *s){
 	// see lecture 5 for
 	// blocking implementation pseudocode
@@ -456,6 +457,7 @@ void OS_Signal(Sema4Type *s){
 	s->Value = s->Value + 1;  // free resource
 	EndCritical(status);
 }
+
 /******** OS_bWait ************
  Lab2 spinlock, set to 0
  Lab3 block if less than zero
@@ -485,4 +487,5 @@ void OS_bSignal(Sema4Type *semaPt){
 	semaPt->Value = 1;  // free resource
 	EndCritical(status);
 }	
+
 #endif

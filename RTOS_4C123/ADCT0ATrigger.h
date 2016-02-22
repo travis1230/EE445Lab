@@ -48,5 +48,4 @@ uint16_t ADC_In(void);
 
 int ADC_Stop(void);
 
-int ADC_Collect(unsigned int channelNum, uint32_t period,
- unsigned short buffer[], unsigned int numberOfSamples);
+int ADC_Init(unsigned int channelNum, uint32_t period, void(*task)(uint32_t hi));

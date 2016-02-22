@@ -120,7 +120,7 @@ void print_adc(char* string) {
 		if(i % 10 == 9) {
 			UART_NewLine();
 		}
-	}*/
+	}
 	ADC_Collect(11, 1000, buf, BUFFERSIZE);
 	while(ADC_Stop() != 0) {
 	}
@@ -130,7 +130,7 @@ void print_adc(char* string) {
 		if(i % 10 == 9) {
 			UART_NewLine();
 		}
-	}
+	}*/
 }
 
 void Interpreter(void) {

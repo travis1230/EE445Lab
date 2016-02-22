@@ -187,7 +187,7 @@ void SW2Push(void){
 // sends data to the consumer, runs periodically at 400Hz
 // inputs:  none
 // outputs: none
-void Producer(unsigned long data){  
+void Producer(uint32_t data){  
   if(NumSamples < RUNLENGTH){   // finite time run
     NumSamples++;               // number of samples
     if(OS_Fifo_Put(data) == 0){ // send to consumer
@@ -208,7 +208,7 @@ unsigned long t;                  // time in 2.5 ms
 unsigned long myId = OS_Id(); 
 
 
-  ADC_Collect(5, FS, &Producer); // start ADC sampling, channel 5, PD2, 400 Hz
+  ADC_Init(5, FS, &Producer); // start ADC sampling, channel 5, PD2, 400 Hz
   NumCreated += OS_AddThread(&Display, 0); 
   while(NumSamples < RUNLENGTH) { 
     PE2 = 0x04;
@@ -311,7 +311,7 @@ int TestMain0(void){
 //*******attach background tasks***********
   OS_AddSW1Task(&SW1Push,2);
 //  sk(&SW2Push,2);  // add this line in Lab 3
-  ADC_Init(4);  // sequencer 3, channel 4, PD3, sampling in DAS()
+  ADC_Init(4, FS, &Producer);  // sequencer 3, channel 4, PD3, sampling in DAS()
   OS_AddPeriodicThread(&DAS,PERIOD,1); // 2 kHz real time sampling of PD3
 
   NumCreated = 0 ;
