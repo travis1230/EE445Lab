@@ -76,3 +76,5 @@ RTOS_4C123/RTOS.uvgui.Mike
 *.map
 RTOS_4C123/RTOS.htm
 *.htm
+*.uvproj
+RTOS_4C123/RTOS.build_log.htm
