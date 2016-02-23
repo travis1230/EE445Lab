@@ -8,6 +8,8 @@ void(*PeriodicTask3A)(void);
 int32_t StartCritical(void);
 void EndCritical(int32_t primask);
 
+unsigned long OS_Ms_Time;
+
 void Timer0A_Init(void(*task)(void), uint32_t period, uint16_t priority){long sr;
   sr = StartCritical(); 
   SYSCTL_RCGCTIMER_R |= 0x01;   // 0) activate TIMER0
@@ -56,7 +58,7 @@ void Timer1A_Handler(void){
   (*PeriodicTask1A)();                // execute user task
 }
 
-void Timer2A_Init(void(*task)(void), unsigned long period, uint16_t priority){
+void Timer2A_Init(void(*task)(void), uint32_t period, uint16_t priority){
   SYSCTL_RCGCTIMER_R |= 0x04;   // 0) activate timer2
   PeriodicTask2A = task;          // user function
   TIMER2_CTL_R = 0x00000000;    // 1) disable timer2A during setup
@@ -72,14 +74,16 @@ void Timer2A_Init(void(*task)(void), unsigned long period, uint16_t priority){
 // vector number 39, interrupt number 23
   NVIC_EN0_R = 1<<23;           // 9) enable IRQ 23 in NVIC
   TIMER2_CTL_R = 0x00000001;    // 10) enable timer2A
+	OS_Ms_Time = 0;
 }
 
 void Timer2A_Handler(void){
   TIMER2_ICR_R = TIMER_ICR_TATOCINT;// acknowledge TIMER2A timeout
   (*PeriodicTask2A)();                // execute user task
+	OS_Ms_Time++;
 }
 
-void Timer3A_Init(void(*task)(void), unsigned long period, uint16_t priority){
+void Timer3A_Init(void(*task)(void), uint32_t period, uint16_t priority){
   SYSCTL_RCGCTIMER_R |= 0x08;   // 0) activate TIMER3
   PeriodicTask3A = task;          // user function
   TIMER3_CTL_R = 0x00000000;    // 1) disable TIMER3A during setup
@@ -100,4 +104,24 @@ void Timer3A_Init(void(*task)(void), unsigned long period, uint16_t priority){
 void Timer3A_Handler(void){
   TIMER3_ICR_R = TIMER_ICR_TATOCINT;// acknowledge TIMER3A timeout
   (*PeriodicTask3A)();                // execute user task
+}
+
+// ******** OS_ClearMsTime ************
+// sets the system time to zero (from Lab 1)
+// Inputs:  none
+// Outputs: none
+// You are free to change how this works
+void OS_ClearMsTime(void) {
+	OS_Ms_Time = 0;
+}
+
+
+// ******** OS_MsTime ************
+// reads the current time in msec (from Lab 1)
+// Inputs:  none
+// Outputs: time in ms units
+// You are free to select the time resolution for this function
+// It is ok to make the resolution to match the first call to OS_AddPeriodicThread
+unsigned long OS_MsTime(void) {
+	return OS_Ms_Time / 2;
 }

@@ -49,7 +49,7 @@
 // Initialize GPIO Port A bit 5 for input.
 // Input: none
 // Output: none
-void Switch_Init(void(*task)(void));
+void Switch_Init(void(*task)(void), int priority);
 
 void GPIOPortA_Handler(void);
 

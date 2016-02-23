@@ -206,7 +206,7 @@ void ADC0_InitTimer0ATriggerSeq3(uint8_t channelNum, uint32_t period){
   delay = SYSCTL_RCGCTIMER_R;   // allow time to finish activating
   TIMER0_CTL_R = 0x00000000;    // disable timer0A during setup
   TIMER0_CTL_R |= 0x00000020;   // enable timer0A trigger to ADC
-  TIMER0_CFG_R = 0;             // configure for 32-bit timer mode
+  TIMER0_CFG_R = 0x04;             // configure for 16-bit timer mode
   TIMER0_TAMR_R = 0x00000002;   // configure for periodic mode, default down-count settings
   TIMER0_TAPR_R = 0;            // prescale value for trigger
   TIMER0_TAILR_R = period-1;    // start value for trigger

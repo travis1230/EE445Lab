@@ -15,7 +15,7 @@
 #include "PLL.h"
 #include "ST7735.h"
 
-unsigned long OS_ReadPeriodicTime(void);
+//unsigned long OS_ReadPeriodicTime(void);
 
 // Subroutine to wait 10 msec
 // Inputs: None
@@ -454,14 +454,14 @@ const uint16_t Logo[] = {
 };
 
 
-int hello_world_test(void){
+/*int hello_world_test(void){
   printf("hello world");
 	unsigned long start_time = OS_ReadPeriodicTime();
   while(OS_ReadPeriodicTime() - start_time < 2000){
   }
 	return 0;
-}
-int graphics_test(void){uint32_t j; // main 1
+}*/
+/*int graphics_test(void){uint32_t j; // main 1
 	Output_Clear();
   ST7735_OutString("Graphics test\n");
   ST7735_OutString("cubic function\n");
@@ -486,8 +486,8 @@ int rectangle_test(void){ int i; // main 7
   while(OS_ReadPeriodicTime() - start_time < 2000){
   }
 	return 0;
-}
-int full_test(void){  // main 2
+}*/
+/*int full_test(void){  // main 2
 	Output_Clear();
   int x, y, dx, dy;
 //  uint8_t red, green, blue;
@@ -586,4 +586,4 @@ int full_test(void){  // main 2
     }
   }
 	return 0;
-}
+}*/

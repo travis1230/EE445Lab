@@ -62,7 +62,7 @@ void(*PAI)(void);
 // Initialize GPIO Port A bit 5 for input
 // Input: none
 // Output: none
-void Switch_Init(void(*task)(void)){ 
+void Switch_Init(void(*task)(void), int priority){ 
   SYSCTL_RCGCGPIO_R |= 0x00000001;     // 1) activate clock for Port A
   while((SYSCTL_PRGPIO_R&0x01) == 0){};// ready?
   GPIO_PORTA_AMSEL_R &= ~0x20;      // 3) disable analog on PA5
@@ -76,14 +76,14 @@ void Switch_Init(void(*task)(void)){
 	GPIO_PORTA_IEV_R &= ~0x20; // Set fro Falling edge trigger
 	GPIO_PORTA_IM_R |= 0x20; // Enable the interrupt Mask for PA5 
 	
-	NVIC_PRI0_R = (NVIC_PRI0_R & 0xFFFFFF0F) + 0x60; // Set priority 3 
+	NVIC_PRI0_R = (NVIC_PRI0_R & 0xFFFFFF0F) + (priority * 2); // Set priority 3 
 	NVIC_EN0_R |= 0x01; //Enable Port A interrupts 
 	
 	PAI = task;
 	// NOT ENABLING INTERRUPTS HERE
 }
 
-void  GPIOPortA_Handler(void) {
+void GPIOPortA_Handler(void) {
 	PAI();
 }
 /*

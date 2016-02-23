@@ -1,9 +1,9 @@
 // Lab2.c
 // Runs on LM4F120/TM4C123
 // Real Time Operating System for Labs 2 and 3
-// Lab2 Part 1: Testmain1 and Testmain2
-// Lab2 Part 2: Testmain3 Testmain4  and main
-// Lab3: Testmain5 Testmain6, Testmain7, and main (with SW2)
+// Lab2 Part 1: main1 and main2
+// Lab2 Part 2: main3 main4  and main
+// Lab3: main5 main6, main7, and main (with SW2)
 
 // Jonathan W. Valvano 1/31/14, valvano@mail.utexas.edu
 // EE445M/EE380L.6 
@@ -31,6 +31,13 @@
 #include "Interpreter.h"
 #include <string.h> 
 #include <assert.h>
+
+//Assembler sources
+//#include "cr4_fft_64_stm32.s"
+//#include "cr4_fft_256_stm32.s"
+//#include "cr4_fft_1024_stm32.s"
+//#include "PID_stm32.s"
+
 //*********Prototype for FFT in cr4_fft_64_stm32.s, STMicroelectronics
 void cr4_fft_64_stm32(void *pssOUT, void *pssIN, unsigned short Nbin);
 //*********Prototype for PID in PID_stm32.s, STMicroelectronics
@@ -131,7 +138,7 @@ long jitter;                    // time between measured and expected, in us
 // foreground treads run for 2 sec and die
 // ***********ButtonWork*************
 void ButtonWork(void){
-unsigned long myId = OS_Id(); 
+//unsigned long myId = OS_Id(); 
   PE1 ^= 0x02;
   ST7735_Message(1,0,"NumCreated =",NumCreated); 
   PE1 ^= 0x02;
@@ -205,8 +212,7 @@ void Display(void);
 void Consumer(void){ 
 unsigned long data,DCcomponent;   // 12-bit raw ADC sample, 0 to 4095
 unsigned long t;                  // time in 2.5 ms
-unsigned long myId = OS_Id(); 
-
+//unsigned long myId = OS_Id(); 
 
   ADC_Init(5, FS, &Producer); // start ADC sampling, channel 5, PD2, 400 Hz
   NumCreated += OS_AddThread(&Display, 0); 
@@ -256,7 +262,7 @@ short Coeff[3];    // PID coefficients
 short Actuator;
 void PID(void){ 
 short err;  // speed error, range -100 to 100 RPM
-unsigned long myId = OS_Id(); 
+//unsigned long myId = OS_Id(); 
   PIDWork = 0;
   IntTerm = 0;
   PrevError = 0;
@@ -297,7 +303,7 @@ void Interpreter(void);    // just a prototype, link to your interpreter
 
 
 //*******************final user main DEMONTRATE THIS TO TA**********
-int TestMain0(void){ 
+int main0(void){ //main0
   OS_Init(true);           // initialize, disable interrupts
   PortE_Init();
   DataLost = 0;        // lost data between producer and consumer
@@ -366,7 +372,7 @@ void Thread3(void){
   }
 }
 
-int Testmain1(void){  // Testmain1
+int main1(void){  // main1
   OS_Init(false);          // initialize, disable interrupts, preemptive=false (cooperative)
   PortE_Init();       // profile user threads
   NumCreated = 0 ;
@@ -407,7 +413,7 @@ void Thread3b(void){
     Count3++;
   }
 }
-int Testmain2(void){  // Testmain2
+int main2(void){  // main2
   OS_Init(true);           // initialize, disable interrupts, preemptive=true
   PortE_Init();       // profile user threads
   NumCreated = 0 ;
@@ -415,7 +421,7 @@ int Testmain2(void){  // Testmain2
   NumCreated += OS_AddThread(&Thread2b,2); 
   NumCreated += OS_AddThread(&Thread3b,3); 
   // Count1 Count2 Count3 should be equal on average
-  // counts are larger than testmain1
+  // counts are larger than main1
  
   OS_Launch(TIME_2MS); // doesn't return, interrupts enabled in here
   return 0;            // this never executes
@@ -473,12 +479,12 @@ void BackgroundThread5c(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4c, 3); 
 }
       
-int Testmain3(void){   // Testmain3
+int main(void){   // main3
   Count4 = 0;          
   OS_Init(true);           // initialize, disable interrupts
 // Count2 + Count5 should equal Count1
-  NumCreated = 0 ;
-  OS_AddSW1Task(&BackgroundThread5c,2);
+  NumCreated = 0;
+  OS_AddSW1Task(&BackgroundThread5c, 2);
   NumCreated += OS_AddThread(&Thread2c, 2); 
   NumCreated += OS_AddThread(&Thread3c, 3); 
   NumCreated += OS_AddThread(&Thread4c, 3); 
@@ -506,6 +512,9 @@ int Testmain3(void){   // Testmain3
 // Select switch interrupts, active low
 // no ADC serial port or LCD output
 // tests the spinlock semaphores, tests Sleep and Kill
+
+/*
+
 Sema4Type Readyd;        // set in background
 void BackgroundThread1d(void){   // called at 1000 Hz
 static int i=0;
@@ -541,7 +550,7 @@ void Thread4d(void){ int i;
 void BackgroundThread5d(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4d, 3); 
 }
-int Testmain4(void){   // Testmain4
+int main4(void){   // main4
   Count4 = 0;          
   OS_Init(true);           // initialize, disable interrupts
   NumCreated = 0 ;
@@ -552,9 +561,10 @@ int Testmain4(void){   // Testmain4
   NumCreated += OS_AddThread(&Thread4d, 3); 
   OS_Launch(TIME_2MS); // doesn't return, interrupts enabled in here
   return 0;            // this never executes
-}
+}*/
+
 /*
-//******************* Lab 3 Preparation 2**********
+// ******************* Lab 3 Preparation 2**********
 // Modify this so it runs with your RTOS (i.e., fix the time units to match your OS)
 // run this with 
 // UART0, 115200 baud rate, used to output results 
@@ -568,7 +578,7 @@ unsigned long CountB;   // number of times Task B called
 unsigned long Count1;   // number of times thread1 loops
 
 
-//*******PseudoWork*************
+// *******PseudoWork*************
 // simple time delay, simulates user program doing real work
 // Input: amount of work in 100ns units (free free to change units
 // Output: none
@@ -608,7 +618,7 @@ void TaskB(void){       // called every pB in background
   PE2 = 0x00;      // debugging profile  
 }
 
-int Testmain5(void){       // Testmain5 Lab 3
+int main5(void){       // main5 Lab 3
   PortE_Init();
   OS_Init();           // initialize, disable interrupts
   NumCreated = 0 ;
@@ -622,7 +632,7 @@ int Testmain5(void){       // Testmain5 Lab 3
 }
 
 
-//******************* Lab 3 Preparation 4**********
+// ******************* Lab 3 Preparation 4**********
 // Modify this so it runs with your RTOS used to test blocking semaphores
 // run this with 
 // UART0, 115200 baud rate,  used to output results 
@@ -695,7 +705,7 @@ static long result;
   result = m+n;
   return result;
 }
-int Testmain6(void){      // Testmain6  Lab 3
+int main6(void){      // main6  Lab 3
   volatile unsigned long delay;
   OS_Init();           // initialize, disable interrupts
   delay = add(3,4);
@@ -737,7 +747,7 @@ void Thread8(void){       // only thread running
     PE0 ^= 0x01;      // debugging profile  
   }
 }
-int main(void){       // Testmain7
+int main7(void){       // main7
   PortE_Init();
   OS_Init(true);           // initialize, disable interrupts
   NumCreated = 0 ;

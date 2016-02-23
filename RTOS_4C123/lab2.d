@@ -7,6 +7,8 @@
 .\lab2.o: F:\Applications\Keil\ARM\ARMCC\bin\..\include\assert.h
 .\lab2.o: Timers.h
 .\lab2.o: Switch.h
+.\lab2.o: SysTickInts.h
+.\lab2.o: Globals.h
 .\lab2.o: ST7735.h
 .\lab2.o: ADCT0ATrigger.h
 .\lab2.o: Interpreter.h

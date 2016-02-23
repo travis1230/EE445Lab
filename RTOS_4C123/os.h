@@ -42,6 +42,8 @@
 #include <assert.h>
 #include "Timers.h"
 #include "Switch.h"
+#include "SysTickInts.h"
+#include "Globals.h"
 
 #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
 #define NVIC_ST_CTRL_CLK_SRC    0x00000004  // Clock Source
@@ -62,23 +64,35 @@ void StartOS(void);
 void ContextSwitch(void);
 
 bool timer_occupied[4] = {false};
-int (*timer_init_fns[4]) (void(*task)(void), unsigned long period, uint16_t priority);
+void (*timer_init_fns[4]) (void(*task)(void), uint32_t period, uint16_t priority);
 
-struct  Sema4{
+struct Sema4{
   int16_t Value;   // >0 means free, otherwise means busy 
 };
 typedef struct Sema4 Sema4Type;
+
+Sema4Type Mutex;
+Sema4Type DataAvailable;
+Sema4Type MailboxFull;
+Sema4Type MailboxEmpty;
 
 struct tcb{
   int32_t *sp;       // pointer to stack (valid for threads not running
   struct tcb *next;  // linked-list pointer
 	uint64_t sleep_alarm; // set to 0 when not sleeping, otherwise equal to OS_ISR_Count to wake up on
 	int16_t priority;  // higher is more important, -1 means unallocated
+	unsigned long myID; // Needed for OS_Id()
 };
 typedef struct tcb tcbType;
 tcbType tcbs[NUMTHREADS];
 tcbType *RunPt;
 
+//Function prototyping
+void OS_bSignal(Sema4Type *s);
+void OS_Signal(Sema4Type *s);
+void OS_Wait(Sema4Type *s);
+void OS_bWait(Sema4Type *s);
+void OS_InitSemaphore(Sema4Type *semaPt, uint16_t value);
 
 void tcb_set_empty(tcbType *tcbobj){
 	tcbobj->priority = -1;
@@ -138,7 +152,21 @@ void SetInitialStack(int i){
 
 uint64_t OS_ISR_period = 50000;
 uint16_t OS_ISR_priority = 3;
-uint64_t OS_ISR_Count = 0;
+uint64_t OS_ISR_Count;
+
+uint64_t OS_Clock_Period = 80;
+int OS_Clock_Priority = 3; 
+unsigned long OS_Clock_Time; 
+int OS_Clock_Flag;
+int OS_Clock_New;
+
+uint32_t OS_Fifo[128];
+int OS_Fifo_First;
+int OS_Fifo_Last;
+int OS_Fifo_Length;
+unsigned long Mailbox; 
+
+
 /********* OS_Suspend **************
 Stop execution of currently active
 foreground thread. Move on to next.
@@ -162,6 +190,10 @@ what to run on systick interrupt
 ********************************/
 void OS_ISR(void);
 
+void OS_Clock_ISR(void) {
+	OS_Clock_Time++;
+}
+
 bool preemptive_mode;  // need to remember mode
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
@@ -179,13 +211,16 @@ void OS_Init(bool preemptive){
 		tcbs[i].priority = -1;
 	}
 	OS_ISR_Count = 0;
-	SysTick_Init(OS_ISR_period, 
-								 OS_ISR_priority);	
-	Switch_Init(&Switch_Int);
-	timer_init_fns[0] = Timer0A_Init;
-	timer_init_fns[1] = Timer1A_Init;
-	timer_init_fns[2] = Timer2A_Init;
-	timer_init_fns[3] = Timer3A_Init;
+	SysTick_Init(OS_ISR_period, OS_ISR_priority);	
+	//Switch_Init(&Switch_Int, 1);
+	//timer_init_fns[0] = &Timer0A_Init; // Also hacky since already initing in ADCTrigger
+	timer_init_fns[1] = &Timer1A_Init;
+	timer_init_fns[2] = &Timer2A_Init;
+	timer_init_fns[3] = &Timer3A_Init;
+	
+	// Periodic Clock Task
+	OS_Clock_Time = 0;
+	timer_init_fns[1](&OS_Clock_ISR, OS_Clock_Period, OS_Clock_Priority);
 }
 
 //******** OS_AddThread ***************
@@ -268,7 +303,7 @@ bool OS_AddPeriodicThread(void(*task) (void),
 													uint64_t period,
 												  uint16_t priority){
   int16_t timer_to_use = -1;
-	for (int16_t i = 0; i < sizeof(timer_occupied); i++){
+	for (int16_t i = 2; i < sizeof(timer_occupied); i++){ // Hacking to free up two tim ers for our own usage
 		if(!timer_occupied[i]){
 			timer_to_use = i;
 			break;
@@ -294,8 +329,9 @@ bool OS_AddPeriodicThread(void(*task) (void),
 // In lab 2, the priority field can be ignored
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
-int OS_AddSW1Task(void(*task)(void), unsigned long priority){
-	
+int OS_AddSW1Task(void(*task)(void), int priority) {
+	Switch_Init(task, priority);
+	return 1; // NOT FULLY IMPLEMENTED (does not return 0 if failure)
 }
 
 
@@ -313,7 +349,10 @@ int OS_AddSW1Task(void(*task)(void), unsigned long priority){
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
 int OS_AddSW2Task(void(*task)(void), unsigned long priority){
+	//IGNORED
+	return 0;
 }
+
 // ******** OS_Fifo_Init ************
 // Initialize the Fifo to be empty
 // Inputs: size
@@ -323,7 +362,14 @@ int OS_AddSW2Task(void(*task)(void), unsigned long priority){
 // In Lab 3, you can put whatever restrictions you want on size
 //    e.g., 4 to 64 elements
 //    e.g., must be a power of 2,4,8,16,32,64,128
-void OS_Fifo_Init(unsigned long size);
+void OS_Fifo_Init(unsigned long size) {
+	OS_Fifo_Length = size;
+	OS_Fifo_First = 0;
+	OS_Fifo_Last = 0;
+	OS_InitSemaphore(&Mutex, 1);
+	OS_InitSemaphore(&DataAvailable, 0);
+	
+}
 
 // ******** OS_Fifo_Put ************
 // Enter one data sample into the Fifo
@@ -333,28 +379,38 @@ void OS_Fifo_Init(unsigned long size);
 //          false if data not saved, because it was full
 // Since this is called by interrupt handlers 
 //  this function can not disable or enable interrupts
-int OS_Fifo_Put(unsigned long data){
+int OS_Fifo_Put(unsigned long data) {
 // from lecture 5 slides, redo fifo
-//	if get or put called in background	// Wait(&DataRoomLeft)
-	// bWait(&Mutex)
-	// Enter data into FIFO
-	// bSignal(&Mutex)
-	// Signal(&DataAvailable)
-}	
+//	if get or put called in background	// 
+	//OS_Wait(&DataRoomLeft)
+	OS_bWait(&Mutex);
+	OS_Fifo[OS_Fifo_Last] = data;
+	OS_Fifo_Last = (OS_Fifo_Last + 1) % OS_Fifo_Length;
+	if(OS_Fifo_Last == OS_Fifo_First) { // OVERWRITE OCCURED
+		OS_Fifo_First = OS_Fifo_Last;
+		OS_bSignal(&Mutex);
+		return 0;
+	}
+	OS_bSignal(&Mutex);
+	OS_Signal(&DataAvailable);
+	return 1;
+}
 
 // ******** OS_Fifo_Get ************
 // Remove one data sample from the Fifo
 // Called in foreground, will spin/block if empty
 // Inputs:  none
 // Outputs: data 
-unsigned long OS_Fifo_Get(void){
+unsigned long OS_Fifo_Get(void) {
 // from lecture 5 slides, redo fifo
-//	if get or put called in background
-	// Wait(&DataAvailable)
-	// bWait(&Mutex)
-	// Remove data from fifo
-	// bSignal(&Mutex)
-	// Signal(&DataRoomLeft)
+// if get or put called in background
+	OS_Wait(&DataAvailable);
+	OS_bWait(&Mutex);
+	unsigned long data = OS_Fifo[OS_Fifo_First];
+	OS_Fifo_First = (OS_Fifo_First + 1) % OS_Fifo_Length;
+	OS_bSignal(&Mutex);
+	// OS_Signal(&DataRoomLeft)
+	return data;
 }
 
 // ******** OS_Fifo_Size ************
@@ -364,13 +420,25 @@ unsigned long OS_Fifo_Get(void){
 //          greater than zero if a call to OS_Fifo_Get will return right away
 //          zero or less than zero if the Fifo is empty 
 //          zero or less than zero if a call to OS_Fifo_Get will spin or block
-long OS_Fifo_Size(void);
+long OS_Fifo_Size(void) {
+	if(OS_Fifo_Last != OS_Fifo_First) {
+		if(OS_Fifo_Last > OS_Fifo_First) {
+			return (long)(OS_Fifo_Last - OS_Fifo_First);
+		} else {
+			return (long)(OS_Fifo_Last + OS_Fifo_Length - OS_Fifo_First - 1);
+		}
+	}
+	return 0;
+}
 
 // ******** OS_MailBox_Init ************
 // Initialize communication channel
 // Inputs:  none
 // Outputs: none
-void OS_MailBox_Init(void);
+void OS_MailBox_Init(void) {
+	OS_InitSemaphore(&MailboxFull, 0);
+	OS_InitSemaphore(&MailboxEmpty, 1);
+}
 
 // ******** OS_MailBox_Send ************
 // enter mail into the MailBox
@@ -378,12 +446,12 @@ void OS_MailBox_Init(void);
 // Outputs: none
 // This function will be called from a foreground thread
 // It will spin/block if the MailBox contains data not yet received 
-void OS_MailBox_Send(unsigned long data){
+void OS_MailBox_Send(unsigned long data) {
 // from lecture 5 slides, redo mailbox if
 // send called in background
-	//bWait(&BoxFree)
-	//Put data into Mailbox
-	//bSignal(&DataValid)
+	OS_bWait(&MailboxEmpty);
+	Mailbox = data;
+	OS_bSignal(&MailboxFull);
 }
 
 // ******** OS_MailBox_Recv ************
@@ -392,11 +460,12 @@ void OS_MailBox_Send(unsigned long data){
 // Outputs: data received
 // This function will be called from a foreground thread
 // It will spin/block if the MailBox is empty 
-unsigned long OS_MailBox_Recv(void){
+unsigned long OS_MailBox_Recv(void) {
 // from lecture 5 slides
-	// bWait(&DataValid)
-	// Retrieve data from Mailbox
-	// bSignal(&BoxFree)
+	OS_bWait(&MailboxFull);
+	unsigned long data = Mailbox;
+	OS_bSignal(&MailboxEmpty);
+	return data;
 }
 
 // ******** OS_Time ************
@@ -406,7 +475,11 @@ unsigned long OS_MailBox_Recv(void){
 // The time resolution should be less than or equal to 1us, and the precision 32 bits
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_TimeDifference have the same resolution and precision 
-unsigned long OS_Time(void);
+unsigned long OS_Time(void) {
+	unsigned long result = OS_Clock_Time;
+	result = result * 80;
+	return result;
+}
 
 // ******** OS_TimeDifference ************
 // Calculates difference between two times
@@ -415,22 +488,11 @@ unsigned long OS_Time(void);
 // The time resolution should be less than or equal to 1us, and the precision at least 12 bits
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_Time have the same resolution and precision 
-unsigned long OS_TimeDifference(unsigned long start, unsigned long stop);
+unsigned long OS_TimeDifference(unsigned long start, unsigned long stop){
+	return (stop - start);// * 80; // If we get two times that were gotten from OS_Time then we shouldn't have to convert anything
+}
 
-// ******** OS_ClearMsTime ************
-// sets the system time to zero (from Lab 1)
-// Inputs:  none
-// Outputs: none
-// You are free to change how this works
-void OS_ClearMsTime(void);
 
-// ******** OS_MsTime ************
-// reads the current time in msec (from Lab 1)
-// Inputs:  none
-// Outputs: time in ms units
-// You are free to select the time resolution for this function
-// It is ok to make the resolution to match the first call to OS_AddPeriodicThread
-unsigned long OS_MsTime(void);
 /********** OS_Wait ************
 WARNING: CANNOT BE CALLED WHEN 
 INTERRUPTS ARE DISABLED!!!

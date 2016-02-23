@@ -149,14 +149,14 @@ void Interpreter(void) {
 				UART_OutString("Command Not Recognized. Type help for possible commands");
 				break;
 			case(1):
-				sprintf(string, "%lu", OS_ReadPeriodicTime());
+				sprintf(string, "%lu", OS_MsTime());
 				UART_OutString(string);
 				break;
 			case(2):
 				print_adc(string);
 				break;
 			case(3):
-				full_test();
+				//full_test();
 				break;
 			case(4):
 				Output_Clear();
