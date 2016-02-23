@@ -55,6 +55,11 @@
 #define NVIC_INT_CTRL_PENDSTSET 0x04000000  // Set pending SysTick interrupt
 #define NVIC_SYS_PRI3_R         (*((volatile uint32_t *)0xE000ED20))  // Sys. Handlers 12 to 15 Priority
 
+struct Sema4{
+  int16_t Value;   // >0 means free, otherwise means busy 
+};
+typedef struct Sema4 Sema4Type;
+
 // function definitions in osasm.s
 void OS_DisableInterrupts(void); // Disable interrupts
 void OS_EnableInterrupts(void);  // Enable interrupts
@@ -62,14 +67,12 @@ int32_t StartCritical(void);
 void EndCritical(int32_t primask);
 void StartOS(void);
 void ContextSwitch(void);
-
+void OS_bSignal(Sema4Type *semaPt);
+void OS_bWait(Sema4Type *semaPt);
+void OS_Signal(Sema4Type *s);
+void SysTick_Init(uint32_t period, uint32_t priority);
 bool timer_occupied[4] = {false};
 void (*timer_init_fns[4]) (void(*task)(void), uint32_t period, uint16_t priority);
-
-struct Sema4{
-  int16_t Value;   // >0 means free, otherwise means busy 
-};
-typedef struct Sema4 Sema4Type;
 
 Sema4Type Mutex;
 Sema4Type DataAvailable;
@@ -231,10 +234,6 @@ bool OS_AddThread(void(*task)(void), uint16_t priority){
 	int32_t status;
   status = StartCritical();
 	if (tcbs_all_full()){ return false; } // no room
-	tcbType new_next;
-	if (!tcbs_all_empty()){ // new thread skips to front of line
-		tcbType new_next = *(RunPt->next);  // this could be problematic
-	}  // if a thread keeps adding itself, worry about that later
 	int16_t new_tcb_index = -1;
 	bool found_free = false;
 	while(!found_free && new_tcb_index < 3){
@@ -278,6 +277,15 @@ void OS_Sleep(uint64_t time){
 	assert(preemptive_mode);  // sleep is implemented using OS_ISR_Count, so if no ISRs sleep doesn't work
 	RunPt->sleep_alarm = OS_ISR_Count + time/OS_ISR_period + 1;  // round up
 	OS_Suspend();
+}
+
+void OS_CheckSleepAlarms(void){
+	// function called by OS_ISR assembly routine
+	// check to see if next thread to wake up is sleeping	
+	// if so, move past it
+	while (RunPt->next->sleep_alarm > OS_ISR_Count){
+		RunPt = RunPt->next;
+	}
 }
 
 /******** OS_Kill ******************
@@ -352,7 +360,19 @@ int OS_AddSW2Task(void(*task)(void), unsigned long priority){
 	//IGNORED
 	return 0;
 }
+/*
+// Two-pointer implementation of the FIFO
+// can hold 0 to RXFIFOSIZE-1 elements
+#define FIFOSIZE 10 // can be any size
+#define FIFOSUCCESS 1
+#define FIFOFAIL    0
 
+typedef unsigned long FifoDataType;
+FifoDataType volatile *FifoPutPt; // put next
+FifoDataType volatile *FifoGetPt; // get next
+FifoDataType static Fifo[FIFOSIZE];
+Sema4Type FifoSema4;
+*/
 // ******** OS_Fifo_Init ************
 // Initialize the Fifo to be empty
 // Inputs: size
@@ -371,6 +391,13 @@ void OS_Fifo_Init(unsigned long size) {
 	
 }
 
+/*void OS_Fifo_Init(unsigned long size){
+	long sr;
+  sr = StartCritical();      // make atomic
+	OS_InitSemaphore(&FifoSema4, 50);
+  FifoPutPt = FifoGetPt = &Fifo[0]; // Empty
+  EndCritical(sr);
+}*/
 // ******** OS_Fifo_Put ************
 // Enter one data sample into the Fifo
 // Called from the background, so no waiting 
@@ -395,7 +422,32 @@ int OS_Fifo_Put(unsigned long data) {
 	OS_Signal(&DataAvailable);
 	return 1;
 }
-
+/*
+int OS_Fifo_Put(FifoDataType data){
+// from lecture 5 slides, redo fifo
+//	if get or put called in background	// Wait(&DataRoomLeft)
+	// bWait(&Mutex)
+	// Enter data into FIFO
+	// bSignal(&Mutex)
+	// Signal(&DataAvailable)
+	OS_bWait(&FifoSema4);
+  FifoDataType volatile *nextPutPt;
+  nextPutPt = FifoPutPt + 1;
+  if(nextPutPt == &Fifo[FIFOSIZE]){
+    nextPutPt = &Fifo[0];  // wrap
+  }
+  if(nextPutPt == FifoGetPt){
+		OS_Signal(&FifoSema4);
+    return(FIFOFAIL);      // Failed, fifo full
+  }
+  else{
+    *(FifoPutPt) = data;       // Put
+    FifoPutPt = nextPutPt;     // Success, update
+		OS_Signal(&FifoSema4);
+    return(FIFOSUCCESS);
+  }
+}	
+*/
 // ******** OS_Fifo_Get ************
 // Remove one data sample from the Fifo
 // Called in foreground, will spin/block if empty
@@ -406,11 +458,37 @@ unsigned long OS_Fifo_Get(void) {
 // if get or put called in background
 	OS_Wait(&DataAvailable);
 	OS_bWait(&Mutex);
-	unsigned long data = OS_Fifo[OS_Fifo_First];
+	unsigned long data;
+	if(OS_Fifo_First != OS_Fifo_Last) {
+		data = OS_Fifo[OS_Fifo_First];
+	} else {
+		data = 0;
+	}
 	OS_Fifo_First = (OS_Fifo_First + 1) % OS_Fifo_Length;
 	OS_bSignal(&Mutex);
 	// OS_Signal(&DataRoomLeft)
 	return data;
+/*
+FifoDataType OS_Fifo_Get(void){
+// from lecture 5 slides, redo fifo
+//	if get or put called in background
+	// Wait(&DataAvailable)
+	// bWait(&Mutex)
+	// Remove data from fifo
+	// bSignal(&Mutex)
+	// Signal(&DataRoomLeft)
+	OS_bWait(&FifoSema4);
+  if(FifoPutPt == FifoGetPt ){
+		OS_bSignal(&FifoSema4);
+    return(FIFOFAIL);      // Empty if PutPt=GetPt
+  }
+  FifoDataType datapt = *(FifoGetPt++);
+  if(FifoGetPt == &Fifo[FIFOSIZE]){
+     FifoGetPt = &Fifo[0];   // wrap
+  }
+	OS_bSignal(&FifoSema4);
+  return datapt;
+*/
 }
 
 // ******** OS_Fifo_Size ************
@@ -479,6 +557,11 @@ unsigned long OS_Time(void) {
 	unsigned long result = OS_Clock_Time;
 	result = result * 80;
 	return result;
+
+/*
+	// TODO: get precision down, currently we're only doing 2ms precision because the only
+	// thing we have to count with is OS_ISR_Time, not sure what else to use...
+	return OS_ISR_Count * OS_ISR_period + ;*/
 }
 
 // ******** OS_TimeDifference ************
@@ -488,10 +571,33 @@ unsigned long OS_Time(void) {
 // The time resolution should be less than or equal to 1us, and the precision at least 12 bits
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_Time have the same resolution and precision 
-unsigned long OS_TimeDifference(unsigned long start, unsigned long stop){
+unsigned long OS_TimeDifference(unsigned long start, unsigned long stop) {
 	return (stop - start);// * 80; // If we get two times that were gotten from OS_Time then we shouldn't have to convert anything
 }
+/*
+// ******** OS_ClearMsTime ************
+// sets the system time to zero (from Lab 1)
+// Inputs:  none
+// Outputs: none
+// You are free to change how this works
+void OS_ClearMsTime(void){
+	OS_ISR_Count = 0;
+}
+*/
 
+/*
+// ******** OS_MsTime ************
+// reads the current time in msec (from Lab 1)
+// Inputs:  none
+// Outputs: time in ms units
+// You are free to select the time resolution for this function
+// It is ok to make the resolution to match the first call to OS_AddPeriodicThread
+unsigned long OS_MsTime(void){
+	return OS_ISR_Count * 2;  // i think we're getting interrupts every 2ms
+}*/
+unsigned long OS_ReadPeriodicTime(void){
+	return OS_ISR_Count;
+}
 
 /********** OS_Wait ************
 WARNING: CANNOT BE CALLED WHEN 
@@ -549,5 +655,9 @@ void OS_bSignal(Sema4Type *semaPt){
 	semaPt->Value = 1;  // free resource
 	EndCritical(status);
 }	
+
+int OS_Id(){
+  return (int)RunPt;  // use pointer to tcb struct as id for now
+}
 
 #endif
