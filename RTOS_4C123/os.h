@@ -206,7 +206,7 @@ bool preemptive_mode;  // need to remember mode
 void OS_Init(bool preemptive){
   OS_DisableInterrupts();
 	preemptive_mode = preemptive;
-  PLL_Init(Bus50MHz);         // set processor clock to 50 MHz
+  PLL_Init(Bus80MHz);         // set processor clock to 80 MHz
   NVIC_ST_CTRL_R = 0;         // disable SysTick during setup
   NVIC_ST_CURRENT_R = 0;      // any write to current clears it
   NVIC_SYS_PRI3_R =(NVIC_SYS_PRI3_R&0x00FFFFFF)|0xE0000000; // priority 7
@@ -279,15 +279,6 @@ void OS_Sleep(uint64_t time){
 	OS_Suspend();
 }
 
-void OS_CheckSleepAlarms(void){
-	// function called by OS_ISR assembly routine
-	// check to see if next thread to wake up is sleeping	
-	// if so, move past it
-	while (RunPt->next->sleep_alarm > OS_ISR_Count){
-		RunPt = RunPt->next;
-	}
-}
-
 /******** OS_Kill ******************
 Remove current thread from linked list of
 running threads
@@ -311,7 +302,8 @@ bool OS_AddPeriodicThread(void(*task) (void),
 													uint64_t period,
 												  uint16_t priority){
   int16_t timer_to_use = -1;
-	for (int16_t i = 2; i < sizeof(timer_occupied); i++){ // Hacking to free up two tim ers for our own usage
+	 // Hacking to free up two timers for our own usage  
+	for (int16_t i = 2; i < sizeof(timer_occupied); i++){
 		if(!timer_occupied[i]){
 			timer_to_use = i;
 			break;
