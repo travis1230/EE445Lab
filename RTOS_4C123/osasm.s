@@ -29,8 +29,7 @@
         PRESERVE8
 
         EXTERN  RunPt            ; currently running thread
-		EXTERN  OS_ISR_Count
-		EXTERN	OS_Count
+		EXTERN  OS_Clock_Time
 		EXPORT  OS_DisableInterrupts
         EXPORT  OS_EnableInterrupts
         EXPORT  StartOS
@@ -52,15 +51,10 @@ OS_ISR		                   ; 1) Saves R0-R3,R12,LR,PC,PSR
     CPSID   I                  ; 2) Prevent interrupt during switch
     PUSH    {R4-R11}           ; 3) Save remaining regs r4-11
 	
-	LDR     R4, =OS_ISR_Count
-	LDR     R5, [R4]           ; R5 = OS_ISR_Count
+	LDR     R4, =OS_Clock_Time
+	LDR     R5, [R4]           ; R5 = OS_Clock_Time
 	ADD		R5, R5, #1
 	STR		R5, [R4]
-	
-	LDR		R7, =OS_Count
-	LDR     R8, [R7]
-	ADD		R8, R8, #1
-	STR		R8, [R7]
 	
     LDR     R0, =RunPt         ; 4) R0=pointer to RunPt, old thread
     LDR     R1, [R0]           ;    R1 = RunPt
