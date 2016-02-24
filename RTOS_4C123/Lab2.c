@@ -513,7 +513,7 @@ int main(void){   // main3
 // no ADC serial port or LCD output
 // tests the spinlock semaphores, tests Sleep and Kill
 
-/*
+
 
 Sema4Type Readyd;        // set in background
 void BackgroundThread1d(void){   // called at 1000 Hz
@@ -561,7 +561,7 @@ int main4(void){   // main4
   NumCreated += OS_AddThread(&Thread4d, 3); 
   OS_Launch(TIME_2MS); // doesn't return, interrupts enabled in here
   return 0;            // this never executes
-}*/
+}
 
 /*
 // ******************* Lab 3 Preparation 2**********
@@ -742,6 +742,7 @@ int main6(void){      // main6  Lab 3
 // SW2 not needed
 // logic analyzer on PF1 for systick interrupt (in your OS)
 //                on PE0 to measure context switch time
+/*
 void Thread8(void){       // only thread running
   while(1){
     PE0 ^= 0x01;      // debugging profile  
@@ -755,5 +756,5 @@ int main7(void){       // main7
   NumCreated += OS_AddThread(&Thread8, 2); 
   OS_Launch(TIME_1MS/10); // 100us, doesn't return, interrupts enabled in here
   return 0;             // this never executes
-}
+}*/
 
