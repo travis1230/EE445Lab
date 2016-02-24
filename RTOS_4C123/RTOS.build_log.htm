@@ -14,96 +14,30 @@ compiling PLL.c...
 compiling Lab2.c...
 Timers.h(127): warning:  #1-D: last line of file ends without a newline
   }
-os.h(298): warning:  #550-D: variable "prev" was set but never used
+os.h(236): warning:  #177-D: variable "new_next" was declared but never referenced
+                tcbType new_next = *(RunPt->next);  // this could be problematic
+os.h(234): warning:  #177-D: variable "new_next" was declared but never referenced
+        tcbType new_next;
+os.h(290): warning:  #550-D: variable "prev" was set but never used
         tcbType prev;  // search for what points to me
-Lab2.c: 2 warnings, 0 errors
+Lab2.c: 4 warnings, 0 errors
 compiling SysTickInts.c...
 compiling ADCT0ATrigger.c...
 compiling Switch.c...
 compiling ST7735.c...
 compiling UART.c...
+FIFO.h(115): warning:  #1-D: last line of file ends without a newline
+  #endif //  __FIFO_H__
+UART.c(315): warning:  #1-D: last line of file ends without a newline
+  }
+UART.c: 2 warnings, 0 errors
 assembling cr4_fft_64_stm32.s...
 assembling cr4_fft_256_stm32.s...
 assembling cr4_fft_1024_stm32.s...
 assembling PID_stm32.s...
 linking...
-Program Size: Code=4756 RO-data=32 RW-data=216 ZI-data=3968  
-".\RTOS.axf" - 0 Error(s), 2 Warning(s).
+Program Size: Code=4784 RO-data=32 RW-data=216 ZI-data=3968  
+".\RTOS.axf" - 0 Error(s), 6 Warning(s).
 </pre>
 </body>
 </html>
-.s...
-assembling cr4_fft_1024_stm32.s...
-assembling PID_stm32.s...
-".\RTOS.axf" - 2 Error(s), 2 Warning(s).
-Target not created
-ed a ";"
-  FifoDataType volatile *FifoPutPt; // put next
-os.h(377): error:  #77-D: this declaration has no storage class or type specifier
-  FifoDataType volatile *FifoGetPt; // get next
-os.h(377): error:  #65: expected a ";"
-  FifoDataType volatile *FifoGetPt; // get next
-os.h(378): error:  #77-D: this declaration has no storage class or type specifier
-  FifoDataType static Fifo[FIFOSIZE];
-os.h(378): error:  #65: expected a ";"
-  FifoDataType static Fifo[FIFOSIZE];
-os.h(380): error:  #169: expected a declaration
-  >>>>>>> origin/master
-os.h(456): warning:  #12-D: parsing restarts here after previous syntax error
-      return(FIFOSUCCESS);
-os.h(457): error:  #169: expected a declaration
-    }
-os.h(488): warning:  #12-D: parsing restarts here after previous syntax error
-                OS_bSignal(&FifoSema4);
-os.h(489): error:  #169: expected a declaration
-      return(FIFOFAIL);      // Empty if PutPt=GetPt
-os.h(490): error:  #169: expected a declaration
-    }
-os.h(492): error:  #169: expected a declaration
-    if(FifoGetPt == &Fifo[FIFOSIZE]){
-os.h(495): warning:  #12-D: parsing restarts here after previous syntax error
-        OS_bSignal(&FifoSema4);
-os.h(496): error:  #169: expected a declaration
-    return datapt;
-os.h(497): error:  #169: expected a declaration
-  >>>>>>> origin/master
-os.h(590): warning:  #12-D: parsing restarts here after previous syntax error
-        return (stop - start);// * 80; // If we get two times that were gotten from OS_Time then we shouldn't have to convert anything
-os.h(591): error:  #169: expected a declaration
-  }
-os.h(595): warning:  #12-D: parsing restarts here after previous syntax error
-        return (stop - start);
-os.h(596): error:  #169: expected a declaration
-  }
-ST7735.h(62): warning:  #12-D: parsing restarts here after previous syntax error
-  };
-ST7735.h(89): warning:  #231-D: declaration is not visible outside of function
-  void ST7735_InitR(enum initRFlags option);
-Lab2.c(111): warning:  #223-D: function "OS_Time" declared implicitly
-      thisTime = OS_Time();       // current time, 12.5 ns
-Lab2.c(115): warning:  #223-D: function "OS_TimeDifference" declared implicitly
-        unsigned long diff = OS_TimeDifference(LastTime,thisTime);
-Lab2.c(200): warning:  #223-D: function "OS_Fifo_Put" declared implicitly
-      if(OS_Fifo_Put(data) == 0){ // send to consumer
-Lab2.c(222): warning:  #223-D: function "OS_Fifo_Get" declared implicitly
-        data = OS_Fifo_Get();    // get from producer
-Lab2.c(228): warning:  #223-D: function "OS_MailBox_Send" declared implicitly
-      OS_MailBox_Send(DCcomponent); // called every 2.5ms*64 = 160ms
-Lab2.c(241): warning:  #223-D: function "OS_MailBox_Recv" declared implicitly
-      data = OS_MailBox_Recv();
-Lab2.c(314): warning:  #223-D: function "OS_MailBox_Init" declared implicitly
-    OS_MailBox_Init();
-Lab2.c(315): warning:  #223-D: function "OS_Fifo_Init" declared implicitly
-    OS_Fifo_Init(128);    // ***note*** 4 is not big enough*****
-Lab2.c: 19 warnings, 18 errors
-compiling SysTickInts.c...
-compiling ADCT0ATrigger.c...
-compiling Switch.c...
-compiling ST7735.c...
-compiling UART.c...
-assembling cr4_fft_64_stm32.s...
-assembling cr4_fft_256_stm32.s...
-assembling cr4_fft_1024_stm32.s...
-assembling PID_stm32.s...
-".\RTOS.axf" - 18 Error(s), 19 Warning(s).
-Target not created
