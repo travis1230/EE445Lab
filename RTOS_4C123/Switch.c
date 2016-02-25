@@ -56,6 +56,8 @@
 #define SW2       0x01                      // on the right side of the Launchpad board
 #define SYSCTL_RCGC2_GPIOF      0x00000020  // port F Clock Gating Control
 
+int32_t StartCritical(void);
+void EndCritical(int32_t primask);
 void(*PF_ISR)(void);
 
 //------------Switch_Init------------
@@ -63,6 +65,7 @@ void(*PF_ISR)(void);
 // Input: none
 // Output: none
 void Switch_Init(void(*task)(void), int priority){ 
+	int32_t s = StartCritical();
   SYSCTL_RCGCGPIO_R |= 0x00000020;     // 1) activate clock for Port F
   while((SYSCTL_PRGPIO_R&0x20) == 0){};// ready?
   GPIO_PORTF_LOCK_R = GPIO_LOCK_KEY;
@@ -72,8 +75,8 @@ void Switch_Init(void(*task)(void), int priority){
   GPIO_PORTF_PCTL_R &= ~0x000F0000; // 4) PCTL GPIO on PF4
   GPIO_PORTF_DIR_R &= ~0x10;        // 5) direction PF4 input
   GPIO_PORTF_AFSEL_R &= ~0x10;      // 6) PF4 regular port function
-  GPIO_PORTF_DEN_R |= 0x10;         // 7) enable PF4 digital port
 	GPIO_PORTF_PUR_R |= (SW1|SW2);
+  GPIO_PORTF_DEN_R |= 0x10;         // 7) enable PF4 digital port
 		
   GPIO_PORTF_AMSEL_R &= ~0x02;      // 3) disable analog on PF2
   GPIO_PORTF_DIR_R |= 0x02;        // 5) direction PF2 output
@@ -88,15 +91,18 @@ void Switch_Init(void(*task)(void), int priority){
 	GPIO_PORTF_IM_R |= 0x10; // Enable the interrupt Mask for PF4 
 	
 	NVIC_PRI7_R = (NVIC_PRI7_R & 0xFF00FFFF) + (priority * 0x00200000); // Set priority 
-	NVIC_EN0_R |= 0x40000000; //Enable Port F interrupts 
+	NVIC_EN0_R = 1 << 30; //Enable Port F interrupts 
 	
 	PF_ISR = task;
+	
+	EndCritical(s);
 	// NOT ENABLING INTERRUPTS HERE
 }
 
 void GPIOPortF_Handler(void) {
 	GPIO_PORTF_DATA_R ^= 0x02;
 	PF_ISR();
+	GPIO_PORTF_ICR_R = 0x10;
 }
 /*
 //------------Switch_Input------------

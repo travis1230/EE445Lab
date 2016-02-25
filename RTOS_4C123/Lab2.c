@@ -476,7 +476,10 @@ void Thread4c(void){ int i;
   Count4 = 0;
 }
 void BackgroundThread5c(void){   // called when Select button pushed
-  NumCreated += OS_AddThread(&Thread4c, 3); 
+	if(OS_MsTime() > 20){ // debounce
+		NumCreated += OS_AddThread(&Thread4c, 3);
+    OS_ClearMsTime();  // at least 20ms between touches
+  } 
 }
       
 int main(void){   // main3
@@ -548,7 +551,11 @@ void Thread4d(void){ int i;
   OS_Kill();
 }
 void BackgroundThread5d(void){   // called when Select button pushed
-  NumCreated += OS_AddThread(&Thread4d, 3); 
+  
+	if(OS_MsTime() > 20){ // debounce
+		NumCreated += OS_AddThread(&Thread4d, 3); 
+		OS_ClearMsTime();  // at least 20ms between touches
+  } 
 }
 int main4(void){   // main4
   Count4 = 0;          
