@@ -3,7 +3,7 @@
 // fill these depending on your clock
 #define TIME_1MS  80000.0
 #define TIME_2MS  2*TIME_1MS
-#define TIME_500US TIME_1MS / 1000
+#define TIME_500US TIME_1MS / 2
 
 void(*PeriodicTask0A)(void);
 void(*PeriodicTask1A)(void);

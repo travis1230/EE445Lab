@@ -310,7 +310,7 @@ bool OS_AddPeriodicThread(void(*task) (void),
 												  uint16_t priority){
   int16_t timer_to_use = -1;
 	 // Hacking to free up two timers for our own usage  
-	for (int16_t i = 2; i < sizeof(timer_occupied); i++){
+	for (int16_t i = 1; i < sizeof(timer_occupied); i++){
 		if(!timer_occupied[i]){
 			timer_to_use = i;
 			break;

@@ -51,7 +51,7 @@
 // Output: none
 void Switch_Init(void(*task)(void), int priority);
 
-void GPIOPortA_Handler(void);
+//void GPIOPortF_Handler(void);
 
 //------------Switch_Input------------
 // Read and return the status of GPIO Port A bit 5.
