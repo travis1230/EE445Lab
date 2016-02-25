@@ -291,16 +291,16 @@ running threads
 void OS_Kill(){
 	int32_t status;
   status = StartCritical();
-	tcbType prev;  // search for what points to me
+	tcbType *prev;  // search for what points to me
 	for (uint16_t i = 0; i < NUMTHREADS; i++){
 		if (!tcb_is_empty(tcbs[i]) &&
 			tcbs[i].next == RunPt){  // is this better than having
-			prev = tcbs[i];  // a doubly linked list?
+			prev = &tcbs[i];  // a doubly linked list?
+			break;
 		}
 	}
-	prev.next = RunPt->next;
+	prev->next = RunPt->next;
 	tcb_set_empty(RunPt);
-	RunPt = &prev;
 	EndCritical(status);
 	OS_Suspend();
 }

@@ -56,7 +56,8 @@ OS_ISR		                   ; 1) Saves R0-R3,R12,LR,PC,PSR
     LDR     R1, [R0]           ;    R1 = RunPt
     STR     SP, [R1]           ; 5) Save SP into TCB
     LDR     R1, [R1,#4]        ; 6) R1 = RunPt->next
-	
+	STR     R1, [R0]           ;    RunPt = R1
+
 	PUSH 	{R0-R4, LR}
 	BL OS_CheckSleep
 	POP		{R0-R4, LR}
