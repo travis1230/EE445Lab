@@ -2422,11 +2422,10 @@ xbe73,0x0192
 xbf38,0x00c9
   630 000011E0         
   631 000011E0                 END
-Command Line: --debug --xref --cpu=Cortex-M4.fp --apcs=interwork --depend=.\cr4
-_fft_1024_stm32.d -o.\cr4_fft_1024_stm32.o -IF:\Applications\Keil\ARM\RV31\INC 
--IF:\Applications\Keil\ARM\CMSIS\Include -IF:\Applications\Keil\ARM\Inc\TI\TM4C
-123 --predefine="__EVAL SETA 1" --list=.\cr4_fft_1024_stm32.lst cr4_fft_1024_st
-m32.s
+Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\cr4_ff
+t_1024_stm32.d -o.\cr4_fft_1024_stm32.o -IF:\Applications\Keil\ARM\RV31\INC -IF
+:\Applications\Keil\ARM\CMSIS\Include -IF:\Applications\Keil\ARM\Inc\Luminary -
+-predefine="__EVAL SETA 1" --list=.\cr4_fft_1024_stm32.lst cr4_fft_1024_stm32.s
 
 
 
@@ -2527,4 +2526,4 @@ Symbol: TableFFT
       None
 Comment: TableFFT unused
 1 symbol
-360 symbols in table
+359 symbols in table

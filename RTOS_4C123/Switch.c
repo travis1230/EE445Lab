@@ -56,35 +56,35 @@
 #define SW2       0x01                      // on the right side of the Launchpad board
 #define SYSCTL_RCGC2_GPIOF      0x00000020  // port F Clock Gating Control
 
-void(*PF_ISR)(void);
+void(*PAI)(void);
 
 //------------Switch_Init------------
 // Initialize GPIO Port A bit 5 for input
 // Input: none
 // Output: none
 void Switch_Init(void(*task)(void), int priority){ 
-  SYSCTL_RCGCGPIO_R |= 0x00000001;     // 1) activate clock for Port F
+  SYSCTL_RCGCGPIO_R |= 0x00000001;     // 1) activate clock for Port A
   while((SYSCTL_PRGPIO_R&0x01) == 0){};// ready?
-  GPIO_PORTF_AMSEL_R &= ~0x10;      // 3) disable analog on PF4
-  GPIO_PORTF_PCTL_R &= ~0x000F0000; // 4) PCTL GPIO on PF4
-  GPIO_PORTF_DIR_R &= ~0x10;        // 5) direction PF4 input
-  GPIO_PORTF_AFSEL_R &= ~0x10;      // 6) PF4 regular port function
-  GPIO_PORTF_DEN_R |= 0x10;         // 7) enable PF4 digital port
+  GPIO_PORTA_AMSEL_R &= ~0x20;      // 3) disable analog on PA5
+  GPIO_PORTA_PCTL_R &= ~0x00F00000; // 4) PCTL GPIO on PA5
+  GPIO_PORTA_DIR_R &= ~0x20;        // 5) direction PA5 input
+  GPIO_PORTA_AFSEL_R &= ~0x20;      // 6) PA5 regular port function
+  GPIO_PORTA_DEN_R |= 0x20;         // 7) enable PA5 digital port
 		
-	GPIO_PORTF_IS_R &= ~0x10; // Disable Interrupt Sense to allow for edge triggering
-	GPIO_PORTF_IBE_R &= ~0x10; // Disable Interrupting on both edges
-	GPIO_PORTF_IEV_R &= ~0x10; // Set fro Falling edge trigger
-	GPIO_PORTF_IM_R |= 0x10; // Enable the interrupt Mask for PF4
+	GPIO_PORTA_IS_R &= ~0x20; // Disable Interrupt Sense to allow for edge triggering
+	GPIO_PORTA_IBE_R &= ~0x20; // Disable Interrupting on both edges
+	GPIO_PORTA_IEV_R &= ~0x20; // Set fro Falling edge trigger
+	GPIO_PORTA_IM_R |= 0x20; // Enable the interrupt Mask for PA5 
 	
-	NVIC_PRI7_R = (NVIC_PRI0_R & 0xFF0FFFFF) + (priority * 0x00200000); // Set priority 3 
-	NVIC_EN0_R |= 0x40000000; //Enable Port F interrupts 
+	NVIC_PRI0_R = (NVIC_PRI0_R & 0xFFFFFF0F) + (priority * 2); // Set priority 3 
+	NVIC_EN0_R |= 0x01; //Enable Port A interrupts 
 	
-	PF_ISR = task;
+	PAI = task;
 	// NOT ENABLING INTERRUPTS HERE
 }
 
-void GPIOPortF_Handler(void) {
-	PF_ISR();
+void GPIOPortA_Handler(void) {
+	PAI();
 }
 /*
 //------------Switch_Input------------
