@@ -27,7 +27,7 @@
 #define __OS_H  1
 
 // fill these depending on your clock
-#define TIME_1MS  80000
+#define TIME_1MS  50000
 #define TIME_2MS  2*TIME_1MS
 #define TIME_500US TIME_1MS / 1000
 
@@ -73,7 +73,7 @@ void OS_Signal(Sema4Type *s);
 void SysTick_Init(uint32_t period, uint32_t priority);
 bool timer_occupied[4] = {false};
 void (*timer_init_fns[4]) (void(*task)(void), uint32_t period, uint16_t priority);
-void OS_ClearMsTime(void);
+
 Sema4Type Mutex;
 Sema4Type DataAvailable;
 Sema4Type MailboxFull;
@@ -83,7 +83,8 @@ struct tcb{
   int32_t *sp;       // pointer to stack (valid for threads not running
   struct tcb *next;  // linked-list pointer
 	uint64_t sleep_alarm; // set to 0 when not sleeping, otherwise equal to OS_ISR_Count to wake up on
-	int16_t priority;  // higher is more important, -1 means 
+	int16_t priority;  // higher is more important, -1 means unallocated
+	unsigned long myID; // Needed for OS_Id()
 };
 typedef struct tcb tcbType;
 tcbType tcbs[NUMTHREADS];
@@ -152,11 +153,15 @@ void SetInitialStack(int i){
   Stacks[i][STACKSIZE-16] = 0x04040404;  // R4
 }
 
-uint64_t OS_ISR_period;
+uint64_t OS_ISR_period = 50000;
 uint16_t OS_ISR_priority = 3;
 uint64_t OS_ISR_Count;
-uint64_t OS_Count;
 
+uint64_t OS_Clock_Period = 80;
+int OS_Clock_Priority = 3; 
+unsigned long OS_Clock_Time; 
+int OS_Clock_Flag;
+int OS_Clock_New;
 
 uint32_t OS_Fifo[128];
 int OS_Fifo_First;
@@ -169,7 +174,7 @@ unsigned long Mailbox;
 Stop execution of currently active
 foreground thread. Move on to next.
 ************************************/
-void OS_Suspend(void){
+void OS_Suspend(void){  // TODO: Deal with sleep
 	NVIC_ST_CURRENT_R = 0;  // clear counter
 	NVIC_INT_CTRL_R = 0x04000000;  // trigger systick
 }
@@ -188,6 +193,10 @@ what to run on systick interrupt
 ********************************/
 void OS_ISR(void);
 
+void OS_Clock_ISR(void) {
+	OS_Clock_Time++;
+}
+
 bool preemptive_mode;  // need to remember mode
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
@@ -205,12 +214,16 @@ void OS_Init(bool preemptive){
 		tcbs[i].priority = -1;
 	}
 	OS_ISR_Count = 0;
-	OS_ClearMsTime();
-	timer_init_fns[0] = &Timer0A_Init;
+	SysTick_Init(OS_ISR_period, OS_ISR_priority);	
+	//Switch_Init(&Switch_Int, 1);
+	//timer_init_fns[0] = &Timer0A_Init; // Also hacky since already initing in ADCTrigger
 	timer_init_fns[1] = &Timer1A_Init;
 	timer_init_fns[2] = &Timer2A_Init;
 	timer_init_fns[3] = &Timer3A_Init;
 	
+	// Periodic Clock Task
+	OS_Clock_Time = 0;
+	timer_init_fns[1](&OS_Clock_ISR, OS_Clock_Period, OS_Clock_Priority);
 }
 
 //******** OS_AddThread ***************
@@ -248,9 +261,9 @@ bool OS_AddThread(void(*task)(void), uint16_t priority){
 //         (maximum of 24 bits)
 // Outputs: none (does not return)
 void OS_Launch(uint32_t theTimeSlice){
-	OS_ISR_period = theTimeSlice;
 	if (preemptive_mode){
-		SysTick_Init(OS_ISR_period, OS_ISR_priority);	
+		NVIC_ST_RELOAD_R = theTimeSlice - 1; // reload value
+		NVIC_ST_CTRL_R = 0x00000007; // enable, core clock and interrupt arm
   }
 	StartOS();                   // start on the first task
 }
@@ -261,9 +274,8 @@ thread as sleeping for clock cycles
 passed in as argument, then suspend
 ***********************************/
 void OS_Sleep(uint64_t time){
-	// sleep is implemented using OS_ISR_Count, so if no ISRs sleep doesn't work
-	assert(preemptive_mode);
-	RunPt->sleep_alarm = OS_ISR_Count + time/OS_ISR_period;
+	assert(preemptive_mode);  // sleep is implemented using OS_ISR_Count, so if no ISRs sleep doesn't work
+	RunPt->sleep_alarm = OS_ISR_Count + time/OS_ISR_period + 1;  // round up
 	OS_Suspend();
 }
 
@@ -278,14 +290,12 @@ void OS_Kill(){
 	for (uint16_t i = 0; i < NUMTHREADS; i++){
 		if (!tcb_is_empty(tcbs[i]) &&
 			tcbs[i].next == RunPt){  // is this better than having
-			prev = tcbs[i];  // a doubly linked list?
+			prev = *tcbs[i].next;  // a doubly linked list?
 		}
 	}
 	prev.next = RunPt->next;
 	tcb_set_empty(RunPt);
-	RunPt = &prev;
 	EndCritical(status);
-	OS_Suspend();
 }
 
 bool OS_AddPeriodicThread(void(*task) (void),
@@ -342,7 +352,19 @@ int OS_AddSW2Task(void(*task)(void), unsigned long priority){
 	//IGNORED
 	return 0;
 }
+/*
+// Two-pointer implementation of the FIFO
+// can hold 0 to RXFIFOSIZE-1 elements
+#define FIFOSIZE 10 // can be any size
+#define FIFOSUCCESS 1
+#define FIFOFAIL    0
 
+typedef unsigned long FifoDataType;
+FifoDataType volatile *FifoPutPt; // put next
+FifoDataType volatile *FifoGetPt; // get next
+FifoDataType static Fifo[FIFOSIZE];
+Sema4Type FifoSema4;
+*/
 // ******** OS_Fifo_Init ************
 // Initialize the Fifo to be empty
 // Inputs: size
@@ -358,8 +380,16 @@ void OS_Fifo_Init(unsigned long size) {
 	OS_Fifo_Last = 0;
 	OS_InitSemaphore(&Mutex, 1);
 	OS_InitSemaphore(&DataAvailable, 0);
+	
 }
 
+/*void OS_Fifo_Init(unsigned long size){
+	long sr;
+  sr = StartCritical();      // make atomic
+	OS_InitSemaphore(&FifoSema4, 50);
+  FifoPutPt = FifoGetPt = &Fifo[0]; // Empty
+  EndCritical(sr);
+}*/
 // ******** OS_Fifo_Put ************
 // Enter one data sample into the Fifo
 // Called from the background, so no waiting 
@@ -384,7 +414,32 @@ int OS_Fifo_Put(unsigned long data) {
 	OS_Signal(&DataAvailable);
 	return 1;
 }
-
+/*
+int OS_Fifo_Put(FifoDataType data){
+// from lecture 5 slides, redo fifo
+//	if get or put called in background	// Wait(&DataRoomLeft)
+	// bWait(&Mutex)
+	// Enter data into FIFO
+	// bSignal(&Mutex)
+	// Signal(&DataAvailable)
+	OS_bWait(&FifoSema4);
+  FifoDataType volatile *nextPutPt;
+  nextPutPt = FifoPutPt + 1;
+  if(nextPutPt == &Fifo[FIFOSIZE]){
+    nextPutPt = &Fifo[0];  // wrap
+  }
+  if(nextPutPt == FifoGetPt){
+		OS_Signal(&FifoSema4);
+    return(FIFOFAIL);      // Failed, fifo full
+  }
+  else{
+    *(FifoPutPt) = data;       // Put
+    FifoPutPt = nextPutPt;     // Success, update
+		OS_Signal(&FifoSema4);
+    return(FIFOSUCCESS);
+  }
+}	
+*/
 // ******** OS_Fifo_Get ************
 // Remove one data sample from the Fifo
 // Called in foreground, will spin/block if empty
@@ -491,7 +546,14 @@ unsigned long OS_MailBox_Recv(void) {
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_TimeDifference have the same resolution and precision 
 unsigned long OS_Time(void) {
-	return OS_ISR_Count * OS_ISR_period + (OS_ISR_period - NVIC_ST_CURRENT_R);
+	unsigned long result = OS_Clock_Time;
+	result = result * 80;
+	return result;
+
+/*
+	// TODO: get precision down, currently we're only doing 2ms precision because the only
+	// thing we have to count with is OS_ISR_Time, not sure what else to use...
+	return OS_ISR_Count * OS_ISR_period + ;*/
 }
 
 // ******** OS_TimeDifference ************
@@ -502,18 +564,20 @@ unsigned long OS_Time(void) {
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_Time have the same resolution and precision 
 unsigned long OS_TimeDifference(unsigned long start, unsigned long stop) {
-	return (stop - start); // If we get two times that were gotten from OS_Time then we shouldn't have to convert anything
+	return (stop - start);// * 80; // If we get two times that were gotten from OS_Time then we shouldn't have to convert anything
 }
-
+/*
 // ******** OS_ClearMsTime ************
 // sets the system time to zero (from Lab 1)
 // Inputs:  none
 // Outputs: none
 // You are free to change how this works
 void OS_ClearMsTime(void){
-	OS_Count = 0;
+	OS_ISR_Count = 0;
 }
+*/
 
+/*
 // ******** OS_MsTime ************
 // reads the current time in msec (from Lab 1)
 // Inputs:  none
@@ -521,7 +585,10 @@ void OS_ClearMsTime(void){
 // You are free to select the time resolution for this function
 // It is ok to make the resolution to match the first call to OS_AddPeriodicThread
 unsigned long OS_MsTime(void){
-	return OS_Count * OS_ISR_period/TIME_1MS;
+	return OS_ISR_Count * 2;  // i think we're getting interrupts every 2ms
+}*/
+unsigned long OS_ReadPeriodicTime(void){
+	return OS_ISR_Count;
 }
 
 /********** OS_Wait ************
