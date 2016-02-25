@@ -1,10 +1,5 @@
 #include "../inc/tm4c123gh6pm.h"
 
-// fill these depending on your clock
-#define TIME_1MS  80000.0
-#define TIME_2MS  2*TIME_1MS
-#define TIME_500US TIME_1MS / 1000
-
 void(*PeriodicTask0A)(void);
 void(*PeriodicTask1A)(void);
 void(*PeriodicTask2A)(void);
@@ -12,8 +7,6 @@ void(*PeriodicTask3A)(void);
 
 int32_t StartCritical(void);
 void EndCritical(int32_t primask);
-unsigned long OS_MsCount;
-unsigned long OS_CountPeriod;
 
 void Timer0A_Init(void(*task)(void), uint32_t period, uint16_t priority){long sr;
   sr = StartCritical(); 
@@ -63,8 +56,7 @@ void Timer1A_Handler(void){
   (*PeriodicTask1A)();                // execute user task
 }
 
-void Timer2A_Init(void(*task)(void), 
-	uint32_t period, uint16_t priority){
+void Timer2A_Init(void(*task)(void), uint32_t period, uint16_t priority){
   SYSCTL_RCGCTIMER_R |= 0x04;   // 0) activate timer2
   PeriodicTask2A = task;          // user function
   TIMER2_CTL_R = 0x00000000;    // 1) disable timer2A during setup
@@ -80,14 +72,11 @@ void Timer2A_Init(void(*task)(void),
 // vector number 39, interrupt number 23
   NVIC_EN0_R = 1<<23;           // 9) enable IRQ 23 in NVIC
   TIMER2_CTL_R = 0x00000001;    // 10) enable timer2A
-	OS_MsCount = 0;
-	OS_CountPeriod = period;
 }
 
 void Timer2A_Handler(void){
   TIMER2_ICR_R = TIMER_ICR_TATOCINT;// acknowledge TIMER2A timeout
   (*PeriodicTask2A)();                // execute user task
-	OS_MsCount++;
 }
 
 void Timer3A_Init(void(*task)(void), uint32_t period, uint16_t priority){
@@ -111,23 +100,4 @@ void Timer3A_Init(void(*task)(void), uint32_t period, uint16_t priority){
 void Timer3A_Handler(void){
   TIMER3_ICR_R = TIMER_ICR_TATOCINT;// acknowledge TIMER3A timeout
   (*PeriodicTask3A)();                // execute user task
-}
-
-// ******** OS_ClearMsTime ************
-// sets the system time to zero (from Lab 1)
-// Inputs:  none
-// Outputs: none
-// You are free to change how this works
-void OS_ClearMsTime(void) {
-	OS_MsCount = 0;
-}
-
-// ******** OS_MsTime ************
-// reads the current time in msec (from Lab 1)
-// Inputs:  none
-// Outputs: time in ms units
-// You are free to select the time resolution for this function
-// It is ok to make the resolution to match the first call to OS_AddPeriodicThread
-unsigned long OS_MsTime(void) {
-	return OS_MsCount * OS_CountPeriod/TIME_1MS;
 }

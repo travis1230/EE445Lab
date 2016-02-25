@@ -26,6 +26,11 @@
 #ifndef __OS_H
 #define __OS_H  1
 
+// fill these depending on your clock
+#define TIME_1MS  80000
+#define TIME_2MS  2*TIME_1MS
+#define TIME_500US TIME_1MS / 1000
+
 #define NUMTHREADS  3        // maximum number of threads!
 #define STACKSIZE   100      // number of 32-bit words in stack
 
@@ -77,7 +82,7 @@ Sema4Type MailboxEmpty;
 struct tcb{
   int32_t *sp;       // pointer to stack (valid for threads not running
   struct tcb *next;  // linked-list pointer
-	uint64_t sleep_alarm; // set to 0 when not sleeping, otherwise equal to OS_Clock_Time to wake up on
+	uint64_t sleep_alarm; // set to 0 when not sleeping, otherwise equal to OS_ISR_Count to wake up on
 	int16_t priority;  // higher is more important, -1 means 
 };
 typedef struct tcb tcbType;
@@ -149,10 +154,9 @@ void SetInitialStack(int i){
 
 uint64_t OS_ISR_period;
 uint16_t OS_ISR_priority = 3;
+uint64_t OS_ISR_Count;
+uint64_t OS_Count;
 
-uint64_t OS_Clock_Period = TIME_1MS;
-int OS_Clock_Priority = 3; 
-unsigned long OS_Clock_Time;
 
 uint32_t OS_Fifo[128];
 int OS_Fifo_First;
@@ -183,10 +187,6 @@ void OS_InitSemaphore(Sema4Type *semaPt, uint16_t value){
 what to run on systick interrupt
 ********************************/
 void OS_ISR(void);
-void OS_Clock_ISR(void) {
-	OS_Clock_Time++;
-}
-
 
 bool preemptive_mode;  // need to remember mode
 // ******** OS_Init ************
@@ -204,18 +204,13 @@ void OS_Init(bool preemptive){
 	for (uint16_t i = 0; i < NUMTHREADS; i++){
 		tcbs[i].priority = -1;
 	}
+	OS_ISR_Count = 0;
 	OS_ClearMsTime();
 	timer_init_fns[0] = &Timer0A_Init;
-	timer_occupied[0] = true;
 	timer_init_fns[1] = &Timer1A_Init;
 	timer_init_fns[2] = &Timer2A_Init;
 	timer_init_fns[3] = &Timer3A_Init;
 	
-		// Periodic Clock Task
-	OS_Clock_Time = 0;
-	timer_occupied[2] = true;
-	timer_init_fns[2](&OS_Clock_ISR, OS_Clock_Period, OS_Clock_Priority);
-
 }
 
 //******** OS_AddThread ***************
@@ -266,7 +261,9 @@ thread as sleeping for clock cycles
 passed in as argument, then suspend
 ***********************************/
 void OS_Sleep(uint64_t time){
-	RunPt->sleep_alarm = OS_Clock_Time + time/OS_Clock_Period;
+	// sleep is implemented using OS_ISR_Count, so if no ISRs sleep doesn't work
+	assert(preemptive_mode);
+	RunPt->sleep_alarm = OS_ISR_Count + time/OS_ISR_period;
 	OS_Suspend();
 }
 
@@ -494,7 +491,7 @@ unsigned long OS_MailBox_Recv(void) {
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_TimeDifference have the same resolution and precision 
 unsigned long OS_Time(void) {
-	return OS_Clock_Time * OS_Clock_Period + (OS_Clock_Period - TIMER2_TAV_R);
+	return OS_ISR_Count * OS_ISR_period + (OS_ISR_period - NVIC_ST_CURRENT_R);
 }
 
 // ******** OS_TimeDifference ************
@@ -506,6 +503,25 @@ unsigned long OS_Time(void) {
 //   this function and OS_Time have the same resolution and precision 
 unsigned long OS_TimeDifference(unsigned long start, unsigned long stop) {
 	return (stop - start); // If we get two times that were gotten from OS_Time then we shouldn't have to convert anything
+}
+
+// ******** OS_ClearMsTime ************
+// sets the system time to zero (from Lab 1)
+// Inputs:  none
+// Outputs: none
+// You are free to change how this works
+void OS_ClearMsTime(void){
+	OS_Count = 0;
+}
+
+// ******** OS_MsTime ************
+// reads the current time in msec (from Lab 1)
+// Inputs:  none
+// Outputs: time in ms units
+// You are free to select the time resolution for this function
+// It is ok to make the resolution to match the first call to OS_AddPeriodicThread
+unsigned long OS_MsTime(void){
+	return OS_Count * OS_ISR_period/TIME_1MS;
 }
 
 /********** OS_Wait ************
