@@ -1009,10 +1009,11 @@ xba09,0x0646
 xbcf0,0x0324
   373 000005DE         
   374 000005DE                 END
-Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\cr4_ff
-t_256_stm32.d -o.\cr4_fft_256_stm32.o -IF:\Applications\Keil\ARM\RV31\INC -IF:\
-Applications\Keil\ARM\CMSIS\Include -IF:\Applications\Keil\ARM\Inc\Luminary --p
-redefine="__EVAL SETA 1" --list=.\cr4_fft_256_stm32.lst cr4_fft_256_stm32.s
+Command Line: --debug --xref --cpu=Cortex-M4.fp --apcs=interwork --depend=.\cr4
+_fft_256_stm32.d -o.\cr4_fft_256_stm32.o -IF:\Applications\Keil\ARM\RV31\INC -I
+F:\Applications\Keil\ARM\CMSIS\Include -IF:\Applications\Keil\ARM\Inc\TI\TM4C12
+3 --predefine="__EVAL SETA 1" --list=.\cr4_fft_256_stm32.lst cr4_fft_256_stm32.
+s
 
 
 
@@ -1088,13 +1089,17 @@ Symbol: NPT
    Definitions
       At line 46 in file cr4_fft_256_stm32.s
    Uses
-      At line 136 in macro ùEùE0ùEHùE
+      At line 136 in macro `9ø
+8OPT
       at line 228 in file cr4_fft_256_stm32.s
-      At line 139 in macro ùEùE0ùEHùE
+      At line 139 in macro `9ø
+8OPT
       at line 228 in file cr4_fft_256_stm32.s
-      At line 142 in macro ùEùE0ùEHùE
+      At line 142 in macro `9ø
+8OPT
       at line 228 in file cr4_fft_256_stm32.s
-      At line 145 in macro ùEùE0ùEHùE
+      At line 145 in macro `9ø
+8OPT
       at line 228 in file cr4_fft_256_stm32.s
 
 1 symbol
@@ -1113,4 +1118,4 @@ Symbol: TableFFT
       None
 Comment: TableFFT unused
 1 symbol
-359 symbols in table
+360 symbols in table

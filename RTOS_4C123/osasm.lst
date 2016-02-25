@@ -143,10 +143,10 @@ ARM Macro Assembler    Page 3
    89 0000005C                 END
               00000000 
               00000000 
-Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\osasm.
-d -o.\osasm.o -IF:\Applications\Keil\ARM\RV31\INC -IF:\Applications\Keil\ARM\CM
-SIS\Include -IF:\Applications\Keil\ARM\Inc\Luminary --predefine="__EVAL SETA 1"
- --list=.\osasm.lst osasm.s
+Command Line: --debug --xref --cpu=Cortex-M4.fp --apcs=interwork --depend=.\osa
+sm.d -o.\osasm.o -IF:\Applications\Keil\ARM\RV31\INC -IF:\Applications\Keil\ARM
+\CMSIS\Include -IF:\Applications\Keil\ARM\Inc\TI\TM4C123 --predefine="__EVAL SE
+TA 1" --list=.\osasm.lst osasm.s
 
 
 
@@ -234,4 +234,4 @@ Symbol: RunPt
       At line 76 in file osasm.s
 
 2 symbols
-342 symbols in table
+343 symbols in table

@@ -642,10 +642,10 @@ xac61,0x187e
 xb4be,0x0c7c
   303 000002CE         
   304 000002CE                 END
-Command Line: --debug --xref --cpu=Cortex-M4 --apcs=interwork --depend=.\cr4_ff
-t_64_stm32.d -o.\cr4_fft_64_stm32.o -IF:\Applications\Keil\ARM\RV31\INC -IF:\Ap
-plications\Keil\ARM\CMSIS\Include -IF:\Applications\Keil\ARM\Inc\Luminary --pre
-define="__EVAL SETA 1" --list=.\cr4_fft_64_stm32.lst cr4_fft_64_stm32.s
+Command Line: --debug --xref --cpu=Cortex-M4.fp --apcs=interwork --depend=.\cr4
+_fft_64_stm32.d -o.\cr4_fft_64_stm32.o -IF:\Applications\Keil\ARM\RV31\INC -IF:
+\Applications\Keil\ARM\CMSIS\Include -IF:\Applications\Keil\ARM\Inc\TI\TM4C123 
+--predefine="__EVAL SETA 1" --list=.\cr4_fft_64_stm32.lst cr4_fft_64_stm32.s
 
 
 
@@ -721,13 +721,13 @@ Symbol: NPT
    Definitions
       At line 46 in file cr4_fft_64_stm32.s
    Uses
-      At line 135 in macro BUTFLY4ZERO_OPT
+      At line 135 in macro ак9шк9л9(л9
       at line 223 in file cr4_fft_64_stm32.s
-      At line 137 in macro BUTFLY4ZERO_OPT
+      At line 137 in macro ак9шк9л9(л9
       at line 223 in file cr4_fft_64_stm32.s
-      At line 139 in macro BUTFLY4ZERO_OPT
+      At line 139 in macro ак9шк9л9(л9
       at line 223 in file cr4_fft_64_stm32.s
-      At line 141 in macro BUTFLY4ZERO_OPT
+      At line 141 in macro ак9шк9л9(л9
       at line 223 in file cr4_fft_64_stm32.s
 
 1 symbol
@@ -746,4 +746,4 @@ Symbol: TableFFT
       None
 Comment: TableFFT unused
 1 symbol
-359 symbols in table
+360 symbols in table

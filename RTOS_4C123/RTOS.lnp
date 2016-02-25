@@ -1,4 +1,4 @@
---cpu Cortex-M4
+--cpu Cortex-M4.fp
 ".\startup.o"
 ".\osasm.o"
 ".\pll.o"
