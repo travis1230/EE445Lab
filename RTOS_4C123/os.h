@@ -205,15 +205,17 @@ void OS_Init(bool preemptive){
 		tcbs[i].priority = -1;
 	}
 	OS_ClearMsTime();
-	//timer_init_fns[0] = &Timer0A_Init; //0A is being used by the ADC task
+	timer_init_fns[0] = &Timer0A_Init;
+	timer_occupied[0] = true;
 	timer_init_fns[1] = &Timer1A_Init;
 	timer_init_fns[2] = &Timer2A_Init;
 	timer_init_fns[3] = &Timer3A_Init;
 	
 		// Periodic Clock Task
 	OS_Clock_Time = 0;
-	timer_occupied[1] = true;
-	timer_init_fns[1](&OS_Clock_ISR, OS_Clock_Period, OS_Clock_Priority);
+	timer_occupied[2] = true;
+	timer_init_fns[2](&OS_Clock_ISR, OS_Clock_Period, OS_Clock_Priority);
+
 }
 
 //******** OS_AddThread ***************
@@ -492,10 +494,7 @@ unsigned long OS_MailBox_Recv(void) {
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_TimeDifference have the same resolution and precision 
 unsigned long OS_Time(void) {
-	unsigned long result = OS_Clock_Time;
-	result = result * 80;
-	return result;
-	//return OS_Clock_Time * OS_Clock_Period + (OS_Clock_Period - TIMER2_TAV_R);
+	return OS_Clock_Time * OS_Clock_Period + (OS_Clock_Period - TIMER2_TAV_R);
 }
 
 // ******** OS_TimeDifference ************

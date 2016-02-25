@@ -129,5 +129,5 @@ void OS_ClearMsTime(void) {
 // You are free to select the time resolution for this function
 // It is ok to make the resolution to match the first call to OS_AddPeriodicThread
 unsigned long OS_MsTime(void) {
-	return OS_MsCount / 2;
+	return OS_MsCount * OS_CountPeriod/TIME_1MS;
 }

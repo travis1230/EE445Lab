@@ -1,18 +1,18 @@
 Dependencies for Project 'RTOS', Target 'RTOS': (DO NOT MODIFY !)
 F (.\startup.s)(0x56C9EAA6)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork -I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary--list .\startup.lst --xref -o .\startup.o --depend .\startup.d)
-F (.\osasm.s)(0x56CE44C5)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork -I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary--list .\osasm.lst --xref -o .\osasm.o --depend .\osasm.d)
+F (.\osasm.s)(0x56CA8ADE)(--cpu Cortex-M4 --pd "__EVAL SETA 1" -g --apcs=interwork -I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary--list .\osasm.lst --xref -o .\osasm.o --depend .\osasm.d)
 F (.\PLL.c)(0x56C9EAA6)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\pll.o --omf_browse .\pll.crf --depend .\pll.d)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (PLL.h)(0x56C9EAA6)
 I (../inc/tm4c123gh6pm.h)(0x56C9EAA7)
-F (.\Lab2.c)(0x56CE44A9)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\lab2.o --omf_browse .\lab2.crf --depend .\lab2.d)
-I (os.h)(0x56CE4824)
+F (.\Lab2.c)(0x56CC9540)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\lab2.o --omf_browse .\lab2.crf --depend .\lab2.d)
+I (os.h)(0x56CC9852)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (PLL.h)(0x56C9EAA6)
 I (..\inc/tm4c123gh6pm.h)(0x56C9EAA7)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdbool.h)(0x51C87C24)
 I (F:\Applications\Keil\ARM\ARMCC\include\assert.h)(0x51C87C24)
-I (Timers.h)(0x56CE485C)
+I (Timers.h)(0x56CC9509)
 I (Switch.h)(0x56CC9509)
 I (SysTickInts.h)(0x56C9EAA6)
 I (Globals.h)(0x56CC9509)
@@ -23,13 +23,13 @@ I (UART.h)(0x56CBC9D0)
 I (ST7735TestResources.h)(0x56CC9509)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdio.h)(0x51C87C24)
 I (F:\Applications\Keil\ARM\ARMCC\include\string.h)(0x51C87C24)
-F (.\os.h)(0x56CE4824)()
+F (.\os.h)(0x56CC9852)()
 F (.\SysTickInts.h)(0x56C9EAA6)()
 F (.\SysTickInts.c)(0x56C9EAA6)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\systickints.o --omf_browse .\systickints.crf --depend .\systickints.d)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (../inc/tm4c123gh6pm.h)(0x56C9EAA7)
 I (SysTickInts.h)(0x56C9EAA6)
-F (.\Timers.h)(0x56CE485C)()
+F (.\Timers.h)(0x56CC9509)()
 F (.\ADCT0ATrigger.c)(0x56CC9509)(-c --cpu Cortex-M4 -D__EVAL -g -O0 --apcs=interwork --split_sections --signed_chars -I.. -I..\..\.. --C99-I F:\Applications\Keil\ARM\RV31\INC-I F:\Applications\Keil\ARM\CMSIS\Include-I F:\Applications\Keil\ARM\Inc\Luminary-Drvmdk -DPART_LM4F120H5QR-o .\adct0atrigger.o --omf_browse .\adct0atrigger.crf --depend .\adct0atrigger.d)
 I (F:\Applications\Keil\ARM\ARMCC\include\stdint.h)(0x51C87C24)
 I (../inc/tm4c123gh6pm.h)(0x56C9EAA7)
