@@ -94,10 +94,10 @@ static unsigned long n=3;   // 3, 4, or 5
 // outputs: none
 unsigned long DASoutput;
 void DAS(void){ 
-unsigned long input;  
-unsigned static long LastTime;  // time at previous ADC sample
-unsigned long thisTime;         // time at current ADC sample
-long jitter;                    // time between measured and expected, in us
+	unsigned long input;  
+	unsigned static long LastTime;  // time at previous ADC sample
+	unsigned long thisTime;         // time at current ADC sample
+	long jitter;                    // time between measured and expected, in us
   if(NumSamples < RUNLENGTH){   // finite time run
     PE0 ^= 0x01;
     input = ADC_In();           // channel set when calling ADC_Init
@@ -473,7 +473,7 @@ void Thread4c(void){ int i;
   Count4 = 0;
 }
 void BackgroundThread5c(void){   // called when Select button pushed
-	if(OS_MsTime() > 20){ // debounce
+	if(OS_MsTime() > 50){ // debounce
 		NumCreated += OS_AddThread(&Thread4c, 3);
     OS_ClearMsTime();  // at least 20ms between touches
   } 
@@ -549,7 +549,7 @@ void Thread4d(void){ int i;
 }
 void BackgroundThread5d(void){   // called when Select button pushed
   
-	if(OS_MsTime() > 20){ // debounce
+	if(OS_MsTime() > 50){ // debounce
 		NumCreated += OS_AddThread(&Thread4d, 3); 
 		OS_ClearMsTime();  // at least 20ms between touches
   } 
