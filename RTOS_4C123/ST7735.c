@@ -54,6 +54,7 @@
 #include <stdint.h>
 #include "ST7735.h"
 #include "inc/tm4c123gh6pm.h"
+#include <assert.h>
 
 // 16 rows (0 to 15) and 21 characters (0 to 20)
 // Requires (11 + size*size*6*8) bytes of transmission for each character
@@ -1674,8 +1675,8 @@ void ST7735_Message (int device, int line, char *string, long value) {
 		temp_val = temp_val / 10;
 		j++;  // number of orders of magnitude (digits) in value
 	}
-	
-	char my_string[i + j];
+	assert((i+j)<50);
+	char my_string[50];
 	i++;
 	while(i) {
 		i--;

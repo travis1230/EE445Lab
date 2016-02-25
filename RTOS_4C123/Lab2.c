@@ -303,7 +303,7 @@ void Interpreter(void);    // just a prototype, link to your interpreter
 
 
 //*******************final user main DEMONTRATE THIS TO TA**********
-int main0(void){ //main0
+int main(void){ //main0
   OS_Init(true);           // initialize, disable interrupts
   PortE_Init();
   DataLost = 0;        // lost data between producer and consumer
@@ -482,7 +482,7 @@ void BackgroundThread5c(void){   // called when Select button pushed
   } 
 }
       
-int main(void){   // main3
+int main3(void){   // main3
   Count4 = 0;          
   OS_Init(true);           // initialize, disable interrupts
 // Count2 + Count5 should equal Count1
