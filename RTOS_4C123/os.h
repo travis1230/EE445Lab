@@ -26,7 +26,7 @@
 #ifndef __OS_H
 #define __OS_H  1
 
-#define NUMTHREADS  3        // maximum number of threads!
+#define NUMTHREADS  8        // maximum number of threads!
 #define STACKSIZE   100      // number of 32-bit words in stack
 
 
@@ -69,6 +69,8 @@ void SysTick_Init(uint32_t period, uint32_t priority);
 bool timer_occupied[4] = {false};
 void (*timer_init_fns[4]) (void(*task)(void), uint32_t period, uint16_t priority);
 void OS_ClearMsTime(void);
+unsigned long OS_TimeDifference(unsigned long start, unsigned long stop);
+unsigned long OS_Time(void);
 Sema4Type Mutex;
 Sema4Type DataAvailable;
 Sema4Type MailboxFull;
@@ -77,7 +79,8 @@ Sema4Type MailboxEmpty;
 struct tcb{
   int32_t *sp;       // pointer to stack (valid for threads not running
   struct tcb *next;  // linked-list pointer
-	uint64_t sleep_alarm; // set to 0 when not sleeping, otherwise equal to OS_Clock_Time to wake up on
+	uint64_t sleep_start; // when we fell asleep
+	uint64_t sleep_time; // how long to sleep
 	int16_t priority;  // higher is more important, -1 means 
 };
 typedef struct tcb tcbType;
@@ -225,15 +228,19 @@ void OS_Init(bool preemptive){
 bool OS_AddThread(void(*task)(void), uint16_t priority){ 
 	int32_t status;
   status = StartCritical();
-	if (tcbs_all_full()){ return false; } // no room
+	if (tcbs_all_full()){ 
+	assert(false);
+	return false; 
+	} // no room
 	int16_t new_tcb_index = -1;
 	bool found_free = false;
-	while(!found_free && new_tcb_index < 3){
+	while(!found_free && new_tcb_index < NUMTHREADS){
 		new_tcb_index++;
 		found_free = tcb_is_empty(tcbs[new_tcb_index]);
 	}
 	SetInitialStack(new_tcb_index);
-	tcbs[new_tcb_index].sleep_alarm = 0;
+	tcbs[new_tcb_index].sleep_start = 0;
+	tcbs[new_tcb_index].sleep_time = 0;
 	Stacks[new_tcb_index][STACKSIZE-2] = (int32_t)(task);
 	if (tcbs_all_empty()){ // no threads added yet
 		RunPt = &tcbs[new_tcb_index]; // this thread runs first
@@ -266,8 +273,15 @@ thread as sleeping for clock cycles
 passed in as argument, then suspend
 ***********************************/
 void OS_Sleep(uint64_t time){
-	RunPt->sleep_alarm = OS_Clock_Time + time/OS_Clock_Period;
+	RunPt->sleep_start = OS_Time();
+	RunPt->sleep_time = time;
 	OS_Suspend();
+}
+
+void OS_CheckSleep(){
+	while(OS_TimeDifference(RunPt->sleep_start, OS_Time()) < RunPt->sleep_time){
+		RunPt = RunPt->next;
+	}
 }
 
 /******** OS_Kill ******************
