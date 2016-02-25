@@ -32,12 +32,6 @@
 #include <string.h> 
 #include <assert.h>
 
-//Assembler sources
-//#include "cr4_fft_64_stm32.s"
-//#include "cr4_fft_256_stm32.s"
-//#include "cr4_fft_1024_stm32.s"
-//#include "PID_stm32.s"
-
 //*********Prototype for FFT in cr4_fft_64_stm32.s, STMicroelectronics
 void cr4_fft_64_stm32(void *pssOUT, void *pssIN, unsigned short Nbin);
 //*********Prototype for PID in PID_stm32.s, STMicroelectronics
@@ -219,6 +213,9 @@ unsigned long t;                  // time in 2.5 ms
   while(NumSamples < RUNLENGTH) { 
     PE2 = 0x04;
     for(t = 0; t < 64; t++){   // collect 64 ADC samples
+			if (t==63){
+			    t=63;
+			}
       data = OS_Fifo_Get();    // get from producer
       x[t] = data;             // real part is 0 to 4095, imaginary part is 0
     }

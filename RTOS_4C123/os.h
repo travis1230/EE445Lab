@@ -39,6 +39,8 @@
 #include "Switch.h"
 #include "SysTickInts.h"
 #include "Globals.h"
+#include "UART.h"
+#include "ST7735.h"
 
 #define NVIC_ST_CTRL_R          (*((volatile uint32_t *)0xE000E010))
 #define NVIC_ST_CTRL_CLK_SRC    0x00000004  // Clock Source
@@ -199,8 +201,10 @@ bool preemptive_mode;  // need to remember mode
 // output: none
 void OS_Init(bool preemptive){
   OS_DisableInterrupts();
-	preemptive_mode = preemptive;
   PLL_Init(Bus80MHz);         // set processor clock to 80 MHz
+	UART_Init();
+	Output_Init();
+	preemptive_mode = preemptive;
   NVIC_ST_CTRL_R = 0;         // disable SysTick during setup
   NVIC_ST_CURRENT_R = 0;      // any write to current clears it
   NVIC_SYS_PRI3_R =(NVIC_SYS_PRI3_R&0x00FFFFFF)|0xE0000000; // priority 7
@@ -264,6 +268,7 @@ void OS_Launch(uint32_t theTimeSlice){
 	if (preemptive_mode){
 		SysTick_Init(OS_ISR_period, OS_ISR_priority);	
   }
+	OS_EnableInterrupts();
 	StartOS();                   // start on the first task
 }
 								 
@@ -418,8 +423,7 @@ unsigned long OS_Fifo_Get(void) {
 	} else {
 		data = 0;
 	}
-	OS_Fifo_First = (OS_Fifo_First + 1) % OS_Fifo_Length;
-	OS_bSignal(&Mutex);
+	OS_Fifo_First = (OS_Fifo_First + 1) % OS_Fifo_Length;	OS_bSignal(&Mutex);
 	// OS_Signal(&DataRoomLeft)
 	return data;
 /*
